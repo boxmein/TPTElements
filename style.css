@@ -1,0 +1,40 @@
+body {
+	background: #162D3A;
+	font: 12px monospace;
+	padding-left: 100px;
+	color: #EFEFEF;
+	white-space: pre;
+	max-width: 700px;
+}
+body.about {
+	white-space: pre-wrap;
+}
+a {
+	text-decoration: none;
+	color: #67899C;
+}
+h1 {
+	font: 2em monospace;
+	margin-bottom: -10px;
+}
+b {
+	color: #98BACF;
+	font-weight: normal;
+}
+i {
+	color: #F6CE9D;
+	font-style: normal;
+}
+i.uno {
+	color: #5B401F;
+}
+.aside {
+	position: fixed;
+	top: 100px; 
+	right: 100px; 
+	background: rgba(22, 45, 58, 1);
+	width: 300px;
+	text-align: left;
+	white-space: pre-line;
+	padding: 5px;
+}
