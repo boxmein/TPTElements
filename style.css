@@ -26,7 +26,7 @@ i {
 	font-style: normal;
 }
 i.uno {
-	color: #5B401F;
+	color: #67899C;
 }
 .aside {
 	position: fixed;
@@ -37,4 +37,12 @@ i.uno {
 	text-align: left;
 	white-space: pre-line;
 	padding: 5px;
+}
+@media (max-width: 800px) {
+	.aside {
+		position: static; 
+	}
+	i, i.uno, .aside a:first-child, .aside a:nth-child(2) {
+		visibility: hidden; /* Hides some stuff when too little! */
+	}
 }
