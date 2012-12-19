@@ -21,6 +21,10 @@ b {
 	color: #98BACF;
 	font-weight: normal;
 }
+u {
+    text-decoration: none; 
+    cursor: pointer;
+}
 i {
 	color: #F6CE9D;
 	font-style: normal;
