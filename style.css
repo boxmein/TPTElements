@@ -9,6 +9,9 @@ body {
 body.about {
 	white-space: pre-wrap;
 }
+.divider {
+	border-bottom: 1px solid rgba(255,255,255,0.01);
+}
 a {
 	text-decoration: none;
 	color: #67899C;
@@ -41,6 +44,21 @@ i.uno {
 	text-align: left;
 	white-space: pre-line;
 	padding: 5px;
+}
+.aside ul {
+	list-style: none;
+	padding: -5px;
+	margin: -0px 0px -12px 0px;
+	white-space: normal;
+}
+.aside li {
+	list-style-type: none;
+	margin-left: -30px;
+	cursor: pointer;
+	color: #67899C;
+}
+.aside li:before {
+	content: "- ";
 }
 @media (max-width: 800px) {
 	.aside {
