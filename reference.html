@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TPT element property reference</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <h1>Powder Toy element coder v1.1</h1>
+// Element property reference
+// by boxmein - <a href="http://powdertoy.co.uk">Powder Toy</a> - <a href="http://powdertoy.co.uk/Wiki/W/Coding-tutorial.html">Coding tutorial</a> - <a href="http://tpt.io/@boxmein">Contact</a> - <a href="about.html">About</a> - <a href="http://github.com/boxmein/TPTElements/">on GitHub</a>
+// <a href="index.html">C++ version</a> - <a href="index-lua.html">Lua version</a> - <a href="reference.html">Reference</a>
+
+Identifier = "<b>DEFAULT_PT_BCOL</b>"; <i>// Element's name on the new lua API (Not used on the Lua mod)</i>
+Name = "<b id="elname">BCOL</b>"; <i>// Element's in-game name. (4 letters!).</i>
+Colour = PIXPACK(0x<b>333333</b>); <i>// Element's colour in hexadecimal. (Bits: RRGGBB) (In lua, skip the PIXPACK and the parentheses.)</i>
+MenuVisible = <b>1</b>; <i>// Whether or not it's in a menu.</i>
+MenuSection = SC_<b>POWDERS</b>; <i>// Which menu it's in. 
+// Options: WALL, ELEC, POWERED, FORCE, EXPLOSIVE, GAS, LIQUID, POWDERS, SOLIDS, NUCLEAR, SPECIAL, LIFE, TOOL, DECO)</i>
+Enabled = <b>1</b>; <i>// Whether or not it's even enabled. Keep as 1 unless you have a good reason.</i>
+
+Advection = <b>0.4f</b>; <i>// How much moving air / wind affects it. </i>
+AirDrag = <b>0.04f</b> * CFDS; <i>// How much air the particle "drags" along with it. </i>
+AirLoss = <b>0.94f</b>; <i>// How much it slows down moving air. 1 for no effect, 0 for full effect.</i>
+Loss = <b>0.95f</b>; <i>// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</i>
+Collision = <b>-0.1f</b>; <i>// When this particle hits something, this value is used to determine new velocity.</i>
+Gravity = <b>0.3f</b>; <i>// How fast the particle falls. Negative means it floats. </i>
+Diffusion = <b>0.00f</b>; <i>// How much the particle wiggles like GAS.</i>
+HotAir = <b>0.000f</b>	* CFDS; <i>// How much the particle increases pressure. </i>
+Falldown = <b>1</b>; <i>// How does this particle move? (0 = solid. 1 = powder. 2 = liquid) </i>
+
+Flammable = <b>0</b>; <i>// How much this particle burns. (0 = not at all. &gt;0 = burns more.) </i>
+Explosive = <b>0</b>; <i>// Does the particle explode? (0 = no. 1 = only with fire. 2 = with pressure &gt; 2.5 or fire.)</i>
+Meltable = <b>5</b>; <i>// Does it melt? (0 = no. 1 = yes)</i>
+Hardness = <b>2</b>; <i>// How much acid affects the particle. (0 = not at all. &gt;0 = more corrodable)</i>
+
+Weight = <b>90</b>; <i>// Particle weight. Determines which sinks below which. 
+		 //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solid. -1 for energy.)</i>
+
+Temperature = <b>R_TEMP+0.0f</b>	+273.15f; <i>// How hot does it spawn with? Automatically converted to Celsius. R_TEMP is 22.00&deg; C</i>
+HeatConduct = <b>150</b>; <i>// How well it transfers heat. (0 = badly. 255 = very very well) </i>
+Description = "<b>Broken Coal. Heavy particles. See COAL</b>"; <i>// Element description. Is shown when mouse hovers over element.</i>
+
+State = ST_<b>SOLID</b>; <i>// Which state the element is in. (ST_NONE = Special. ST_SOLID = Solid. ST_LIQUID = Liquid. ST_GAS = Gas.)</i>
+Properties = <b>TYPE_PART</b>; <i>// Element properties. See <a href="http://tpt.io/.213774">this</a> for details.</i>
+
+<i>// These next ones use a few special values.
+// IPL = Impossible Pressure Low - use it to disable element transitions with low pressure.
+// IPH = Impossible Pressure High - use it to disable element transitions with high pressure. 
+// NT = No Type - use it as a dummy if you don't have a transition with that value. 
+// ITL = Impossible Temperature Low - use it to disable element transitions with low temperature.
+// ITH = Impossible Temperature High - use it to disable element transitions with high temperature.</i>
+
+LowPressure = <b>IPL</b>; <i>// How low should pressure be to trigger a transition? (It can be any number from -255 to 255)</i>
+LowPressureTransition = <b>NT</b>; <i>// What to transition to when pressure is lower than LowPressure?</i>
+HighPressure = <b>IPH</b>; <i>// How high should pressure be to trigger a transition? (It can be any number from -255 to 255)</i>
+HighPressureTransition = <b>NT</b>; <i>// What to transition to when pressure is higher than HighPressure?</i>
+LowTemperature = <b>ITL</b>; <i>// How low should temp be to trigger a transition? (It can be any number from 0 to 10000)</i>
+LowTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is lower than LowTemperature? </i>
+HighTemperature = <b>ITH</b>; <i>// How high should temp be to trigger a transition? (It can be any number from 0 to 10000)</i>
+HighTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is higher than HighTemperature?</i>
+
+Update = &amp;Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
+Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics function. Change BCOL to what your element's Name is.</i>
+</body>
+</html>
