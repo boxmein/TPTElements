@@ -28,18 +28,24 @@
 
 <i>-- Makes your new element, namespace is your username if you don't know what it means, elem is the element name. (4 letters!)</i>
 local el = elements.allocate("<b>namespace</b>", "<b>elem</b>")
-<span id="cloneToggle">elements.element(el, elements.<b>DEFAULT</b>_PT_<b>DMND</b>) <i> -- Clones another element's properties</i></span>
+<span id="cloneToggle" style="visibility: hidden;">elements.element(el, elements.<b>DEFAULT</b>_PT_<b>DMND</b>) <i> -- Clones another element's properties</i></span>
 <div id="propertyList">elements.property(el, "<b>Name</b>", "<b>AWSM</b>")</div>
-<div id="graphicsFunc">
+<div id="graphicsFunc" style="visibility: hidden;">
 function el_Graphics(index, colr, colg, colb)
-    <i>-- Return some important values (see reference)
+    <b><i>-- Return some important values (see reference)
     -- return cache, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, fireb</i>
-    return 1, 0x0000001
+    return 1, 0x0000001, 255, colr, colg-10, colb, 0, 0, 0, 0</b>
 end
-tpt.graphics_func(el_Graphics, el)
-    </div>
-<div id="updateFunc">
-    </div>
+tpt.graphics_func(el_Graphics, el)</div>
+<div id="updateFunc" style="visibility: hidden;">
+function el_Update(index, partx, party, surround_space, nt)
+    <b>if surround_space==0 and nt==0 then
+        return 1 <i>-- This kills the pixel.</i>
+    else 
+        return 0 <i>-- This keeps it alive.</i>
+    end</b>
+end
+</div>
 <script src="../script.js"></script>
 <script src="luafunctionality.js"></script>
 <script>initAll();</script>
