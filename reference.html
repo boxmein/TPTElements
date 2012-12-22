@@ -67,6 +67,7 @@ Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics fu
 // Returns: cache, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, and fireb.
     cache = <b>0</b> <i>// Set 1 if your element's look never changes.</i>
     pixel_mode = <b>0x0000001</b> <i>// See below for pixel mode data (<a href="http://powdertoy.co.uk/Wiki/W/File:Particle_Drawing_Modes.png.html">See image to compare</a>)
+    // Note: adding a few together will produce multiple effects.
     // PMODE_NONE	0x00000000 --prevents anything from being drawn
     // PMODE_FLAT	0x00000001 --draw a basic pixel, overwriting the color under it. Doesn't support cola.
     // PMODE_BLOB	0x00000002 --adds a blobby effect, like you were using blob (5) display mode
