@@ -1,5 +1,4 @@
-"use strict";
-
+/*global document, window*/
 var toggleComments = function () {
     // Hide or show comments
 	var comments = document.getElementsByTagName("i");
