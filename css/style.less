@@ -1,45 +1,48 @@
+@backgroundColor: #162D3A;
+@bodyFont: monospace;
+@textColor: #EFEFEF;
+@commentColor: #F6CE9D;
+@commentColorLessVisible: lighten(@backgroundColor, 20%);
+@editableColor: #98BACF;
+@linkColor: #67899C;
+
+
 body {
-	background: #162D3A;
-	font: 12px monospace;
+	background: @backgroundColor;
+	font: 12px @bodyFont;
 	padding-left: 100px;
-	color: #EFEFEF;
+	color: @textColor;
 	white-space: pre;
 	max-width: 700px;
 }
-body.about {
-	white-space: pre-wrap;
-}
+
 .divider {
 	border-bottom: 1px solid rgba(255,255,255,0.01);
 }
 a {
 	text-decoration: none;
-	color: #67899C;
+	color: @linkColor;
 }
 h1 {
-	font: 2em monospace;
+	font: 2em @bodyFont;
 	margin-bottom: -10px;
 }
 b {
-	color: #98BACF;
+	color: @editableColor;
 	font-weight: normal;
 }
-u {
-    text-decoration: none; 
-    cursor: pointer;
-}
 i {
-	color: #F6CE9D;
+	color: @commentColor;
 	font-style: normal;
 }
 i.uno {
-	color: #67899C;
+	color: @commentColorLessVisible;
 }
 .aside {
 	position: fixed;
 	top: 50px; 
 	right: 100px; 
-	background: rgba(22, 45, 58, 1);
+	background: @backgroundColor;
 	width: 300px;
 	text-align: left;
 	white-space: pre-line;
@@ -55,16 +58,18 @@ i.uno {
 	list-style-type: none;
 	margin-left: -30px;
 	cursor: pointer;
-	color: #67899C;
+	color: @linkColor;
 }
+// Cheap "- " prefixes for list items
 .aside li:before {
 	content: "- ";
 }
+// When stuff gets resized to be too tight
 @media (max-width: 800px) {
 	.aside {
 		position: static; 
 	}
 	i, i.uno, .aside a:first-child, .aside a:nth-child(2) {
-		visibility: hidden; /* Hides some stuff when too little! */
+		visibility: hidden;
 	}
 }
