@@ -20,6 +20,7 @@ var initAll = function () {
 	for(var i=0; i<editables.length; i++) {
 		editables[i].setAttribute("contenteditable", "true");
 	}
+	toggleUnoComments(); // Make comments dark at the start
 };
 var clearCode = function () {
     // Clear code boxes below
