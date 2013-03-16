@@ -1,26 +1,29 @@
-/*global document, window*/
+"use strict";
+
 var toggleComments = function () {
     // Hide or show comments
 	var comments = document.getElementsByTagName("i");
-	if(comments[0].style.visibility != "hidden") {
+	if(comments[0].style.display != "none") {
 		for(var i=0; i<comments.length; i++) {
-			comments[i].style.visibility = "hidden";
+			comments[i].style.display = "none";
 		}
 	}
 	else {
 		for(var i=0; i<comments.length; i++) {
-			comments[i].style.visibility = "visible";
+			comments[i].style.display = "block";
 		}
 	}
     
 };
+var getCode = function () {
+	return btoa(document.getElementById("fullcode").textContent);
+}
 var initAll = function () {
     // Make content boxes editable
 	var editables = document.getElementsByTagName("b");
 	for(var i=0; i<editables.length; i++) {
 		editables[i].setAttribute("contenteditable", "true");
 	}
-	toggleUnoComments(); // Make comments dark at the start
 };
 var clearCode = function () {
     // Clear code boxes below
@@ -51,3 +54,7 @@ var toggleUnoComments = function() {
     }
     
 };
+var save = function() {
+	var content = getCode();
+	window.open("data:text/plain;base64," + getCode())
+}
