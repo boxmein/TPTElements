@@ -12,29 +12,35 @@
 // I highly suggest using the Find function of your web browser.
 // <a href="#graphics">Graphics function</a> - <a href="#update">Update function</a> - <a href="#element">Element properties</a>
     
+    
 <p>Identifier = "<b>DEFAULT_PT_BCOL</b>"; <i>// Element's name on the new lua API (Not used on the Lua mod)</i>
 Name = "<b id="elname">BCOL</b>"; <i>// Element's in-game name. (4 letters!).</i>
-Colour = PIXPACK(0x<b>333333</b>); <i>// Element's colour in hexadecimal. (Bits: RRGGBB) (In lua, skip the PIXPACK and the parentheses.)</i>
+Colour = PIXPACK(0x<b>333333</b>); <i>// Element's colour in hexadecimal. (Bits: RRGGBB) 
+    // (In lua, skip the PIXPACK and the parentheses.)</i>
 MenuVisible = <b>1</b>; <i>// Whether or not it's in a menu.</i>
 MenuSection = SC_<b>POWDERS</b>; <i>// Which menu it's in. 
-// Options: WALL, ELEC, POWERED, FORCE, EXPLOSIVE, GAS, LIQUID, POWDERS, SOLIDS, NUCLEAR, SPECIAL, LIFE, TOOL, DECO)</i>
+    // Options: WALL, ELEC, POWERED, FORCE, EXPLOSIVE, GAS, LIQUID, POWDERS, SOLIDS, NUCLEAR, SPECIAL, LIFE, TOOL, DECO)</i>
 Enabled = <b>1</b>; <i>// Whether or not it's even enabled. Keep as 1 unless you have a good reason.</i>
-Advection = <b>0.4f</b>; <i>// How much moving air / wind affects it. </i>
+Advection = <b>0.4f</b>; <i>//How much the particle is accelerated by moving air. 
+    // Normally 0 for solids, and up to 1 for other elements. 
+    // It can be negative, ANAR and DEST do this so it goes towards pressure</i>
 AirDrag = <b>0.04f</b> * CFDS; <i>// How much air the particle "drags" along with it. </i>
 AirLoss = <b>0.94f</b>; <i>// How much it slows down moving air. 1 for no effect, 0 for full effect.</i>
 Loss = <b>0.95f</b>; <i>// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</i>
 Collision = <b>-0.1f</b>; <i>// When this particle hits something, this value is used to determine new velocity.</i>
 Gravity = <b>0.3f</b>; <i>// How fast the particle falls. Negative means it floats. </i>
 Diffusion = <b>0.00f</b>; <i>// How much the particle wiggles like GAS.</i>
-HotAir = <b>0.000f</b>	* CFDS; <i>// How much the particle increases pressure. </i>
+HotAir = <b>0.000f</b>  * CFDS; <i>//How much the particle increases the pressure by. 
+    // Another property only for gasses, but VENT/VACU have theirs at (-)0.010f. 
+    // An extremely small number, sometimes as small as 0.000001f</i>
 Falldown = <b>1</b>; <i>// How does this particle move? (0 = solid. 1 = powder. 2 = liquid) </i>
 Flammable = <b>0</b>; <i>// How much this particle burns. (0 = not at all. &gt;0 = burns more.) </i>
 Explosive = <b>0</b>; <i>// Does the particle explode? (0 = no. 1 = only with fire. 2 = with pressure &gt; 2.5 or fire.)</i>
 Meltable = <b>5</b>; <i>// Does it melt? (0 = no. 1 = yes)</i>
 Hardness = <b>2</b>; <i>// How much acid affects the particle. (0 = not at all. &gt;0 = more corrodable)</i>
 Weight = <b>90</b>; <i>// Particle weight. Determines which sinks below which. 
-		 //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solid. -1 for energy.)</i>
-Temperature = <b>R_TEMP+0.0f</b>	+273.15f; <i>// How hot does it spawn with? Automatically converted to Celsius. R_TEMP is 22.00&deg; C</i>
+    //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solid. -1 for energy.)</i>
+Temperature = <b>R_TEMP+0.0f</b>    +273.15f; <i>// How hot does it spawn with? Automatically converted to Celsius. R_TEMP is 22.00&deg; C</i>
 HeatConduct = <b>150</b>; <i>// How well it transfers heat. (0 = badly. 255 = very very well) </i>
 Description = "<b>Broken Coal. Heavy particles. See COAL</b>"; <i>// Element description. Is shown when mouse hovers over element.</i>
 State = ST_<b>SOLID</b>; <i>// Which state the element is in. (ST_NONE = Special. ST_SOLID = Solid. ST_LIQUID = Liquid. ST_GAS = Gas.)</i>
@@ -53,7 +59,7 @@ LowTemperature = <b>ITL</b>; <i>// How low should temp be to trigger a transitio
 LowTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is lower than LowTemperature? </i>
 HighTemperature = <b>ITH</b>; <i>// How high should temp be to trigger a transition? (It can be any number from 0 to 10000)</i>
 HighTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is higher than HighTemperature?</i></p>
-<p>date = &amp;Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
+<p>Update = &amp;Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
 Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics function. Change BCOL to what your element's Name is.</i></p>
     - - - - - - - - - - - - - - - - - 
 <div>
@@ -68,20 +74,20 @@ Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics fu
     cache = <b>0</b> <i>// Set 1 if your element's look never changes.</i>
     pixel_mode = <b>0x0000001</b> <i>// See below for pixel mode data (<a href="http://powdertoy.co.uk/Wiki/W/File:Particle_Drawing_Modes.png.html">See image to compare</a>)
     // Note: adding a few together will produce multiple effects.
-    // PMODE_NONE	0x00000000 --prevents anything from being drawn
-    // PMODE_FLAT	0x00000001 --draw a basic pixel, overwriting the color under it. Doesn't support cola.
-    // PMODE_BLOB	0x00000002 --adds a blobby effect, like you were using blob (5) display mode
-    // PMODE_BLUR	0x00000004 --used in liquids in fancy display mode
-    // PMODE_GLOW	0x00000008 --Glow effect, used in elements like DEUT and TRON in fancy display mode
-    // PMODE_SPARK	0x00000010 -- used for things such as GBMB at first, dimmer than other modes
-    // PMODE_FLARE	0x00000020 --BOMB and other similar elements, brighter than PMODE_SPARK
-    // PMODE_LFLARE	0x00000040 --brightest spark mode, used when DEST hits something
-    // PMODE_ADD	0x00000080 --like PMODE_FLAT, but adds color to a pixel, instead of overwriting it.
-    // PMODE_BLEND	0x00000100 --basically the same thing as PMODE_ADD, but has better OpenGL support
+    // PMODE_NONE   0x00000000 --prevents anything from being drawn
+    // PMODE_FLAT   0x00000001 --draw a basic pixel, overwriting the color under it. Doesn't support cola.
+    // PMODE_BLOB   0x00000002 --adds a blobby effect, like you were using blob (5) display mode
+    // PMODE_BLUR   0x00000004 --used in liquids in fancy display mode
+    // PMODE_GLOW   0x00000008 --Glow effect, used in elements like DEUT and TRON in fancy display mode
+    // PMODE_SPARK  0x00000010 -- used for things such as GBMB at first, dimmer than other modes
+    // PMODE_FLARE  0x00000020 --BOMB and other similar elements, brighter than PMODE_SPARK
+    // PMODE_LFLARE 0x00000040 --brightest spark mode, used when DEST hits something
+    // PMODE_ADD    0x00000080 --like PMODE_FLAT, but adds color to a pixel, instead of overwriting it.
+    // PMODE_BLEND  0x00000100 --basically the same thing as PMODE_ADD, but has better OpenGL support
     // PSPEC_STICKMAN 0x00000200 --does nothing, because the stickmen won't get drawn unless it actually is one
     // NO_DECO 0x00001000 --prevents decoration from showing on the element (used in LCRY)
     // DECO_FIRE 0x00002000 --Allow decoration to be drawn on using the fire effect (gasses have this set)
-    // FIRE_ADD	 0x00010000 --adds a weak fire effect around the element (ex. LAVA/LIGH)
+    // FIRE_ADD  0x00010000 --adds a weak fire effect around the element (ex. LAVA/LIGH)
     // FIRE_BLEND 0x00020000 --adds a stronger fire effect around the element, default for gasses
     // EFFECT_GRAVIN 0x01000000 --adds a PRTI effect. See below.
     // EFFECT_GRAVOUT 0x02000000 --adds a PRTO effect. See below.
@@ -110,5 +116,18 @@ Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics fu
     1 = When the particle gets deleted after the process
     0 = When the particle survives after the process
 </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34425443-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </body>
 </html>

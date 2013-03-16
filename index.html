@@ -2,7 +2,6 @@
 <html>
 <head>
 <title>PT element derp</title>
-<script src="js/script.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
@@ -19,8 +18,9 @@
 		<a onclick="toggleUnoComments()" href="javascript:void(0)">- Toggle unobstructive comments</a>
 		<a onclick="clearCode()" href="javascript:void(0);">- Empty the code boxes</a>
 		<a onclick="chAllToName()" href="javascript:void(0);">- "BCOL" --> your element's name</a>
+		<a onclick="save()" href="javascript:void(0);">- Download</a>
 		<a href="#">- To the top!</a>
-</div>
+</div><div id="fullcode">
 #include "simulation/Elements.h"
 //#TPT-Directive ElementClass Element_<b>BCOL</b> PT_<b>BCOL</b> <b>73</b>
 
@@ -178,6 +178,22 @@ int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS) <i>// Here starts the func
 
 
 Element_<b>BCOL</b>::~Element_<b>BCOL</b>() {}
+
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34425443-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script src="js/script.js"></script>
 <script>initAll();</script>
 </body>
 </html>
