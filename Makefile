@@ -14,7 +14,7 @@ all: minify lesscss
 lesscss: $(LESSFILES)
 
 # Closure compiles the script files
-minify: js/script.js 
+minify: js/script.js js/luafunctionality.js
 	$(CLOSURE) --js $(JSDIR)script.js --js_output_file $(JSDIR)script.min.js
 	$(CLOSURE) --js $(JSDIR)luafunctionality.js --js_output_file $(JSDIR)luafunctionality.min.js
 
