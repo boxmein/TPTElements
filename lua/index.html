@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>PT element derp</title>
+<link rel="stylesheet" href="/ext/css/normalize.css" />
 <link rel="stylesheet" type="text/css" href="../css/style.css" />
 <link rel="stylesheet" href="../css/luafunc.css" />
 <meta charset="utf-8" />
@@ -10,12 +11,14 @@
 	<div class="aside">Options
 		<a onclick="toggleComments()" href="javascript:void(0);">- Toggle comments</a>
 		<a onclick="toggleUnoComments()" href="javascript:void(0)">- Toggle unobstructive comments</a>
+    <a onclick="save()" href="javascript:void(0)">- Save (click for raw data)</a>
 		<a href="#">- To the top!</a>
 		Lua Functionality
 		<a onclick="addPropertyLine()" href="javascript:void(0)">- Add a property</a>
 		<a onclick="toggleElement('cloneToggle')" href="javascript:void(0)">- Toggle cloning line</a> (clones another element)
-        <a onclick="toggleElement('graphicsFunc')" href="javascript:void(0)">- Add a Graphics function</a> (optional)
-        <a onclick="toggleElement('updateFunc')" href="javascript:void(0)">- Add an Update function</a> (optional)
+    <a onclick="toggleElement('graphicsFunc')" href="javascript:void(0)">- Add a Graphics function</a> (optional)
+    <a onclick="toggleElement('updateFunc')" href="javascript:void(0)">- Add an Update function</a> (optional)
+    <a onclick="toggleElement('cracker64')" href="javascript:void(0)">- Add cracker64's mod loader headers</a>
 	</div>
 <h1>Powder Toy element coder v 1.1 </h1>
 -- Create your own elements by copy/pasting the code below. 
@@ -26,18 +29,21 @@
 -- See the Lua API reference <a href="http://powdertoy.co.uk/Wiki/W/Powder_Toy_Lua_API.html">HERE</a>
 -- Also see the reference linked above for element properties.
 -- Copy/paste everything after this after coding.
+<div id="fullcode">
 
-<i>-- Makes your new element, namespace is your username if you don't know what it means, elem is the element name. (4 letters!)</i>
+<span id="cracker64">--VER 1.0 UPDATE http://pastebin.com/raw.php?i=FKxVYV01</span>
+
+<i>-- Allocates space for a new element. Use four letters for name, and anything unique for a namespace.</i>
 local el = elements.allocate("<b>namespace</b>", "<b>elem</b>")
-<span id="cloneToggle">elements.element(el, elements.<b>DEFAULT</b>_PT_<b>DMND</b>) <i> -- Clones another element's properties</i></span>
-<span id="propertyList">elements.property(el, "<b>Name</b>", "<b>AWSM</b>")</span>
-<span id="graphicsFunc" style="visibility: hidden">function el_Graphics(index, colr, colg, colb)
-    <b><i>-- Return some important values (see reference)
+<span id="cloneToggle">elements.element(el, elements.<b>DEFAULT</b>_PT_<b>DMND</b>) <i> -- Use this to clone some other element first.</i></span>
+<span id="propertyList">elements.property(el, "<b>Name</b>", "<b>AWSM</b>") <i>-- Use these to change properties.</i></span>
+<span id="graphicsFunc" style="display: none">function el_Graphics(index, colr, colg, colb)
+    <b><i>-- Return some important values (see <a href="../reference.html#graphics">reference</a>)
     -- return cache, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, fireb</i>
     return 1, 0x0000001, 255, colr, colg-10, colb, 0, 0, 0, 0</b>
 end
 tpt.graphics_func(el_Graphics, el)</span>
-<span id="updateFunc" style="visibility: hidden">function el_Update(index, partx, party, surround_space, nt)
+<span id="updateFunc" style="display: none">function el_Update(index, partx, party, surround_space, nt)
     <b>if surround_space==0 and nt==0 then
         return 1 <i>-- This kills the pixel.</i>
     else 
@@ -45,8 +51,9 @@ tpt.graphics_func(el_Graphics, el)</span>
     end</b>
 end
 tpt.update_func(el_Update, el)</span>
-<script src="../js/script.min.js"></script>
-<script src="../js/luafunctionality.min.js"></script>
+</div>
+<script src="../js/script.js"></script>
+<script src="../js/luafunctionality.js"></script>
 <script>initAll();</script>
 <script type="text/javascript">
 
