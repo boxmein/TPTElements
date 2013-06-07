@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-	
+  
 <h1>Powder Toy element coder v 1.1 </h1>
 // Create your own elements by copy/pasting the code below. 
 // Provides skeleton code and a few snippets.
@@ -14,20 +14,21 @@
 // <a href="#">C++ version</a> - <a href="lua/">Lua version</a> - <a href="reference.html">Reference</a>
 // Copy/paste everything after this after coding.
 <div class="aside">- - Options - - 
-		<a onclick="toggleComments()" href="javascript:void(0);">- Toggle comments</a>
-		<a onclick="toggleUnoComments()" href="javascript:void(0)">- Toggle unobstructive comments</a>
-		<a onclick="clearCode()" href="javascript:void(0);">- Empty the code boxes</a>
-		<a onclick="chAllToName()" href="javascript:void(0);">- "BCOL" --> your element's name</a>
-		<a onclick="save()" href="javascript:void(0);">- Download</a>
-		<a href="#">- To the top!</a>
+    <a onclick="toggleComments()" href="javascript:void(0);">- Toggle comments</a>
+    <a onclick="toggleUnoComments()" href="javascript:void(0)">- Toggle unobstructive comments</a>
+    <a onclick="clearCode()" href="javascript:void(0);">- Empty the code boxes</a>
+    <a onclick="chAllToName()" href="javascript:void(0);">- "BCOL" --> your element's name</a>
+    <a onclick="save()" href="javascript:void(0);">- Download</a>
+    <a href="#">- To the top!</a>
 </div><div id="fullcode">
 #include "simulation/Elements.h"
 //#TPT-Directive ElementClass Element_<b>BCOL</b> PT_<b>BCOL</b> <b>73</b>
 
 Element_<b>BCOL</b>::Element_<b>BCOL</b>()
 {
-    Identifier = "<b>DEFAULT_PT_BCOL</b>"; <i>// Element's name on the new lua API</i>
+    Identifier = "<b>DEFAULT_PT_BCOL</b>"; <i>// Element's name on the new lua API - it is best you leave it as such.</i>
     Name = "<b id="elname">BCOL</b>"; <i>// Element's in-game name. (4 letters!). Write the NAME here to use for replacement.</i>
+         <i>// If you change this Name and this name ONLY, click the "BCOL ---> your element's name" button to change the rest</i>
     Colour = PIXPACK(0x<b>333333</b>); <i>// Element's colour in hexadecimal. (Bits: RRGGBB)</i>
     MenuVisible = <b>1</b>; <i>// Whether or not it's in a menu.</i>
     MenuSection = SC_<b>POWDERS</b>; <i>// Which menu it's in.</i>
@@ -40,7 +41,7 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
     Collision = <b>-0.1f</b>; <i>// When this particle hits something, this value is used to determine new velocity.</i>
     Gravity = <b>0.3f</b>; <i>// How fast the particle falls. Negative means it floats. </i>
     Diffusion = <b>0.00f</b>; <i>// How much the particle wiggles like GAS.</i>
-    HotAir = <b>0.000f</b>	* CFDS; <i>// How much the particle increases pressure. </i>
+    HotAir = <b>0.000f</b>  * CFDS; <i>// How much the particle increases pressure. </i>
     Falldown = <b>1</b>; <i>// How does this particle move? (0 = solid. 1 = powder. 2 = liquid) </i>
     
     Flammable = <b>0</b>; <i>// How much this particle burns. (0 = not at all. &gt;0 = burns more.) </i>
@@ -49,9 +50,9 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
     Hardness = <b>2</b>; <i>// How much acid affects the particle. (0 = not at all. &gt;0 = more corrodable)</i>
     
     Weight = <b>90</b>; <i>// Particle weight. Determines which sinks below which. 
-    		 //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solid. -1 for energy.)</i>
+         //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solid. -1 for energy.)</i>
     
-    Temperature = <b>R_TEMP+0.0f</b>	+273.15f; <i>// How hot does it spawn with? Automatically converted to Celsius. R_TEMP is 22.00&deg; C</i>
+    Temperature = <b>R_TEMP+0.0f</b>  +273.15f; <i>// How hot does it spawn with? Automatically converted to Celsius. R_TEMP is 22.00&deg; C</i>
     HeatConduct = <b>150</b>; <i>// How well it transfers heat. (0 = badly. 255 = very very well) </i>
     Description = "<b>Broken Coal. Heavy particles. See COAL</b>"; <i>// Element description. Is shown when mouse hovers over element.</i>
     
@@ -81,71 +82,71 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
 //#TPT-Directive ElementHeader Element_<b>BCOL</b> static int update(UPDATE_FUNC_ARGS)
 int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS) <i>// Here starts the function that all reactions and movement should be in.</i>
  {
-	<b class="code">int r, rx, ry, trade, temp;
-	if (parts[i].life<=0) {
-		sim->create_part(i, x, y, PT_FIRE);
-		return 1;
-	} else if (parts[i].life < 100) {
-		parts[i].life--;
-		sim->create_part(-1, x+rand()%3-1, y+rand()%3-1, PT_FIRE);
-	}
+  <b class="code">int r, rx, ry, trade, temp;
+  if (parts[i].life<=0) {
+    sim->create_part(i, x, y, PT_FIRE);
+    return 1;
+  } else if (parts[i].life < 100) {
+    parts[i].life--;
+    sim->create_part(-1, x+rand()%3-1, y+rand()%3-1, PT_FIRE);
+  }
 
-	for (rx=-2; rx<3; rx++)
-		for (ry=-2; ry<3; ry++)
-			if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
-			{
-				r = pmap[y+ry][x+rx];
-				if (!r)
-					continue;
-				if (((r&0xFF)==PT_FIRE || (r&0xFF)==PT_PLSM) && 1>(rand()%500))
-				{
-					if (parts[i].life>100) {
-						parts[i].life = 99;
-					}
-				}
-				if ((r&0xFF)==PT_LAVA && 1>(rand()%500))
-				{
-					if (parts[r>>8].ctype == PT_IRON) {
-						parts[r>>8].ctype = PT_METL;
-						sim->kill_part(i);
+  for (rx=-2; rx<3; rx++)
+    for (ry=-2; ry<3; ry++)
+      if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
+      {
+        r = pmap[y+ry][x+rx];
+        if (!r)
+          continue;
+        if (((r&0xFF)==PT_FIRE || (r&0xFF)==PT_PLSM) && 1>(rand()%500))
+        {
+          if (parts[i].life>100) {
+            parts[i].life = 99;
+          }
+        }
+        if ((r&0xFF)==PT_LAVA && 1>(rand()%500))
+        {
+          if (parts[r>>8].ctype == PT_IRON) {
+            parts[r>>8].ctype = PT_METL;
+            sim->kill_part(i);
                                                 return 1;
-					}
-				}
-			}
-	/*if(100-parts[i].life > parts[i].tmp2)
-		parts[i].tmp2 = 100-parts[i].life;
-	if(parts[i].tmp2 < 0) parts[i].tmp2 = 0;
-	for ( trade = 0; trade<4; trade ++)
-	{
-		rx = rand()%5-2;
-		ry = rand()%5-2;
-		if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
-		{
-			r = pmap[y+ry][x+rx];
-			if (!r)
-				continue;
-			if (((r&0xFF)==PT_COAL || (r&0xFF)==PT_BCOL)&&(parts[i].tmp2>parts[r>>8].tmp2)&&parts[i].tmp2>0)//diffusion
-			{
-				int temp = parts[i].tmp2 - parts[r>>8].tmp2;
-				if(temp < 10)
-					continue;
-				if (temp ==1)
-				{
-					parts[r>>8].tmp2 ++;
-					parts[i].tmp2 --;
-				}
-				else if (temp>0)
-				{
-					parts[r>>8].tmp2 += temp/2;
-					parts[i].tmp2 -= temp/2;
-				}
-			}
-		}
-	}*/
-	if(parts[i].temp > parts[i].tmp2)
-		parts[i].tmp2 = parts[i].temp;
-	return 0;
-	</b>
+          }
+        }
+      }
+  /*if(100-parts[i].life > parts[i].tmp2)
+    parts[i].tmp2 = 100-parts[i].life;
+  if(parts[i].tmp2 < 0) parts[i].tmp2 = 0;
+  for ( trade = 0; trade<4; trade ++)
+  {
+    rx = rand()%5-2;
+    ry = rand()%5-2;
+    if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
+    {
+      r = pmap[y+ry][x+rx];
+      if (!r)
+        continue;
+      if (((r&0xFF)==PT_COAL || (r&0xFF)==PT_BCOL)&&(parts[i].tmp2>parts[r>>8].tmp2)&&parts[i].tmp2>0)//diffusion
+      {
+        int temp = parts[i].tmp2 - parts[r>>8].tmp2;
+        if(temp < 10)
+          continue;
+        if (temp ==1)
+        {
+          parts[r>>8].tmp2 ++;
+          parts[i].tmp2 --;
+        }
+        else if (temp>0)
+        {
+          parts[r>>8].tmp2 += temp/2;
+          parts[i].tmp2 -= temp/2;
+        }
+      }
+    }
+  }*/
+  if(parts[i].temp > parts[i].tmp2)
+    parts[i].tmp2 = parts[i].temp;
+  return 0;
+  </b>
 }
 
 
@@ -153,25 +154,25 @@ int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS) <i>// Here starts the function
 int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS) <i>// Here starts the function all graphics and looks should be in.</i>
 {
 <b class="code">
-	*colr += (cpart->tmp2-295.15f)/3;
-	
-	if (*colr > 170)
-		*colr = 170;
-	if (*colr < *colg)
-		*colr = *colg;
-		
-	*colg = *colb = *colr;
+  *colr += (cpart->tmp2-295.15f)/3;
+  
+  if (*colr > 170)
+    *colr = 170;
+  if (*colr < *colg)
+    *colr = *colg;
+    
+  *colg = *colb = *colr;
 
-	if((cpart->temp-295.15f) > 300.0f-200.0f)
-	{
-		float frequency = 3.1415/(2*300.0f-(300.0f-200.0f));
-		int q = ((cpart->temp-295.15f)>300.0f)?300.0f-(300.0f-200.0f):(cpart->temp-295.15f)-(300.0f-200.0f);
+  if((cpart->temp-295.15f) > 300.0f-200.0f)
+  {
+    float frequency = 3.1415/(2*300.0f-(300.0f-200.0f));
+    int q = ((cpart->temp-295.15f)>300.0f)?300.0f-(300.0f-200.0f):(cpart->temp-295.15f)-(300.0f-200.0f);
 
-		*colr += sin(frequency*q) * 226;
-		*colg += sin(frequency*q*4.55 +3.14) * 34;
-		*colb += sin(frequency*q*2.22 +3.14) * 64;
-	}
-	return 0;
+    *colr += sin(frequency*q) * 226;
+    *colg += sin(frequency*q*4.55 +3.14) * 34;
+    *colb += sin(frequency*q*2.22 +3.14) * 64;
+  }
+  return 0;
 </b>
 }
 
