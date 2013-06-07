@@ -1,9 +1,18 @@
+
+
+// Body background colour
 @backgroundColor: #162D3A;
+// Woo generic fonts
 @bodyFont: monospace;
+// Text colour for the body.
 @textColor: #EFEFEF;
+// Applies to <i></i> tags, NOT unobstructive
 @commentColor: #F6CE9D;
+// Applies to <i></i> tags, unobstructive
 @commentColorLessVisible: desaturate(lighten(@backgroundColor, 30%), 20%);
+// Editable <b> boxes
 @editableColor: #98BACF;
+// Links
 @linkColor: #67899C;
 
 
@@ -45,6 +54,7 @@ i.uno {
 	background: @backgroundColor;
 	width: 300px;
 	text-align: left;
+	// Makes enters and tabs matter in the outputted source code. Bad?
 	white-space: pre-line;
 	padding: 5px;
 }
@@ -67,9 +77,11 @@ i.uno {
 // When stuff gets resized to be too tight
 @media (max-width: 800px) {
 	.aside {
+		// Set the aside box into the flow.
 		position: static; 
 	}
 	i, i.uno, .aside a:first-child, .aside a:nth-child(2) {
+		// Hide some items from the menus..?
 		visibility: hidden;
 	}
 }
