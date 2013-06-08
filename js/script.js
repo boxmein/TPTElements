@@ -1,37 +1,21 @@
 
 var toggleComments = function () {
     // Hide or show comments
-	var comments = document.getElementsByTagName("i");
-	// <i></i> is now a designated comment
-	if(comments[0].style.display != "none") {
-		for(var i=0; i<comments.length; i++) {
-			comments[i].style.display = "none";
-		}
-	}
-	else {
-		for(var i=0; i<comments.length; i++) {
-			comments[i].style.display = "inline";
-		}
-	}
+	$("i:visible").hide("fast"); 
+  $("i:hidden").show("fast");
     
 };
 var getCode = function () {
 	// get what has been written, also convert it to base64
-	return btoa(document.getElementById("fullcode").textContent);
+  // also the only place I use jquery in <3
+  // comments still aren't hidden!
+	return btoa($("#fullcode:visible").text());
 }
 var initAll = function () {
-  // Make <b>'s editable
-	var editables = document.getElementsByTagName("b");
-	for(var i=0; i<editables.length; i++) {
-		editables[i].setAttribute("contenteditable", "true");
-	}
+  $("b").attr("contenteditable", "true");
 };
 var clearCode = function () {
-  // Clear the source code boxes with their example code
-	var codes = document.getElementsByClassName("code");
-	for(var i=0; i<codes.length; i++) {
-		codes[i].innerHTML = "[placeholder]";
-	}
+  $(".code").html("[placeholder]");
 };
 var chAllToName = function() {
 	// Change all of the <b></b> s' contents to BCOL (where it used to be BCOL)
@@ -45,18 +29,12 @@ var chAllToName = function() {
 var toggleUnoComments = function() {
 	// uno = un-obstructive
 	// those comments are meant to not stab you in the eye
-	var comments = document.getElementsByTagName("i");
-    if(comments[0].className != "uno") {
-        for(var i=0; i<comments.length; i++) {
-				comments[i].className = "uno";
-        }
-    }
-    else if(comments[0].className == "uno") {
-        for(var i=0; i<comments.length; i++) {
-				comments[i].className = "";
-        }
-    }
-    
+	$("i").each(function(_,each) { 
+    if ($(each).hasClass("uno")) 
+      $(each).removeClass("uno"); 
+    else 
+      $(each).addClass("uno"); 
+  });
 };
 var save = function() {
   // manual save, generates data and opens a new window with it. 
