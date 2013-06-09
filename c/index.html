@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>PT element derp</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body>
+  
+<h1>Powder Toy element coder v 1.1 </h1>
+// Create your own elements by copy/pasting the code below. 
+// Provides skeleton code and a few snippets.
+// Write values to all the bright blue stuff.
+// by boxmein - <a href="http://powdertoy.co.uk">Powder Toy</a> - <a href="http://powdertoy.co.uk/Wiki/W/Coding-tutorial.html">Coding tutorial</a> - <a href="http://tpt.io/@boxmein">Contact</a> - <a href="../about.html">About</a> - <a href="http://github.com/boxmein/TPTElements/">on GitHub</a>
+// <a href="../">C++ version</a> - <a href="../lua/">Lua version</a> - <a href="#">C version</a> - <a href="../reference.html">Reference</a>
+// Copy/paste everything after this after coding.
+<div class="aside">- - Options - - 
+    <a onclick="toggleComments()" href="javascript:void(0);">- Toggle comments</a>
+    <a onclick="toggleUnoComments()" href="javascript:void(0)">- Toggle unobstructive comments</a>
+    <a onclick="clearCode()" href="javascript:void(0);">- Empty the code boxes</a>
+    <a onclick="chAllToName()" href="javascript:void(0);">- "BCOL" --> your element's name</a>
+    <a onclick="save()" href="javascript:void(0);">- Download</a>
+    <a href="#">- To the top!</a>
+</div><div id="fullcode">
+
+<i>// elements/&lt;elementname&gt;.c :</i>
+
+#include &lt;element.h&gt;
+ 
+int update_<b>CBTY</b>(UPDATE_FUNC_ARGS) {
+    <b>
+    <i>// Code example by wolfy1339
+    // An element that is chargable-battery</i>
+    int r, rx, ry, rt;
+    for (rx=-2; rx<3; rx++)
+        for (ry=-2; ry<3; ry++)
+            if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
+            {
+                r = pmap[y+ry][x+rx];
+                if (!r)
+                    continue;
+                rt = parts[r>>8].type;
+                if (parts_avg(i,r>>8,PT_INSL) != PT_INSL)
+                {
+                    if (rt==PT_SPRK && parts[r>>8].ctype == PT_PSCN)
+                        parts[i].life += 1;
+                    else if (rt==PT_SPRK && parts[r>>8].ctype ==PT_NSCN && parts[i].life > 0)
+                        parts[i].life -= 1;
+                    else if ((ptypes[rt].properties&PROP_CONDUCTS) && !(rt==PT_WATR||rt==PT_SLTW||rt==PT_NTCT||rt==PT_PTCT||rt==PT_INWR) && parts[r>>8].life==0 && abs(rx)+abs(ry) < 4)
+                    {
+                        if ( parts[i].life!=0 && rt !=PT_NSCN && rt!=PT_PSCN)
+                        {
+                            parts[r>>8].life = 4;
+                            parts[r>>8].ctype = rt;
+                            part_change_type(r>>8,x+rx,y+ry,PT_SPRK);
+                            parts[i].life -= 1;
+                        }
+                    }
+                }
+                if (parts[i].life >= parts[i].tmp2) parts[i].life = parts[i].tmp2;
+                if (parts[i].life <= 0) parts[i].life = 0;
+                if (rt==PT_CBTY)
+                {
+                    if (parts[i].life != parts[r>>8].life  && parts[i].life > 0 && parts[r>>8].life < parts[i].tmp2 && rand()%2)
+                    {
+                        if (parts[i].life > parts[r>>8].life)
+                        {
+                            parts[i].life--;
+                            parts[r>>8].life++;
+                        } else {
+                            parts[r>>8].life--;
+                            parts[i].life++;
+                        }
+                    }
+                }
+            }
+    return 0; <i>//Return 0 if the particle needs not be destroyed. 1 if needs. </i>
+    </b>
+}
+
+
+
+<i>// src/elementdata.c, inside struct part_type ptypes[] (order matters!!)
+// Mouse over to see what each represents. Rough equivalents are in the C++ version.</i>
+
+{"<b title="Name">CBTY</b>",    PIXPACK(0x<b title="Colour (RGB)">FD9D18</b>),  <b title="Advection">0.0f</b>,   <b title="Airdrag">0.00f</b> * CFDS,   <b title="Air loss">0.96f</b>,  <b title="Loss">0.00f</b>,  <b title="Collid">0.0f</b>,   <b title="Grav">0.0f</b>,   <b title="Diffusion">0.00f</b>,  <b title="HotAir">0.000f</b>  * CFDS, <b title="Falling">0</b>,  <b title="Burning/Flammable">0</b>,      <b title="Explosive">0</b>,  <b title="Melts">0</b>,  <b title="Hardness to ACID">1</b>,  <b title="Displayed on menu? ">1</b>,  <b title="Usable? ">1</b>,  <b title="Element weight">100</b>,    <b title="Menu section">SC_ELEC</b>,        <b title="Spawn temperature">R_TEMP+273.15f</b>,         <b title="Heat insulation? idk">0</b>,      "<b title="Description">Creates a spark when something with its ctype is nearby</b>", <b title="State">ST_SOLID</b>, <b title="Element properties">TYPE_SOLID</b>, <b title="Update function pointer">&update_DTEC</b>, <b title="Graphics function">NULL</b>},
+
+
+
+<i>// src/elementdata.c, inside part_transition ptransitions [PT_NUM] (again, order matters!): 
+/*
+ The element transition table 
+ IPL = Impossible Pressure Low
+ IPH = Impossible Pressure High
+ ITL = Impossible Temperature Low
+ ITH = Impossible Temperature High
+ NT = No Type
+
+ Use those as placeholders if you don't want the element to transition.
+ Mouse over to see what each of the properties represents.
+
+ */</i>
+
+/* <b>CBTY</b> */ {<b title="Low pressure threshold">IPL</b>,    <b title="With low pressure, transform to...">NT</b>,         <b title="High pressure threshold">IPH</b>,    <b title="With high pressure, transform to...">NT</b>,         <b title="Low temperature threshold">ITL</b>,    <b title="With low temperature, transform to...">NT</b>,         <b title="High temperature threshold">ITH</b>,    <b title="With high temperature, transform to...">NT</b>},
+
+
+
+<i>// src/elementdata.c, inside unsigned int platent[PT_NUM] (order matters): 
+// Element's 'enthalpy'</i>
+
+/* <b>CBTY</b> */ <b>0</b>,
+
+
+
+<i>// includes/powder.h, near other PT_X definitions, preferably before #define PT_NUM and in order:</i>
+
+#define PT_<b>CBTY</b> <b>162</b>
+#define PT_NUM  <b>163</b>
+
+
+
+<i>// includes/powder.h, near other int update_X(UPDATE_FUNC_ARGS) definitions, preferably in order:</i>
+
+int update_<b>CBTY</b>(UPDATE_FUNC_ARGS);
+</div>
+<script src="../js/jquery-1.9.0.min.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34425443-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script src="../js/script.js"></script>
+<script>initAll();</script>
+</body>
+</html>
