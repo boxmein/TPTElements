@@ -21,6 +21,7 @@
     <a onclick="save()" href="javascript:void(0);">- Download</a>
     <a href="#">- To the top!</a>
 </div><div id="fullcode">
+<i>// src/simulation/elements/&lt;elementname&gt;.cpp:</i>
 #include "simulation/Elements.h"
 //#TPT-Directive ElementClass Element_<b>BCOL</b> PT_<b>BCOL</b> <b>73</b>
 
@@ -176,9 +177,34 @@ int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS) <i>// Here starts the func
 </b>
 }
 
-
-
 Element_<b>BCOL</b>::~Element_<b>BCOL</b>() {}
+
+
+
+
+
+<i>/* When you can't use generator.py, 
+  here are the lines to manually copy to ElementClasses.cpp and ElementClasses.h: 
+  (Make sure to paste them into appropriate places - order probably matters for the
+  elements.push_back line, but not for the ElementClasses.h lines!)
+  */
+
+// Into ElementClasses.h: 
+</i>
+
+#define PT_<b>BCOL</b> <b>73</b>
+
+class Element_<b>BCOL</b> : public Element
+{
+public:
+  Element_<b>BCOL</b>();
+  virtual ~Element_<b>BCOL</b>();
+  static int update(UPDATE_FUNC_ARGS);
+};
+
+<i>// Into ElementClasses.cpp (into the vector definition): </i>
+
+elements.push_back(Element_<b>BCOL</b>());
 
 </div>
 <script src="js/jquery-1.9.0.min.js"></script>
