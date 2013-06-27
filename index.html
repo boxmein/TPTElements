@@ -76,36 +76,48 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
     HighTemperature = <b>ITH</b>; <i>// How high should temp be to trigger a transition? (It can be any number from 0 to 10000)</i>
     HighTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is higher than HighTemperature?</i>
     
-    Update = &Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
-    Graphics = &Element_<b>BCOL</b>::graphics; <i>// The name of the graphics function. Change BCOL to what your element's Name is.</i>
+    Update = &amp;Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
+    Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics function. Change BCOL to what your element's Name is.</i>
 }
+<i>
+/* 
+Keep in mind that: 
 
+  #define UPDATE_FUNC_ARGS Simulation* sim, int i, int x, int y, int surround_space, int nt, Particle *parts, int pmap[YRES][XRES]
+  #define UPDATE_FUNC_SUBCALL_ARGS sim, i, x, y, surround_space, nt, parts, pmap
+  #define GRAPHICS_FUNC_ARGS Renderer * ren, Particle *cpart, int nx, int ny, int *pixel_mode, int* cola, int *colr, int *colg, 
+                             int *colb, int *firea, int *firer, int *fireg, int *fireb
+  #define GRAPHICS_FUNC_SUBCALL_ARGS ren, cpart, nx, ny, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, fireb
+  #define BOUNDS_CHECK true
+
+*/
+</i>
 //#TPT-Directive ElementHeader Element_<b>BCOL</b> static int update(UPDATE_FUNC_ARGS)
 int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS) <i>// Here starts the function that all reactions and movement should be in.</i>
  {
   <b class="code">int r, rx, ry, trade, temp;
-  if (parts[i].life<=0) {
+  if (parts[i]&gt;=0) {
     sim->create_part(i, x, y, PT_FIRE);
     return 1;
-  } else if (parts[i].life < 100) {
+  } else if (parts[i].life &lt; 100) {
     parts[i].life--;
     sim->create_part(-1, x+rand()%3-1, y+rand()%3-1, PT_FIRE);
   }
 
-  for (rx=-2; rx<3; rx++)
-    for (ry=-2; ry<3; ry++)
-      if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
+  for (rx=-2; rx&lt;3; rx++)
+    for (ry=-2; ry&lt;3; ry++)
+      if (x+rx>=0 &amp;&amp; y+ry>0 &amp;&amp; x+rx&lt;XRES &amp;&amp; y+ry&lt;YRES &amp;&amp; (rx || ry))
       {
         r = pmap[y+ry][x+rx];
         if (!r)
           continue;
-        if (((r&0xFF)==PT_FIRE || (r&0xFF)==PT_PLSM) && 1>(rand()%500))
+        if (((r&amp;0xFF)==PT_FIRE || (r&amp;0xFF)==PT_PLSM) &amp;&amp; 1>(rand()%500))
         {
           if (parts[i].life>100) {
             parts[i].life = 99;
           }
         }
-        if ((r&0xFF)==PT_LAVA && 1>(rand()%500))
+        if ((r&amp;0xFF)==PT_LAVA &amp;&amp; 1>(rand()%500))
         {
           if (parts[r>>8].ctype == PT_IRON) {
             parts[r>>8].ctype = PT_METL;
@@ -116,20 +128,20 @@ int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS) <i>// Here starts the function
       }
   /*if(100-parts[i].life > parts[i].tmp2)
     parts[i].tmp2 = 100-parts[i].life;
-  if(parts[i].tmp2 < 0) parts[i].tmp2 = 0;
-  for ( trade = 0; trade<4; trade ++)
+  if(parts[i].tmp2 &lt; 0) parts[i].tmp2 = 0;
+  for ( trade = 0; trade&lt;4; trade ++)
   {
     rx = rand()%5-2;
     ry = rand()%5-2;
-    if (x+rx>=0 && y+ry>0 && x+rx<XRES && y+ry<YRES && (rx || ry))
+    if (x+rx>=0 &amp;&amp; y+ry>0 &amp;&amp; x+rx&lt;XRES &amp;&amp; y+ry&lt;YRES &amp;&amp; (rx || ry))
     {
       r = pmap[y+ry][x+rx];
       if (!r)
         continue;
-      if (((r&0xFF)==PT_COAL || (r&0xFF)==PT_BCOL)&&(parts[i].tmp2>parts[r>>8].tmp2)&&parts[i].tmp2>0)//diffusion
+      if (((r&amp;0xFF)==PT_COAL || (r&amp;0xFF)==PT_BCOL)&amp;&amp;(parts[i].tmp2>parts[r>>8].tmp2)&amp;&amp;parts[i].tmp2>0)//diffusion
       {
         int temp = parts[i].tmp2 - parts[r>>8].tmp2;
-        if(temp < 10)
+        if(temp &lt; 10)
           continue;
         if (temp ==1)
         {
@@ -159,7 +171,7 @@ int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS) <i>// Here starts the func
   
   if (*colr > 170)
     *colr = 170;
-  if (*colr < *colg)
+  if (*colr &lt; *colg)
     *colr = *colg;
     
   *colg = *colb = *colr;
