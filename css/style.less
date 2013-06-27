@@ -82,6 +82,24 @@ i.uno {
 	}
 	i, i.uno, .aside a:first-child, .aside a:nth-child(2) {
 		// Hide some items from the menus..?
-		visibility: hidden;
+		display: none;
 	}
+}
+
+// scrollbar
+::-webkit-scrollbar {
+	background-color: lighten(@backgroundColor, 10%);
+	width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: @textColor;
+}
+
+::-webkit-scrollbar:horizontal {
+	height: 5px;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: lighten(@backgroundColor, 10%);
 }

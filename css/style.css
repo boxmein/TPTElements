@@ -1,13 +1,2 @@
-body{background:#162d3a;font:12px monospace;padding-left:100px;color:#efefef;white-space:pre;max-width:700px;}
-body.about{white-space:pre-wrap;}
-.divider{border-bottom:1px solid rgba(255, 255, 255, 0.01);}
-a{text-decoration:none;color:#67899c;}
-h1{font:2em monospace;margin-bottom:-10px;}
-b{color:#98bacf;font-weight:normal;}
-i{color:#f6ce9d;font-style:normal;}
-i.uno{color:#326684;}
-.aside{position:fixed;top:50px;right:100px;background:#162d3a;width:300px;text-align:left;white-space:pre-line;padding:5px;}
-.aside ul{list-style:none;padding:-5px;margin:0px 0px -12px 0px;white-space:normal;}
-.aside li{list-style-type:none;margin-left:-30px;cursor:pointer;color:#67899c;}
-.aside li:before{content:"- ";}
-@media (max-width:800px){.aside{position:static;} i,i.uno,.aside a:first-child,.aside a:nth-child(2){visibility:hidden;}}
+body{background:#162d3a;font:12px monospace;padding-left:100px;color:#efefef;white-space:pre;max-width:700px}.divider{border-bottom:1px solid rgba(255,255,255,.01)}a{text-decoration:none;color:#67899c}h1{font:2em monospace;margin-bottom:-10px}b{color:#98bacf;font-weight:400}i{color:#f6ce9d;font-style:normal}i.uno{color:#577d92}.aside{position:fixed;top:50px;right:100px;background:#162d3a;width:300px;text-align:left;white-space:pre-line;padding:5px}.aside ul{list-style:none;padding:-5px;margin:0 0 -12px 0;white-space:normal}.aside li{list-style-type:none;margin-left:-30px;cursor:pointer;color:#67899c}.aside li:before{content:"- "}@media (max-width: 800px){.aside{ position:static}i,i.uno,.aside a:first-child,.aside a:nth-child(2){visibility:hidden}}::-webkit-scrollbar{background-color:#244a5f;width:5px}::-webkit-scrollbar-thumb{background-color:#efefef}::-webkit-scrollbar:horizontal{height:5px}::-webkit-scrollbar-corner{background-color:#244a5f}
+/* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */
