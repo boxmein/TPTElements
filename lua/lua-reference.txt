@@ -1,0 +1,506 @@
+luaref.txt
+==========
+
+TPT Lua reference.
+Because, frankly, the Wiki pages are not that good.
+
+Meant to be Ctrl+F-ed or just really painstakingly read through.
+
+Notes
+-----
+
+* The tree below is pretty packed with information. The doc has long lines so it
+  is suggested that you disable word wrap.
+* boolint = integer that acts as a boolean (0 or 1)
+* number = Lua's natural number type, = "real"
+* I'll insert default values or other notes right next to the argument inside 
+  brackets []. 
+* d. is short for default. 
+* 1||2 in tpt.setwindowsize means that the correct value is either 1 or 2, 
+  nothing else.
+* 0:255 means a value between 0 and 255.
+* mixed type means "whatever fits there"
+* NYI: Not Yet Implemented
+* If not explicitly noted, all color values have limits of 0 to 255 (incl. firea/r/g/b, cola/r/g/b) and default to white.
+
+The Big Tree
+------------
+
+
+(global)
+║
+║
+║  -- Legacy Lua API
+║  -- Most, if not every, methods here are covered in other APIs. 
+║  -- Except versions. Those are only accessible here.
+╟ tpt
+║ │
+║ ├─ version
+║ │  ├─ major -- ex. 81
+║ │  ├─ minor -- ex. 0
+║ │  └─ build -- ex. 292
+║ │
+║ ├─ parts [] -- ZERO-INDEXED Array of particles by index (int type; int life, ctype; float x, y, vx, vy; float temp; float pavg[2]; int flags; int tmp; int tmp2; unsigned int dcolour)
+║ ├─ partsdata = nil -- NYI
+║ │
+║ ├─ test                      () -- ??? 
+║ ├─ nil drawtext              (int x, int y, string text) -- => Draws a text string for the next frame
+║ │      ├─                    (int x, int y, string text, int r, int g, int b)
+║ │      └─                    (int x, int y, string text, int r, int g, int b, int a)
+║ │
+║ ├─ int[index] create         (int x, int y) -- => Creates a particle
+║ ├─ nil/int set_pause         (boolint state) -- => Sets the game's "paused" state. (1 = paused). -1 returns the paused state.
+║ ├─ int toggle_pause          () -- => set_pause without state
+║ ├─ nil set_console           (boolint state) -- => Opens or closes the console. (1 = open)
+║ ├─ nil log                   (string text) -- => Outputs to the right side of the console. Use for very small values only.
+║ ├─ nil set_pressure          (int x, int y, int width, int height, int value) -- Sets pressure for given rectangle. [wall coordinates]
+║ ├─ nil set_gravity           (int x, int y) -- => Sets the Newtonian Gravity for a given position. 
+║ │                            (int x, int y, int width, int height)
+║ │                            (int x, int y, int width, int height, int value[d. 0.0])
+║ │
+║ ├─ nil reset_gravity_field   (int x, int y) -- => Sets gravity at (x, y) to 0.0
+║ │      └─                    (int x, int y, int width, int height)
+║ │
+║ ├─ nil reset_velocity        (int x, int y) -- => Sets velocity at (x, y) to 0.0
+║ │      └─                    (int x, int y, int width, int height)
+║ │
+║ ├─ nil reset_spark           () -- => Turns all SPRK into its ctype
+║ ├─ nil set_property          (string property, mixed value) -- [every element]
+║ │      ├─                    (string property, mixed value, string type) -- [elements of 1 type]
+║ │      ├─                    (string property, mixed value, int index) -- [particle via index]
+║ │      ├─                    (string property, mixed value, int index, string type) -- [???]
+║ │      ├─                    (string property, mixed value, int x, int y) -- [particle via position]
+║ │      ├─                    (string property, mixed value, int x, int y, string type) -- [???]
+║ │      ├─                    (string property, mixed value, int x, int y, int width, int height) -- [region]
+║ │      └─                    (string property, mixed value, int x, int y, int width, int height, string type) -- [region, filter via type]
+║ │
+║ ├─ mixed get_property        (string property, int index)
+║ │        └─                  (string property, int x, int y) 
+║ │
+║ ├─ nil set_wallmap           (int x, int y, int value) -- => Set wall at [wall coordinate] x,y
+║ │      └─                    (int x, int y, [NYI:int width, int height,] int value)
+║ │
+║ ├─ int get_wallmap           (int x, int y, [NYI: int width, int height])   -- => Get the wall at [wall coordinates!] x, y
+║ ├─ nil set_elecmap           (int x, int y, int value) -- => Sets the sim->emap value for [wall coordinate] x, y
+║ │      └─                    (int x, int y, [NYI:int width, int height,] int value)
+║ │
+║ ├─ int get_elecmap           (int x, int y) -- => Returns the sim->emap value for [wall coordinate] x, y
+║ ├─ nil drawpixel             (int x, int y) -- => Draws a pixel for the next frame
+║ │      ├─                    (int x, int y, int r, int g, int b)
+║ │      └─                    (int x, int y, int r, int g, int b, int a)
+║ │
+║ ├─ nil drawrect              (int x, int y, int width, int height) -- => Draws a hollow rect for the next frame
+║ │      ├─                    (int x, int y, int width, int height, int red, int green, int blue)
+║ │      └─                    (int x, int y, int width, int height, int red, int green, int blue, int alpha)
+║ │
+║ ├─ nil fillrect              (int x, int y, int width, int height) -- => Draws a filled rect for the next frame
+║ │      ├─                    (int x, int y, int width, int height, int red, int green, int blue)
+║ │      └─                    (int x, int y, int width, int height, int red, int green, int blue, int alpha)
+║ │
+║ ├─ nil drawline              (int x1, int y1, int x2, int y2) -- => Draws a line for the next frame
+║ │      ├─                    (int x1, int y1, int x2, int y2, int red, int green, int blue)
+║ │      └─                    (int x1, int y1, int x2, int y2, int red, int green, int blue, int alpha)
+║ │
+║ ├─ int textwidth             (string text) -- => Find out the width of a string of text in the TPT font
+║ ├─ string get_name           () -- => Returns username
+║ ├─ nil set_shortcuts         (boolint state) -- => Enable/Disable key shortcuts
+║ ├─ nil delete                (int index) -- => Delete particle @ position/index
+║ │      └─                    (int x, int y)
+║ │
+║ ├─ nil register_step         (function onTick) -- => Add a function to be run every tick. Max of 6.
+║ ├─ nil unregister_step       (function onTick) -- => Remove an existing function from running.
+║ ├─ nil register_mouseclick   (function onClick) -- => Add a function to run on mouse click. Arguments: int mousex, int mousey, int button[1:3], int event
+║ ├─ nil unregister_mouseclick (function onClick) -- => Remove ^.
+║ ├─ nil register_keypress     (function onKey) -- => Add a function to run on keypress. Arguments: char key, int keyCode, int modifierKeys, int event
+║ ├─ nil unregister_keypress   (function onKey) -- => Remove ^.
+║ ├─ nil register_mouseevent   -- = register_mouseclick
+║ ├─ nil unregister_mouseevent -- = unregister_mouseclick
+║ ├─ nil register_keyevent     -- = register_keypress
+║ ├─ nil unregister_keyevent   -- = register_keyevent
+║ ├─ string input              (string title, string message) -- Input box for values
+║ ├─ nil message_box           (string title, string message) -- OK box, same as alert() in Javascript
+║ ├─ int get_numOfParts        () -- => Returns the particle count right now (max: 235008)
+║ ├─ nil start_getPartIndex    () -- => Starts an iteration over particle indexes
+║ ├─ bool next_getPartIndex    () -- => True if there's a particle ID coming up next
+║ ├─ int[index] getPartIndex   () -- => Returns current particle index. USE: tpt.start_getPartIndex() while tpt.next_getPartIndex() do i = tpt.getPartIndex() .... end
+║ ├─ nil/int hud               (boolint state) -- => Show/Hide the HUD. (1 = Show). -1 returns current state.
+║ ├─ nil/int newtonian_gravity (boolint state) -- => Set Newtonian Gravity. (1 = On). -1 returns current state.
+║ ├─ nil/int ambient_heat      (boolint state) -- => Set Ambient Heat. (1 = On) -1 returns current state.
+║ ├─ nil/int active_menu       (int menuID)     -- => Set active menu section. -1 returns current state.
+║ ├─ nil/int decorations_enable(boolint state) -- => Toggle decorations. (1 = On) -1 returns current state.
+║ ├─ nil display_mode          (int displayID)  -- => Set Display mode. 
+║ ├─ nil throw_error           (string text) -- => Display an error message.
+║ ├─ nil/int heat                  (boolint state) -- => Toggle Heat. (1 = On) -1 returns current state.
+║ ├─ nil setfire               (int strength[=1]) -- => Set strength of fire effects
+║ ├─ nil setdebug              (int level) -- => Set debug level. 1 is what D produces. 4 or 5 is something more. 
+║ ├─ nil setfpscap             (int maxFPS[=60]) -- => Set max FPS
+║ ├─ nil getscript             (string author, string id) -- => Fetch a script from the TPT Script Index. The index has no known entries as of 24.07.2013.
+║ ├─ nil setwindowsize         (int scale[=1||2, d. 1], boolint fullscreen[=0]) -- => Set window size (scaled and fullscreen)
+║ ├─ int watertest             () -- => Toggle water equalization. Returns current state.
+║ ├─ nil screenshot            () -- => Take a screenshot and save it as screenshot_####.png
+║ ├─ int/string element        (string element) -- => Return element ID from string
+║ │             └─             (int id) -- => Return string from element ID
+║ │
+║ ├─ nil element_func          (int elementID, function onElement) -- => Make a particle update function. Arguments: int index, int x, int y, int surround_space, int nt. Return: 1 if particle killed
+║ │      └─                    (int elementID, function onElement, bool replace) -- => Replace the previous update function.
+║ │
+║ └─ nil graphics_func         (int elementID, function onDraw) -- => Make an element look fancy. Arguments: int index, int colr, int colg, int colb. Return: boolint cache, int pixel_mode, int cola, int colr, int colg, int colb, int firea, int firer, int fireg, and int fireb.
+║ 
+║  -- Elements API
+║  -- Everything to do with elements, adding them, modifying them, ...
+║  --
+║  
+╟ elements (elem)
+║ │ 
+║ │ 
+║ ├─ TYPE_PART
+║ ├─ TYPE_LIQUID
+║ ├─ TYPE_SOLID
+║ ├─ TYPE_GAS
+║ ├─ TYPE_ENERGY
+║ │ 
+║ ├─ PROP_CONDUCTS
+║ ├─ PROP_BLACK
+║ ├─ PROP_NEUTPENETRATE
+║ ├─ PROP_NEUTABSORB
+║ ├─ PROP_NEUTPASS
+║ ├─ PROP_DEADLY
+║ ├─ PROP_HOT_GLOW
+║ ├─ PROP_LIFE
+║ ├─ PROP_RADIOACTIVE
+║ ├─ PROP_LIFE_DEC
+║ ├─ PROP_LIFE_KILL
+║ ├─ PROP_LIFE_KILL_DEC
+║ ├─ PROP_SPARKSETTLE
+║ ├─ PROP_NOAMBHEAT
+║ ├─ PROP_DRAWONCTYPE -- Like CLNE, can draw onto it and it'll set the ctype
+║ ├─ PROP_NOCTYPEDRAW -- Cannot be drawn as a ctype. Stuff like EMBR are here.
+║ │ 
+║ ├─ FLAG_STAGNANT
+║ ├─ FLAG_SKIPMOVE
+║ ├─ FLAG_MOVABLE
+║ │ 
+║ ├─ ST_NONE
+║ ├─ ST_SOLID
+║ ├─ ST_LIQUID
+║ ├─ ST_GAS
+║ │
+║ ├─ SC_WALL
+║ ├─ SC_ELEC
+║ ├─ SC_POWERED
+║ ├─ SC_SENSOR
+║ ├─ SC_FORCE
+║ ├─ SC_EXPLOSIVE
+║ ├─ SC_GAS
+║ ├─ SC_LIQUID
+║ ├─ SC_POWDERS
+║ ├─ SC_SOLIDS
+║ ├─ SC_NUCLEAR
+║ ├─ SC_SPECIAL
+║ ├─ SC_LIFE
+║ ├─ SC_TOOL
+║ ├─ SC_DECO
+║ │
+║ ├─ DEFAULT_PT_[DUST] -- One for every element. Stores their ID.
+║ │
+║ ├─ int allocate              (string namespace, string name) -- => Sets up a space for a new element. Returns new element ID. Creates key elements.NAMESPACE_PT_NAME for the ID. 
+║ ├─ nil free                  (int elementID) -- => Deletes a given element from existence.
+║ ├─ nil loadDefault           () -- => Deletes all new elements. Restores all default elements.
+║ ├─ nil/table element         (int elementID) -- => Returns a table with the element's properties, to modify and set further on
+║ │            └─              (int elementID, table properties) -- => Sets _all_ the properties of an element to ones from the table. Useful for element cloning.
+║ └─ nil/mixed property        (int elementID, string property) -- => Returns an element's single property.
+║              └─              (int elementID, string property, mixed value) -- => Sets an element's single property to value.
+║
+║  -- Simulation API
+║  -- Everything to do with particles, pressure, heat, gravity, resetting temperature, whatnot.
+║  --
+║  
+╟ simulation (sim)
+║ │
+║ ├─ table partNeighbours      (int x, int y, int radius) -- => Find list of particles around center particle, in radius.
+║ │        partNeighbors       (int x, int y, int radius, int type)
+║ ├─ nil partChangeType        (int index, int type) -- => Change particle type. Better than setting .type for special cases.
+║ ├─ nil partCreate            (int x, int y, int type) -- => Create a particle. 
+║ ├─ nil/mixed partProperty    (int index, string field) -- => Get/set a property on a particle.
+║ │            └─              (int index, string field, mixed value) 
+║ ├─ int, int partPosition     (int index) -- => Get x,y from index
+║ ├─ int partID                (int x, int y) -- => Get index from x, y
+║ ├─ nil partKill              (int index) -- => Delete a particle properly
+║ │      └─                    (int x, int y)
+║ ├─ nil/int pressure          (int x, int y) -- => Get/set pressure at [wall coordinates] x,y
+║ │          ├─                (int x, int y, int value)
+║ │          └─                (int x, int y, int width, int height, int value)
+║ ├─ nil/int ambientHeat       (int x, int y) -- => Get/set ambient heat at [wall coordinates] x,y
+║ │          ├─                (int x, int y, int value)
+║ │          └─                (int x, int y, int width, int height, int value)
+║ ├─ nil/int velocityX         (int x, int y) -- => Get/set velocity (x) at [wall coordinates] x,y
+║ │          ├─                (int x, int y, int value)
+║ │          └─                (int x, int y, int width, int height, int value)
+║ ├─ nil/int velocityY         (int x, int y) -- => Get/set velocity (y) at [wall coordinates] x,y
+║ │          ├─                (int x, int y, int value)
+║ │          └─                (int x, int y, int width, int height, int value)
+║ ├─ nil/int gravMap           (int x, int y) -- => Get/set gravity at [wall coordinates] x,y
+║ │          ├─                (int x, int y, int value)
+║ │          └─                (int x, int y, int width, int height, int value)
+║ ├─ int createParts           (int cx, int cy, int rx[=d. 5], int ry[=d. 5], 
+║ │                             int type[=d. selectedl], int brush[=d. circle], int flags[=d. replace flags]) 
+║ │                             -- => Creates multiple particles (like drawing with a brush!) Set rx and ry to horizontal and vertical radius (ellipse brush). Returns count of affected.
+║ ├─ int createLine            (int x1, int y1, int x2, int y2, int rx, int ry, -- => Create line with createParts. Returns count of affected.
+║ │                             int type[=d. selectedl], int brush[=d. circle], int flags[=d. replace flags])
+║ ├─ int createBox             (int x1, int y1, int x2, int y2, int type[=d. selectedl], int flags[=d. replace flags]) -- => Filled box. Returns count of affected.
+║ ├─ int floodParts            (int x, int y, int type, int cm, int flags[=d. replace flags]) -- => Flood like ctrl+shift+click. Returns count of affected.
+║ ├─ int createWalls           (int cx, int cy, int rx[=d. 0], int ry[=d. 0], int type[=d. 8]) -- => Create walls. (wall types go from right to left, 1 for rightmost not delete). Returns count of affected.
+║ ├─ nil createWallLine        (int x1, int y1, int x2, int y2, int rx, int ry, int type[=d. 8]) -- => Create line with createParts                     
+║ ├─ nil createWallBox         (int x1, int y1, int x2, int y2, int type[=d. 8]) -- => Wall boxes!
+║ ├─ int floodWalls            (int x, int y, int type[=d. 8], int bm) -- => Flood walls! Returns count of affected.
+║ ├─ int toolBrush             (int x, int y, int rx, int ry, int tool, int brush[=d. circle]) -- => Apply a tool (AIR, VACU, GRAV, HEAT)
+║ ├─ nil toolLine              (int x1, int y1, int x2, int y2, int rx, int ry, int tool, int brush[=d. circle]) -- => Tool brush with line
+║ ├─ nil toolBox               (int x1, int y1, int x2, int y2, int tool, float strength[=d. 1.0]) -- => Tool via box
+║ ├─ nil decoBrush             (int x, int y, int rx, int ry, int r, int g, int b, int a, int tool[=d. DECO_DRAW], int brush[=d. circle]) -- => Draw decorations
+║ ├─ nil decoLine              (int x, int y, int rx, int ry, int r, int g, int b, int a, int tool[=d. DECO_DRAW], int brush[=d. circle])
+║ ├─ nil decoBox               (int x1, int y1, int x2, int y2, int rx[unused], int ry[unused], int r, int g, int b, int a, int tool) -- => Decorations as a box
+║ ├─ nil decoColor             () -- => Get/Set currently selected deco colour   
+║ │  nil decoColour            (int colour[=d. 0xFFFF0000]) -- (0xAARRGGBB)
+║ ├─ nil clearSim              () -- => Clear
+║ ├─ nil resetTemp             () -- => Resets heat of every particle OR every conductor particle (for PTCT/NTCT, metal heating, TUNG, ....)
+║ │      └─                    (boolint onlyConductives)
+║ │
+║ ├─ nil resetPressure         () -- => Resets pressure everywhere / at x, y / as a box
+║ │      ├─                    (int x, int y)  
+║ │      └─                    (int x1, int y1, int width, int height)
+║ │
+║ ├─ string saveStamp          (int x, int y, int width, int height) -- => Saves a stamp and returns its cryptic name
+║ ├─ nil/int loadStamp         (mixed id, int x, int y) -- => Loads a stamp and places it at x, y. ID can be char[10] or integer. Note: paused state is ignored! 1 if not OK, nil otherwise.
+║ ├─ nil loadSave              (int saveID, int timehistory) -- => Loads a save or its previous variant at the time (in exact seconds!) it was saved.
+║ ├─ nil/int getSaveID         () -- => Returns the current save's ID.
+║ ├─ int, int adjustCoords     (int x, int y) -- => Translates the coordinates somehow, returns new ones
+║ ├─ nil/int prettyPowders     () -- => Gets/Sets the powder noise thing
+║ │          └─                (boolint state)
+║ ├─ nil/int gravityGrid       () -- => Gets/Sets the gravity dot thing
+║ │          └─                (boolint state)
+║ ├─ nil/int edgeMode          () -- => Gets/Sets the edge mode. 0 = Void. 1 = Solid.
+║ │          └─                (int mode)
+║ ├─ nil/int gravityMode       () -- => Gets/Sets gravity mode. Vertical, Radial, Off, in some order.
+║ │          └─                (int mode)
+║ ├─ nil/int airMode           () -- => Gets/Sets the air mode. On, No Velocity, No Pressure, No Update, Off in some order.
+║ │          └─                (int mode)
+║ ├─ waterEqualisation         () -- => Gets/Sets water equalization.
+║ │  waterEqualization         (boolint state) 
+║ ├─ nil/int ambientAirTemp    () -- => Gets/Sets Ambient Heat mode's air temperature. Default: 293.15
+║ │          └─                (int temp)
+║ ├─ int elementCount          (int type) -- => Returns the count of a given particle.
+║ ├─ ? parts                   () -- => ?
+║ ├─ ? pmap                    (int x, int y) -- => Returns particle at (x, y). Same as PartID. 
+║ └─ neighbours                (int x, int y, int rx, int ry) -- => ? 
+║     neighbors
+║
+║  -- Renderer API
+║  -- Everything to do with how particles look.
+║ 
+║  
+╟ renderer (ren) 
+║ │
+║ │
+║ ├─ PMODE     -- Pixel drawing modes.
+║ ├─ PMODE_NONE
+║ ├─ PMODE_FLAT
+║ ├─ PMODE_BLOB
+║ ├─ PMODE_BLUR
+║ ├─ PMODE_GLOW
+║ ├─ PMODE_SPARK
+║ ├─ PMODE_FLARE
+║ ├─ PMODE_LFLARE
+║ ├─ PMODE_ADD
+║ ├─ PMODE_BLEND
+║ │
+║ ├─ PSPEC_STICKMAN
+║ ├─ OPTIONS
+║ ├─ NO_DECO
+║ │
+║ ├─ DECO_FIRE
+║ ├─ FIREMODE
+║ ├─ FIRE_ADD
+║ ├─ FIRE_BLEND
+║ │
+║ ├─ EFFECT
+║ ├─ EFFECT_GRAVIN
+║ ├─ EFFECT_GRAVOUT
+║ ├─ EFFECT_LINES
+║ ├─ EFFECT_DBGLINES
+║ ├─ 
+║ ├─ RENDER_EFFE
+║ ├─ RENDER_FIRE
+║ ├─ RENDER_GLOW
+║ ├─ RENDER_BLUR
+║ ├─ RENDER_BLOB
+║ ├─ RENDER_BASC
+║ ├─ RENDER_NONE
+║ │
+║ ├─ COLOUR_HEAT
+║ ├─ COLOUR_LIFE
+║ ├─ COLOUR_GRAD
+║ ├─ COLOUR_BASC
+║ ├─ COLOUR_DEFAULT
+║ │
+║ ├─ DISPLAY_AIRC
+║ ├─ DISPLAY_AIRP
+║ ├─ DISPLAY_AIRV
+║ ├─ DISPLAY_AIRH
+║ ├─ DISPLAY_AIR
+║ ├─ DISPLAY_WARP
+║ ├─ DISPLAY_PERS
+║ ├─ DISPLAY_EFFE
+║ │
+║ ├─ nil/table renderModes     () -- => Get/set the render mode table
+║ │            └─              (table renderModeTable) 
+║ ├─ nil/table displayModes    () -- => Get/set the display mode table
+║ │            └─              (table displayModeTable) 
+║ ├─ nil/int colourMode        () -- => Get/set color mode
+║ │  colorMode                 (int colourMode) 
+║ ├─ nil/boolint decorations   () -- => Get or set whether decorations are enabled.
+║ │              └─            (boolint state)
+║ ├─ nil/int grid              () -- => Get or set the grid display size
+║ │          └─                (int size) 
+║ └─ nil/int debugHUD          () -- => Get or set the Debug HUD level
+║            └─                (int level)
+║  
+║  -- Graphics API
+║  -- Drawing other stuff onto the screen, like text or boxes.
+║  
+║  
+╟ graphics (gfx)
+║ │ 
+║ ├─ WIDTH -- => YRES + MENUSIZE
+║ ├─ HEIGHT -- => XRES + BARSIZE
+║ │ 
+║ ├─ int textSize              (string text) -- => Get width of string in TPT font.  
+║ ├─ nil drawText              (int x, int y, string text) -- => Draw text for one frame, every colour value defaults to 255
+║ │      └─                    (int x, int y, string text, int r, int g, int b, int a)
+║ │ 
+║ ├─ nil drawLine              (int x1, int x2, int y1, int y2) -- Draws a line for one frame, colours default to 255
+║ │      └─                    (int x1, int y1, int x2, int y2, int r, int g, int b, int a)
+║ ├─ nil drawRect              (int x, int y, int width, int height) -- => Draws a hollow rect for the next frame
+║ │      └─                    (int x, int y, int width, int height, int r, int g, int b)
+║ ├─ nil fillRect              (int x, int y, int width, int height) -- => Draws a filled rect for the next frame
+║ │      └─                    (int x, int y, int width, int height, int r, int g, int b, int a)
+║ ├─ nil drawCircle            (int cx, int cy, int rx, int ry) -- => Draws an ellipse with two radiuses and a center point
+║ │      └─                    (int cx, int cy, int rx, int ry, int r, int g, int b, int a)
+║ └─ nil fillCircle            (int cx, int cy, int rx, int ry) -- => Draws an ellipse with two radiuses and a center point
+║        └─                    (int cx, int cy, int rx, int ry, int r, int g, int b, int a)
+║ 
+║  -- Filesystem API
+║  -- Funnest API yet.
+║  -- 
+║  
+╟ fileSystem (fs)
+║ │ 
+║ ├─ nil/table list            (string folder) -- => Lists the contents of a directory, be it other directories or files.
+║ ├─ bool exists               (string path)
+║ ├─ bool isFile               (string path) 
+║ ├─ bool isDirectory          (string path) 
+║ ├─ bool makeDirectory        (string path) -- Returns true on success.
+║ ├─ bool removeDirectory      (string path) -- Returns true on success.
+║ ├─ bool removeFile           (string path) -- Returns true on success.
+║ ├─ bool move                 (string path, string newPath)
+║ └─ bool copy                 (string path, string newPath)
+║ 
+║  -- Interface API
+║  -- Oh no. 
+║  -- If you ever make sense of this you have my congratulations.
+║ 
+╟ interface (ui)
+║ │ 
+║ ├─ showWindow                (Window w) -- => Opens a Window.
+║ ├─ closeWindow               (Window w) -- => Closes a Window.
+║ ├─ addComponent              (Component c) -- => Adds a Component to the main window.
+║ ├─ removeComponent           (Component c) -- => Removes a Component from the main window.
+║ │  
+║ ├─ Component -- Generic class for utilities
+║ │  ├─ nil/bool :visible      () -- Gets/sets whether the component is visible
+║ │  │           └─            (bool visible)
+║ │  │
+║ │  ├─ nil/int,int :size      () -- Gets/sets the component's size
+║ │  │              └─         (int width, int height)
+║ │  │
+║ │  └─ nil/int,int :position  () -- Gets/sets the component's position
+║ │                 └─         (int x1, int y1)
+║ │ 
+║ ├─ Button
+║ │  │
+║ │  ├─ Button :new            (int x, int y, int width, int height) -- => Creates a new button. Event listener needs to be attached later.
+║ │  │         └─              (int x, int y, int width, int height, string text, string tooltip)
+║ │  ├─ nil :action            (function onClick) -- => Attaches an event listener. Arguments: Button sender
+║ │  ├─ nil/string :text       () -- => Gets/sets the button's text
+║ │  │             └─          (string text) 
+║ │  └─ nil/bool :enabled      () -- => Get/set the button's enabled state
+║ │              └─            (bool state) 
+║ │
+║ ├─ ProgressBar
+║ │  │
+║ │  │
+║ │  ├─ ProgressBar :new       (int x, int y, int width, int height, int progress, string status) -- => Creates a new instance.
+║ │  ├─ nil/int :progress      () -- => Gets/sets the progress bar progress [0:100] -1 makes it scroll right slowly.
+║ │  │          └─             (int progress) 
+║ │  └─ nil/string :status     () -- => Gets/sets the progress bar's status text.
+║ │                └─          (string status)
+║ │ 
+║ ├─ Slider
+║ │  │
+║ │  ├─ Slider :new            (int x, int y, int width, int height) -- => Creates a new instance. Specify the event listener and handler later on.
+║ │  ├─ nil :onValueChanged    (function onChange) -- => Attaches a onChanged event handler. Arguments: sender, value
+║ │  ├─ nil/int :value         () -- => Gets/sets its value. 
+║ │  │          └─             (int value) 
+║ │  └─ nil/int :steps         () -- => Gets/sets the amount of 'steps' the slider has.
+║ │             └─             (int steps) 
+║ │ 
+║ ├─ Checkbox
+║ │  │
+║ │  ├─ Checkbox :new          (int x, int y, int width, int height, [string text = ""]) -- => Creates a new instance.
+║ │  ├─ nil :action            (function onChange) -- => Arguments: sender, value
+║ │  ├─ nil/string :text       () -- => Gets/sets its text. 
+║ │  │             └─          (string text) 
+║ │  └─ nil/int :checked       () -- => Gets/sets its checked state. 
+║ │             └─             (int checked) 
+║ │    
+║ │ 
+║ ├─ Label
+║ │  │
+║ │  ├─ Label :new             (int x, int y, int width, int height, [string text = ""])
+║ │  └─ nil/string :text       () -- => Gets/sets its text. 
+║ │                └─          (string text) 
+║ │    
+║ │ 
+║ ├─ Textbox
+║ │  │
+║ │  ├─ Textbox :new           (int x, int y, int width, int height [, string text = "" [, string placeholder = "" ]])
+║ │  ├─ nil :onTextChanged     (function onChange) -- => Arguments: sender
+║ │  ├─ nil/bool   :readonly   () -- => Gets/sets its readonly state. 
+║ │  │             └─          (string readonly) 
+║ │  └─ nil/string :text       () -- => Gets/sets its text. 
+║ │                └─          (string text) 
+║ │ 
+║ │ 
+║ └─ Window
+║    │
+║    ├─ Window :new            (int x, int y, int width, int height) -- => A container element for components. Set x/y to -1 to center.
+║    │ 
+║    ├─ nil :addComponent      (Component c) -- => Adds a Component to the Window.
+║    └─ nil :removeComponent   (Component c) -- => Removes a Component from the Window.
+╙ bit
+  │ 
+  ├─ int tobit                 (int input) -- => Normalize for binary operations. Unneeded if you use bit.* functions.s
+  ├─ string tohex              (int input, int length) -- => Generate a hex string from the input.
+  │ 
+  ├─ int bnot                  (int input) -- => Performs bitwise NOT (~input)
+  ├─ int band                  (int... input) -- => Performs bitwise AND (input&input) over all arguments.
+  ├─ int bor                   (int... input) -- => Performs bitwise OR (input|input) over all arguments. 
+  ├─ int bxor                  (int... input) -- => Performs bitwise XOR (input^input) over all arguments. 
+  │ 
+  ├─ int lshift                (int input, int count) -- => Performs a leftwards bit shift (input << count). 
+  ├─ int rshift                (int input, int count) -- => Performs a rightwards bit shift (input >> count). 
+  ├─ int arshift               (int input, int count) -- => Performs a rightwards arithmetic bit shift (input >>> count). 
+  │ 
+  ├─ int rol                   (int input, int count) -- => Rotates a bit right by count bits. 
+  ├─ int ror                   (int input, int count) -- => Rotates a bit right by count bits. 
+  │ 
+  └─ int bswap                 (int input) -- => Swaps endianness of the number.
