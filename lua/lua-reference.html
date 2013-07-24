@@ -32,6 +32,7 @@
   <a href="#filesystem">- filesystem.*</a>
   <a href="#interface">- interface.*</a>
   <a href="#bit">- bit.*</a>
+  <a href="#boolint">- boolint ?!</a>
 </div>
 <pre><code class="content">
 luaref.txt
@@ -47,7 +48,7 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 
 * The tree below is pretty packed with information. The doc has long lines so it
   is suggested that you disable word wrap.
-* <b>boolint</b> = integer that acts as a boolean (0 or 1)
+* <b id="boolint">boolint</b> = integer that acts as a boolean (0 or 1)
 * <b>number</b> = Lua's natural number type, = "real"
 * I'll insert default values or other notes right next to the argument inside 
   brackets <b>[]</b>. 
@@ -170,7 +171,7 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 │ ├─ nil throw_error           (string text) <i>-- =&gt; Display an error message.</i>
 │ ├─ nil/int heat                  (boolint state) <i>-- =&gt; Toggle Heat. (1 = On) -1 returns current state.</i>
 │ ├─ nil setfire               (int strength<b>[=1]</b>) <i>-- =&gt; Set strength of fire effects</i>
-│ ├─ nil setdebug              (int level) <i>-- =&gt; Set debug level. 1 is what D produces. 4 or 5 is something more. </i>
+│ ├─ nil setdebug              (int level) <i>-- =&gt; Deprecated:  Set debug level. 1 is what D produces. 4 or 5 used to be something awesome.</i>
 │ ├─ nil setfpscap             (int maxFPS<b>[=60]</b>) <i>-- =&gt; Set max FPS</i>
 │ ├─ nil getscript             (string author, string id) <i>-- =&gt; Fetch a script from the TPT Script Index. The index has no known entries as of 24.07.2013.</i>
 │ ├─ nil setwindowsize         (int scale<b>[=1||2, d. 1]</b>, boolint fullscreen<b>[=0]</b>) <i>-- =&gt; Set window size (scaled and fullscreen)</i>
@@ -318,7 +319,7 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 │ │  <i>-- ID can be char<b>[10]</b> or integer. Note: paused state is ignored! 1 if not OK, nil otherwise.</i>
 │ ├─ nil loadSave              (int saveID, int timehistory) <i>-- =&gt; Loads a save or its previous variant at the time (in exact seconds!) it was saved.</i>
 │ ├─ nil/int getSaveID         () <i>-- =&gt; Returns the current save's ID.</i>
-│ ├─ int, int adjustCoords     (int x, int y) <i>-- =&gt; Translates the coordinates somehow, returns new ones</i>
+│ ├─ int, int adjustCoords     (int x, int y) <i>-- =&gt; Translates the coordinates for the zoom window</i>
 │ ├─ nil/int prettyPowders     () <i>-- =&gt; Gets/Sets the powder noise thing</i>
 │ │          └─                (boolint state)
 │ ├─ nil/int gravityGrid       () <i>-- =&gt; Gets/Sets the gravity dot thing</i>
@@ -406,7 +407,7 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 │ │              └─            (boolint state)
 │ ├─ nil/int grid              () <i>-- =&gt; Get or set the grid display size</i>
 │ │          └─                (int size) 
-│ └─ nil/int debugHUD          () <i>-- =&gt; Get or set the Debug HUD level</i>
+│ └─ nil/int debugHUD          () <i>-- =&gt; Get/set whether or not debug HUD is visible. Replacement for tpt.setdebug</i>
 │            └─                (int level)
 │  
 │  <i id="graphics">-- Graphics API</i>

@@ -132,7 +132,7 @@ The Big Tree
 ║ ├─ nil throw_error           (string text) -- => Display an error message.
 ║ ├─ nil/int heat                  (boolint state) -- => Toggle Heat. (1 = On) -1 returns current state.
 ║ ├─ nil setfire               (int strength[=1]) -- => Set strength of fire effects
-║ ├─ nil setdebug              (int level) -- => Set debug level. 1 is what D produces. 4 or 5 is something more. 
+║ ├─ nil setdebug              (int level) -- => Deprecated: Set debug level. Use renderer.debugHUD(state)
 ║ ├─ nil setfpscap             (int maxFPS[=60]) -- => Set max FPS
 ║ ├─ nil getscript             (string author, string id) -- => Fetch a script from the TPT Script Index. The index has no known entries as of 24.07.2013.
 ║ ├─ nil setwindowsize         (int scale[=1||2, d. 1], boolint fullscreen[=0]) -- => Set window size (scaled and fullscreen)
@@ -273,7 +273,7 @@ The Big Tree
 ║ ├─ nil/int loadStamp         (mixed id, int x, int y) -- => Loads a stamp and places it at x, y. ID can be char[10] or integer. Note: paused state is ignored! 1 if not OK, nil otherwise.
 ║ ├─ nil loadSave              (int saveID, int timehistory) -- => Loads a save or its previous variant at the time (in exact seconds!) it was saved.
 ║ ├─ nil/int getSaveID         () -- => Returns the current save's ID.
-║ ├─ int, int adjustCoords     (int x, int y) -- => Translates the coordinates somehow, returns new ones
+║ ├─ int, int adjustCoords     (int x, int y) -- => Translates the coordinates for the zoom window, returns new ones
 ║ ├─ nil/int prettyPowders     () -- => Gets/Sets the powder noise thing
 ║ │          └─                (boolint state)
 ║ ├─ nil/int gravityGrid       () -- => Gets/Sets the gravity dot thing
@@ -361,7 +361,7 @@ The Big Tree
 ║ │              └─            (boolint state)
 ║ ├─ nil/int grid              () -- => Get or set the grid display size
 ║ │          └─                (int size) 
-║ └─ nil/int debugHUD          () -- => Get or set the Debug HUD level
+║ └─ nil/int debugHUD          () -- => Get or set whether the Debug HUD is enabled.
 ║            └─                (int level)
 ║  
 ║  -- Graphics API
