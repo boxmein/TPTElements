@@ -43,6 +43,9 @@ The Big Tree
 ║ ├─ parts [] -- ZERO-INDEXED Array of particles by index (int type; int life, ctype; float x, y, vx, vy; float temp; float pavg[2]; int flags; int tmp; int tmp2; unsigned int dcolour)
 ║ ├─ partsdata = nil -- NYI
 ║ │
+║ ├─ el -- Covered under #properties below.
+║ │  ├─ dust
+║ │  └─ ....
 ║ ├─ test                      () -- ??? 
 ║ ├─ nil drawtext              (int x, int y, string text) -- => Draws a text string for the next frame
 ║ │      ├─                    (int x, int y, string text, int r, int g, int b)
@@ -301,30 +304,30 @@ The Big Tree
 ╟ renderer (ren) 
 ║ │
 ║ │
-║ ├─ PMODE     -- Pixel drawing modes.
-║ ├─ PMODE_NONE
-║ ├─ PMODE_FLAT
-║ ├─ PMODE_BLOB
-║ ├─ PMODE_BLUR
-║ ├─ PMODE_GLOW
-║ ├─ PMODE_SPARK
-║ ├─ PMODE_FLARE
-║ ├─ PMODE_LFLARE
-║ ├─ PMODE_ADD
-║ ├─ PMODE_BLEND
+║ ├─ PMODE          -- Pixel drawing modes. See http://powdertoy.co.uk/System/External/MediaWiki/images/a/a3/Particle_Drawing_Modes.png
+║ ├─ PMODE_NONE     -- Invisible
+║ ├─ PMODE_FLAT     -- Regular like Basic view
+║ ├─ PMODE_BLOB     -- Blurry like Blob view
+║ ├─ PMODE_BLUR     -- Blurry like wtrv
+║ ├─ PMODE_GLOW     -- Glowy like PLUT with fancy view
+║ ├─ PMODE_SPARK    -- Sparks used to be drawn more fancily
+║ ├─ PMODE_FLARE    -- Flare like BOMB
+║ ├─ PMODE_LFLARE   -- Large flare like DEST
+║ ├─ PMODE_ADD      -- If particles are stacking then adds up the colours
+║ ├─ PMODE_BLEND    -- Weaker than the above, does blendy magic.
 ║ │
-║ ├─ PSPEC_STICKMAN
-║ ├─ OPTIONS
-║ ├─ NO_DECO
+║ ├─ PSPEC_STICKMAN -- Only works for STKM, shows them as STKM
+║ ├─ OPTIONS        -- 
+║ ├─ NO_DECO        -- politely refuses decorations be drawn upon it
 ║ │
-║ ├─ DECO_FIRE
-║ ├─ FIREMODE
-║ ├─ FIRE_ADD
-║ ├─ FIRE_BLEND
+║ ├─ DECO_FIRE      -- enables changing the blur colour via deco
+║ ├─ FIREMODE       -- 
+║ ├─ FIRE_ADD       -- A pixel mode that makes it drawn like a fire particle. 
+║ ├─ FIRE_BLEND     -- ^ with blendy magic.
 ║ │
 ║ ├─ EFFECT
-║ ├─ EFFECT_GRAVIN
-║ ├─ EFFECT_GRAVOUT
+║ ├─ EFFECT_GRAVIN  -- Enables what PRTI does, however more life/ctype magic may be needed
+║ ├─ EFFECT_GRAVOUT -- ^ for PRTO
 ║ ├─ EFFECT_LINES
 ║ ├─ EFFECT_DBGLINES
 ║ ├─ 
@@ -336,19 +339,19 @@ The Big Tree
 ║ ├─ RENDER_BASC
 ║ ├─ RENDER_NONE
 ║ │
-║ ├─ COLOUR_HEAT
-║ ├─ COLOUR_LIFE
-║ ├─ COLOUR_GRAD
-║ ├─ COLOUR_BASC
-║ ├─ COLOUR_DEFAULT
+║ ├─ COLOUR_HEAT    -- What particle colors get drawn as. This is like Heat view.
+║ ├─ COLOUR_LIFE    -- Like Life display 
+║ ├─ COLOUR_GRAD    -- Like Heat Gradient display
+║ ├─ COLOUR_BASC    -- Like Basic display
+║ ├─ COLOUR_DEFAULT -- Default whatever
 ║ │
-║ ├─ DISPLAY_AIRC
-║ ├─ DISPLAY_AIRP
-║ ├─ DISPLAY_AIRV
-║ ├─ DISPLAY_AIRH
+║ ├─ DISPLAY_AIRC  
+║ ├─ DISPLAY_AIRP   -- Display air pressure
+║ ├─ DISPLAY_AIRV   -- Display air velocity
+║ ├─ DISPLAY_AIRH   -- Display air heat
 ║ ├─ DISPLAY_AIR
-║ ├─ DISPLAY_WARP
-║ ├─ DISPLAY_PERS
+║ ├─ DISPLAY_WARP   -- Enable gravity wells
+║ ├─ DISPLAY_PERS   -- Display Persistent lines
 ║ ├─ DISPLAY_EFFE
 ║ │
 ║ ├─ nil/table renderModes     () -- => Get/set the render mode table
@@ -366,7 +369,7 @@ The Big Tree
 ║  
 ║  -- Graphics API
 ║  -- Drawing other stuff onto the screen, like text or boxes.
-║  
+║  --  
 ║  
 ╟ graphics (gfx)
 ║ │ 
@@ -504,3 +507,99 @@ The Big Tree
   ├─ int ror                   (int input, int count) -- => Rotates a bit right by count bits. 
   │ 
   └─ int bswap                 (int input) -- => Swaps endianness of the number.
+
+
+Properties
+----------
+
+An element has many properties as seen above in the tpt.parts[] array definition. 
+I've copied the list below for reference.
+
+Elements
+~~~~~~~~
+
+* Note: mul stands for multiplier. Used to determine the end result by
+  multiplying it to the determined one before application.
+* A range [0:x] without a second element [0:] means it can go on however much.
+
+tpt.el.[inst].*
+  │
+  ├─ char[4] name 
+  ├─ int color          -- 0xAARRGGBB (Element menu uses 0xRRGGBB## !!)
+  ├─ float advection    -- [d. 1f:0f] 
+  ├─ float airdrag      -- [d. 1f:0f] 
+  ├─ float airloss      -- [d. 1f:0f] 
+  ├─ float loss         -- [d. 1f:0f] 
+  ├─ float collision    -- [mul: 0f]
+  ├─ float gravity      -- [signed: 0f] 
+  ├─ float diffusion    -- [mul: 0f]
+  ├─ float hotair       -- [mul: 0f]
+  ├─ int falldown       -- [0:solid||1:powder||2:liquid]
+  ├─ int flammable      -- [d. 0f:]
+  ├─ int explosive      -- [0:no||1:fire||2:fire/2.5pressure]
+  ├─ boolint meltable   
+  ├─ int hardness  
+  ├─ boolint menu    
+  ├─ boolint enabled 
+  ├─ int weight    
+  ├─ int menusection 
+  ├─ float heat         -- [0f:10000f] in Kelvin (Celsius-273.15)
+  ├─ int hconduct       -- [0:250]
+  ├─ int state          -- use state constants in elements.ST_* 
+  ├─ int properties     -- use constants in elements.*
+  └─ char * description
+
+elements.property(*
+  │
+  ├─ string Name
+  ├─ int Colour/Color
+  ├─ boolint MenuVisible
+  ├─ int MenuSection
+  ├─ float Advection
+  ├─ float AirDrag
+  ├─ float AirLoss
+  ├─ float Loss
+  ├─ float Collision
+  ├─ float Gravity
+  ├─ float Diffusion
+  ├─ float HotAir
+  ├─ int Falldown
+  ├─ boolint Flammable
+  ├─ int Explosive
+  ├─ boolint Meltable
+  ├─ float Hardness
+  ├─ int Weight
+  ├─ int Temperature
+  ├─ int HeatConduct
+  ├─ string Description
+  ├─ int State
+  ├─ int Properties
+  ├─ int LowPressure
+  ├─ element LowPressureTransition
+  ├─ int HighPressure
+  ├─ element HighPressureTransition
+  ├─ int LowTemperature
+  ├─ element LowTemperatureTransition
+  ├─ int HighTemperature
+  ├─ element HighTemperatureTransition
+  ├─ function Update
+  └─ function Graphics  
+
+Particles
+~~~~~~~~~
+
+(particle)
+  │
+  ├─ int type
+  ├─ int life
+  ├─ int ctype
+  ├─ float x
+  ├─ float y
+  ├─ float vx
+  ├─ float vy
+  ├─ float temp
+  ├─ float pavg[2]
+  ├─ int flags
+  ├─ int tmp
+  ├─ int tmp2
+  └─ unsigned int dcolour
