@@ -15,6 +15,7 @@
 </head>
 <body>
 <h1>TPTElements - Lua reference</h1>
+-- <a href="../index.html">C++ version</a> - <a href="#">Lua version</a> - <a href="../c/">C version</a> - <a href="../reference.html">Reference</a> - <a href="lua-reference.html">Lua reference</a>
 -- This is a pretty complete reference of the Powder Toy Lua API. 
 -- Comments can be hidden.
 -- Use Ctrl+F to find content.
@@ -538,6 +539,20 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 │    │
 │    ├─ Window :new            (int x, int y, int width, int height) <i>-- =&gt; A container element for components. Set x/y to -1 to center.</i>
 │    │ 
+│    ├─ nil :onInitialized     (function func) -- => Function listener for initialization. No arguments.
+│    ├─ nil :onTick            (function func) -- => Every tick. No arguments.
+│    ├─ nil :onExit            (function func) -- => When the window closes. No arguments.
+│    ├─ nil :onTryOkay         (function func) -- => 
+│    ├─ nil :onDraw            (function func) -- => When the window is drawn.
+│    ├─ nil :onMouseUp         (function func) -- => A: int x, int y, int button
+│    ├─ nil :onMouseDown       (function func) -- => A: int x, int y, int button
+│    ├─ nil :onMouseMove       (function func) -- => A: int x, int y, int dx, int dy
+│    ├─ nil :onMouseWheel      (function func) -- => A: int x, int y, int d
+│    ├─ nil :onKeyPress        (function func) -- => A: int key, Uint16 character, bool shift, bool ctrl, bool alt
+│    ├─ nil :onKeyRelease      (function func) -- => A: int key, Uint16 character, bool shift, bool ctrl, bool alt
+│    ├─ nil :onFocus           (function func) -- => When receives focus. No arguments. 
+│    ├─ nil :onBlur            (function func) -- => When loses focus. No arguments.
+│    ├─ nil :onTryExit         (function func) -- => When user attempts to exit the window. No arguments.
 │    ├─ nil :addComponent      (Component c) <i>-- =&gt; Adds a Component to the Window.</i>
 │    └─ nil :removeComponent   (Component c) <i>-- =&gt; Removes a Component from the Window.</i>
 │  
@@ -668,5 +683,19 @@ Elements
 </code></pre>
 <script src="../js/jquery-1.9.0.min.js"></script>
 <script src="../js/script.js"></script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34425443-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </body>
 </html>
