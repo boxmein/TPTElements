@@ -487,6 +487,20 @@ The Big Tree
 ║    │
 ║    ├─ Window :new            (int x, int y, int width, int height) -- => A container element for components. Set x/y to -1 to center.
 ║    │ 
+║    ├─ nil :onInitialized     (function func) -- => Function listener for initialization. No arguments.
+║    ├─ nil :onTick            (function func) -- => Every tick. No arguments.
+║    ├─ nil :onExit            (function func) -- => When the window closes. No arguments.
+║    ├─ nil :onTryOkay         (function func) -- => 
+║    ├─ nil :onDraw            (function func) -- => When the window is drawn.
+║    ├─ nil :onMouseUp         (function func) -- => A: int x, int y, int button
+║    ├─ nil :onMouseDown       (function func) -- => A: int x, int y, int button
+║    ├─ nil :onMouseMove       (function func) -- => A: int x, int y, int dx, int dy
+║    ├─ nil :onMouseWheel      (function func) -- => A: int x, int y, int d
+║    ├─ nil :onKeyPress        (function func) -- => A: int key, Uint16 character, bool shift, bool ctrl, bool alt
+║    ├─ nil :onKeyRelease      (function func) -- => A: int key, Uint16 character, bool shift, bool ctrl, bool alt
+║    ├─ nil :onFocus           (function func) -- => When receives focus. No arguments. 
+║    ├─ nil :onBlur            (function func) -- => When loses focus. No arguments.
+║    ├─ nil :onTryExit         (function func) -- => When user attempts to exit the window. No arguments.
 ║    ├─ nil :addComponent      (Component c) -- => Adds a Component to the Window.
 ║    └─ nil :removeComponent   (Component c) -- => Removes a Component from the Window.
 ╙ bit
