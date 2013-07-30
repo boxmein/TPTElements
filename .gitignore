@@ -3,5 +3,5 @@ pushtoproj.bat
 tptelements.sublime-workspace
 master-copy.txt
 superb.html
-jquery*
 compile.bat
+node_modules
