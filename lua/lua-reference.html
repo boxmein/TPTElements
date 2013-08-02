@@ -204,53 +204,53 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 ├ elements (elem)
 │ │ 
 │ │ 
-│ ├─ <span id="elem.TYPE_PART">TYPE_PART</span>
-│ ├─ <span id="elem.TYPE_LIQUID">TYPE_LIQUID</span>
-│ ├─ <span id="elem.TYPE_SOLID">TYPE_SOLID</span>
-│ ├─ <span id="elem.TYPE_GAS">TYPE_GAS</span>
-│ ├─ <span id="elem.TYPE_ENERGY">TYPE_ENERGY</span>
+│ ├─ <span id="elem.TYPE_PART">TYPE_PART <b>0x00001</b></span>
+│ ├─ <span id="elem.TYPE_LIQUID">TYPE_LIQUID <b>0x00002</b></span>
+│ ├─ <span id="elem.TYPE_SOLID">TYPE_SOLID <b>0x00004</b></span>
+│ ├─ <span id="elem.TYPE_GAS">TYPE_GAS <b>0x00008</b></span>
+│ ├─ <span id="elem.TYPE_ENERGY">TYPE_ENERGY <b>0x00010</b></span>
 │ │ 
-│ ├─ <span id="elem.PROP_CONDUCTS">PROP_CONDUCTS</span>
-│ ├─ <span id="elem.PROP_BLACK">PROP_BLACK</span>
-│ ├─ <span id="elem.PROP_NEUTPENETRATE">PROP_NEUTPENETRATE</span>
-│ ├─ <span id="elem.PROP_NEUTABSORB">PROP_NEUTABSORB</span>
-│ ├─ <span id="elem.PROP_NEUTPASS">PROP_NEUTPASS</span>
-│ ├─ <span id="elem.PROP_DEADLY">PROP_DEADLY</span>
-│ ├─ <span id="elem.PROP_HOT_GLOW">PROP_HOT_GLOW</span>
-│ ├─ <span id="elem.PROP_LIFE">PROP_LIFE</span>
-│ ├─ <span id="elem.PROP_RADIOACTIVE">PROP_RADIOACTIVE</span>
-│ ├─ <span id="elem.PROP_LIFE_DEC">PROP_LIFE_DEC</span>
-│ ├─ <span id="elem.PROP_LIFE_KILL">PROP_LIFE_KILL</span>
-│ ├─ <span id="elem.PROP_LIFE_KILL_DEC">PROP_LIFE_KILL_DEC</span>
-│ ├─ <span id="elem.PROP_SPARKSETTLE">PROP_SPARKSETTLE</span>
-│ ├─ <span id="elem.PROP_NOAMBHEAT">PROP_NOAMBHEAT</span>
-│ ├─ <span id="elem.PROP_DRAWONCTYPE">PROP_DRAWONCTYPE</span> <i>-- Like CLNE, can draw onto it and it'll set the ctype</i>
-│ ├─ <span id="elem.PROP_NOCTYPEDRAW">PROP_NOCTYPEDRAW</span> <i>-- Cannot be drawn as a ctype. Stuff like EMBR are here.</i>
+│ ├─ <span id="elem.PROP_CONDUCTS">PROP_CONDUCTS <b>0x00020</b></span>
+│ ├─ <span id="elem.PROP_BLACK">PROP_BLACK <b>0x00040</b></span>
+│ ├─ <span id="elem.PROP_NEUTPENETRATE">PROP_NEUTPENETRATE <b>0x00080</b></span>
+│ ├─ <span id="elem.PROP_NEUTABSORB">PROP_NEUTABSORB <b>0x00100</b></span>
+│ ├─ <span id="elem.PROP_NEUTPASS">PROP_NEUTPASS <b>0x00200</b></span>
+│ ├─ <span id="elem.PROP_DEADLY">PROP_DEADLY <b>0x00400</b></span>
+│ ├─ <span id="elem.PROP_HOT_GLOW">PROP_HOT_GLOW <b>0x00800</b></span>
+│ ├─ <span id="elem.PROP_LIFE">PROP_LIFE <b>0x01000</b></span>
+│ ├─ <span id="elem.PROP_RADIOACTIVE">PROP_RADIOACTIVE <b>0x02000</b></span>
+│ ├─ <span id="elem.PROP_LIFE_DEC">PROP_LIFE_DEC <b>0x04000</b></span>
+│ ├─ <span id="elem.PROP_LIFE_KILL">PROP_LIFE_KILL <b>0x08000</b></span>
+│ ├─ <span id="elem.PROP_LIFE_KILL_DEC">PROP_LIFE_KILL_DEC <b>0x10000</b></span>
+│ ├─ <span id="elem.PROP_SPARKSETTLE">PROP_SPARKSETTLE <b>0x20000</b></span>
+│ ├─ <span id="elem.PROP_NOAMBHEAT">PROP_NOAMBHEAT <b>0x40000</b></span>
+│ ├─ <span id="elem.PROP_DRAWONCTYPE">PROP_DRAWONCTYPE <b>0x80000</b></span> <i>-- Like CLNE, can draw onto it and it'll set the ctype</i>
+│ ├─ <span id="elem.PROP_NOCTYPEDRAW">PROP_NOCTYPEDRAW <b>0x100000</b></span> <i>-- Cannot be drawn as a ctype. Stuff like EMBR are here.</i>
 │ │ 
-│ ├─ <span id="elem.FLAG_STAGNANT">FLAG_STAGNANT</span>
-│ ├─ <span id="elem.FLAG_SKIPMOVE">FLAG_SKIPMOVE</span>
-│ ├─ <span id="elem.FLAG_MOVABLE">FLAG_MOVABLE</span>
+│ ├─ <span id="elem.FLAG_STAGNANT">FLAG_STAGNANT <b>0x1</b></span>
+│ ├─ <span id="elem.FLAG_SKIPMOVE">FLAG_SKIPMOVE <b>0x2</b></span>
+│ ├─ <span id="elem.FLAG_MOVABLE">FLAG_MOVABLE <b>0x8</b></span>
 │ │ 
-│ ├─ <span id="elem.ST_NONE">ST_NONE</span>
-│ ├─ <span id="elem.ST_SOLID">ST_SOLID</span>
-│ ├─ <span id="elem.ST_LIQUID">ST_LIQUID</span>
-│ ├─ <span id="elem.ST_GAS">ST_GAS</span>
+│ ├─ <span id="elem.ST_NONE">ST_NONE <b>0</b></span>
+│ ├─ <span id="elem.ST_SOLID">ST_SOLID <b>1</b></span>
+│ ├─ <span id="elem.ST_LIQUID">ST_LIQUID <b>2</b></span>
+│ ├─ <span id="elem.ST_GAS">ST_GAS <b>3</b></span>
 │ │
-│ ├─ <span id="elem.SC_WALL">SC_WALL</span>
-│ ├─ <span id="elem.SC_ELEC">SC_ELEC</span>
-│ ├─ <span id="elem.SC_POWERED">SC_POWERED</span>
-│ ├─ <span id="elem.SC_SENSOR">SC_SENSOR</span>
-│ ├─ <span id="elem.SC_FORCE">SC_FORCE</span>
-│ ├─ <span id="elem.SC_EXPLOSIVE">SC_EXPLOSIVE</span>
-│ ├─ <span id="elem.SC_GAS">SC_GAS</span>
-│ ├─ <span id="elem.SC_LIQUID">SC_LIQUID</span>
-│ ├─ <span id="elem.SC_POWDERS">SC_POWDERS</span>
-│ ├─ <span id="elem.SC_SOLIDS">SC_SOLIDS</span>
-│ ├─ <span id="elem.SC_NUCLEAR">SC_NUCLEAR</span>
-│ ├─ <span id="elem.SC_SPECIAL">SC_SPECIAL</span>
-│ ├─ <span id="elem.SC_LIFE">SC_LIFE</span>
-│ ├─ <span id="elem.SC_TOOL">SC_TOOL</span>
-│ ├─ <span id="elem.SC_DECO">SC_DECO</span>
+│ ├─ <span id="elem.SC_WALL">SC_WALL <b>0</b></span>
+│ ├─ <span id="elem.SC_ELEC">SC_ELEC <b>1</b></span>
+│ ├─ <span id="elem.SC_POWERED">SC_POWERED <b>2</b></span>
+│ ├─ <span id="elem.SC_SENSOR">SC_SENSOR <b>3</b></span>
+│ ├─ <span id="elem.SC_FORCE">SC_FORCE <b>4</b></span>
+│ ├─ <span id="elem.SC_EXPLOSIVE">SC_EXPLOSIVE <b>5</b></span>
+│ ├─ <span id="elem.SC_GAS">SC_GAS <b>6</b></span>
+│ ├─ <span id="elem.SC_LIQUID">SC_LIQUID <b>7</b></span>
+│ ├─ <span id="elem.SC_POWDERS">SC_POWDERS <b>8</b></span>
+│ ├─ <span id="elem.SC_SOLIDS">SC_SOLIDS <b>9</b></span>
+│ ├─ <span id="elem.SC_NUCLEAR">SC_NUCLEAR <b>10</b></span>
+│ ├─ <span id="elem.SC_SPECIAL">SC_SPECIAL <b>11</b></span>
+│ ├─ <span id="elem.SC_LIFE">SC_LIFE <b>12</b></span>
+│ ├─ <span id="elem.SC_TOOL">SC_TOOL <b>13</b></span>
+│ ├─ <span id="elem.SC_DECO">SC_DECO <b>14</b></span>
 │ │
 │ ├─ <span id="elem.DEFAULT_PT">DEFAULT_PT_<b>[DUST]</b></span> <i>-- One for every element. Stores their ID.</i>
 │ │
@@ -355,56 +355,56 @@ Meant to be Ctrl+F-ed or just really painstakingly read through.
 │  
 ├ renderer (ren) 
 │ │
+│ │  <i>-- Pixel drawing modes. See <a href="http://powdertoy.co.uk/System/External/MediaWiki/images/a/a3/Particle_Drawing_Modes.png">Particle_Drawing_Modes.png</a></i>
+│ ├─ <span id="ren.PMODE">PMODE <b>0x00000FFF</b></span>         <i>-- Bitmask to get display modes</i>
+│ ├─ <span id="ren.PMODE">PMODE_NONE <b>0x00000000</b></span>    <i>-- Invisible</i>
+│ ├─ <span id="ren.PMODE">PMODE_FLAT <b>0x00000001</b></span>    <i>-- Regular like Basic view</i>
+│ ├─ <span id="ren.PMODE">PMODE_BLOB <b>0x00000002</b></span>    <i>-- Blurry like Blob view</i>
+│ ├─ <span id="ren.PMODE">PMODE_BLUR <b>0x00000004</b></span>    <i>-- Blurry like wtrv</i>
+│ ├─ <span id="ren.PMODE">PMODE_GLOW <b>0x00000008</b></span>    <i>-- Glowy like PLUT with fancy view</i>
+│ ├─ <span id="ren.PMODE">PMODE_SPARK <b>0x00000010</b></span>   <i>-- Sparks used to be drawn more fancily</i>
+│ ├─ <span id="ren.PMODE">PMODE_FLARE <b>0x00000020</b></span>   <i>-- Flare like BOMB</i>
+│ ├─ <span id="ren.PMODE">PMODE_LFLARE <b>0x00000040</b></span>  <i>-- Large flare like DEST</i>
+│ ├─ <span id="ren.PMODE">PMODE_ADD <b>0x00000080</b></span>     <i>-- If particles are stacking then adds up the colours</i>
+│ ├─ <span id="ren.PMODE">PMODE_BLEND <b>0x00000100</b></span>   <i>-- Weaker than the above, does blendy magic.</i>
 │ │
-│ ├─ <span id="ren.PMODE">PMODE          <i>-- Pixel drawing modes. See http://powdertoy.co.uk/System/External/MediaWiki/images/a/a3/Particle_Drawing_Modes.png</i>
-│ ├─ <span id="ren.PMODE">PMODE_NONE     <i>-- Invisible</i>
-│ ├─ <span id="ren.PMODE">PMODE_FLAT     <i>-- Regular like Basic view</i>
-│ ├─ <span id="ren.PMODE">PMODE_BLOB     <i>-- Blurry like Blob view</i>
-│ ├─ <span id="ren.PMODE">PMODE_BLUR     <i>-- Blurry like wtrv</i>
-│ ├─ <span id="ren.PMODE">PMODE_GLOW     <i>-- Glowy like PLUT with fancy view</i>
-│ ├─ <span id="ren.PMODE">PMODE_SPARK    <i>-- Sparks used to be drawn more fancily</i>
-│ ├─ <span id="ren.PMODE">PMODE_FLARE    <i>-- Flare like BOMB</i>
-│ ├─ <span id="ren.PMODE">PMODE_LFLARE   <i>-- Large flare like DEST</i>
-│ ├─ <span id="ren.PMODE">PMODE_ADD      <i>-- If particles are stacking then adds up the colours</i>
-│ ├─ <span id="ren.PMODE">PMODE_BLEND    <i>-- Weaker than the above, does blendy magic.</i>
+│ ├─ <span id="ren.PSPEC_STICKMAN">PSPEC_STICKMAN <b>0x00000200</b></span> <i>-- Only works for STKM, shows them as STKM</i>
+│ ├─ <span id="ren.OPTIONS">OPTIONS</span> <b>0x0000F000</b></span>        <i>-- A bit mask for the option bit</i>
+│ ├─ <span id="ren.NO_DECO">NO_DECO</span> <b>0x00001000</b></span>        <i>-- politely refuses decorations be drawn upon it (like LCRY)</i>
 │ │
-│ ├─ <span id="ren.PSPEC_STICKMAN">PSPEC_STICKMAN</span> <i>-- Only works for STKM, shows them as STKM</i>
-│ ├─ <span id="ren.OPTIONS">OPTIONS</span>        <i>-- </i>
-│ ├─ <span id="ren.NO_DECO">NO_DECO</span>        <i>-- politely refuses decorations be drawn upon it</i>
+│ ├─ <span id="ren.DECO_FIRE">DECO_FIRE</span> <b>0x00002000</b>           <i>-- enables changing the blur colour via deco</i>
+│ ├─ <span id="ren.FIREMODE">FIREMODE</span> <b>0x00FF0000</b>            <i>-- Bit mask for fire modes (below)</i>
+│ ├─ <span id="ren.FIRE_ADD">FIRE_ADD</span> <b>0x00100000</b>            <i>-- A pixel mode that makes it drawn like a fire particle. </i>
+│ ├─ <span id="ren.FIRE_BLEND">FIRE_BLEND</span> <b>0x00200000</b>          <i>-- ^ with blendy magic.</i>
 │ │
-│ ├─ <span id="ren.DECO_FIRE">DECO_FIRE</span>      <i>-- enables changing the blur colour via deco</i>
-│ ├─ <span id="ren.FIREMODE">FIREMODE</span>       <i>-- </i>
-│ ├─ <span id="ren.FIRE_ADD">FIRE_ADD</span>       <i>-- A pixel mode that makes it drawn like a fire particle. </i>
-│ ├─ <span id="ren.FIRE_BLEND">FIRE_BLEND</span>     <i>-- ^ with blendy magic.</i>
-│ │
-│ ├─ <span id="ren.EFFECT">EFFECT</span>
-│ ├─ <span id="ren.EFFECT_GRAVIN">EFFECT_GRAVIN</span>  <i>-- Enables what PRTI does, however more life/ctype magic may be needed</i>
-│ ├─ <span id="ren.EFFECT_GRAVOUT">EFFECT_GRAVOUT</span> <i>-- ^ for PRTO</i>
-│ ├─ <span id="ren.EFFECT_LINES">EFFECT_LINES</span>
-│ ├─ <span id="ren.EFFECT_DBGLINES">EFFECT_DBGLINES</span>
+│ ├─ <span id="ren.EFFECT">EFFECT <b>0xFF000000</b></span>
+│ ├─ <span id="ren.EFFECT_GRAVIN">EFFECT_GRAVIN <b>0x01000000</b></span>  <i>-- Enables what PRTI does, however more life/ctype magic may be needed</i>
+│ ├─ <span id="ren.EFFECT_GRAVOUT">EFFECT_GRAVOUT <b>0x02000000</b></span> <i>-- ^ for PRTO</i>
+│ ├─ <span id="ren.EFFECT_LINES">EFFECT_LINES <b>0x04000000</b></span>
+│ ├─ <span id="ren.EFFECT_DBGLINES">EFFECT_DBGLINES <b>0x08000000</b></span>
 │ ├─ 
-│ ├─ <span id="ren.RENDER_EFFE">RENDER_EFFE</span>
-│ ├─ <span id="ren.RENDER_FIRE">RENDER_FIRE</span>
-│ ├─ <span id="ren.RENDER_GLOW">RENDER_GLOW</span>
-│ ├─ <span id="ren.RENDER_BLUR">RENDER_BLUR</span>
-│ ├─ <span id="ren.RENDER_BLOB">RENDER_BLOB</span>
-│ ├─ <span id="ren.RENDER_BASC">RENDER_BASC</span>
-│ ├─ <span id="ren.RENDER_NONE">RENDER_NONE</span>
+│ ├─ <span id="ren.RENDER_EFFE">RENDER_EFFE <b>OPTIONS | PSPEC_STICKMAN | EFFECT | PMODE_SPARK | PMODE_FLARE | PMODE_LFLARE</span>
+│ ├─ <span id="ren.RENDER_FIRE">RENDER_FIRE <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_ADD | PMODE_BLEND | FIREMODE</b></span>
+│ ├─ <span id="ren.RENDER_GLOW">RENDER_GLOW <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_GLOW | PMODE_ADD | PMODE_BLEND</b></span>
+│ ├─ <span id="ren.RENDER_BLUR">RENDER_BLUR <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLUR | PMODE_ADD | PMODE_BLEND</b></span>
+│ ├─ <span id="ren.RENDER_BLOB">RENDER_BLOB <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLOB | PMODE_ADD | PMODE_BLEND</b></span>
+│ ├─ <span id="ren.RENDER_BASC">RENDER_BASC <b>OPTIONS | PSPEC_STICKMAN | PMODE_FLAT | PMODE_ADD | PMODE_BLEND | EFFECT_LINES</b></span>
+│ ├─ <span id="ren.RENDER_NONE">RENDER_NONE <b>OPTIONS | PSPEC_STICKMAN | PMODE_FLAT</b></span>
 │ │
-│ ├─ <span id="ren.COLOUR_HEAT">COLOUR_HEAT</span>    <i>-- What particle colors get drawn as. This is like Heat view.</i>
-│ ├─ <span id="ren.COLOUR_LIFE">COLOUR_LIFE</span>    <i>-- Like Life display </i>
-│ ├─ <span id="ren.COLOUR_GRAD">COLOUR_GRAD</span>    <i>-- Like Heat Gradient display</i>
-│ ├─ <span id="ren.COLOUR_BASC">COLOUR_BASC</span>    <i>-- Like Basic display</i>
-│ ├─ <span id="ren.COLOUR_DEFAULT">COLOUR_DEFAULT</span> <i>-- Default whatever</i>
+│ ├─ <span id="ren.COLOUR_HEAT">COLOUR_HEAT <b>0x0000001</b></span>    <i>-- What particle colors get drawn as. This is like Heat view.</i>
+│ ├─ <span id="ren.COLOUR_LIFE">COLOUR_LIFE <b>0x0000002</b></span>    <i>-- Like Life display </i>
+│ ├─ <span id="ren.COLOUR_GRAD">COLOUR_GRAD <b>0x0000004</b></span>    <i>-- Like Heat Gradient display</i>
+│ ├─ <span id="ren.COLOUR_BASC">COLOUR_BASC <b>0x0000008</b></span>    <i>-- Like Basic display</i>
+│ ├─ <span id="ren.COLOUR_DEFAULT">COLOUR_DEFAULT <b>0x00000000</b></span> <i>-- Default whatever</i>
 │ │
-│ ├─ <span id="ren.DISPLAY_AIRC">DISPLAY_AIRC</span>  
-│ ├─ <span id="ren.DISPLAY_AIRP">DISPLAY_AIRP</span>   <i>-- Display air pressure</i>
-│ ├─ <span id="ren.DISPLAY_AIRV">DISPLAY_AIRV</span>   <i>-- Display air velocity</i>
-│ ├─ <span id="ren.DISPLAY_AIRH">DISPLAY_AIRH</span>   <i>-- Display air heat</i>
-│ ├─ <span id="ren.DISPLAY_AIR">DISPLAY_AIR</span>
-│ ├─ <span id="ren.DISPLAY_WARP">DISPLAY_WARP</span>   <i>-- Enable gravity wells</i>
-│ ├─ <span id="ren.DISPLAY_PERS">DISPLAY_PERS</span>   <i>-- Display Persistent lines</i>
-│ ├─ <span id="ren.DISPLAY_EFFE">DISPLAY_EFFE</span>
+│ ├─ <span id="ren.DISPLAY_AIRC">DISPLAY_AIRC <b>0x00000001</b></span>  
+│ ├─ <span id="ren.DISPLAY_AIRP">DISPLAY_AIRP <b>0x00000002</b></span>   <i>-- Display air pressure</i>
+│ ├─ <span id="ren.DISPLAY_AIRV">DISPLAY_AIRV <b>0x00000004</b></span>   <i>-- Display air velocity</i>
+│ ├─ <span id="ren.DISPLAY_AIRH">DISPLAY_AIRH <b>0x00000008</b></span>   <i>-- Display air heat</i>
+│ ├─ <span id="ren.DISPLAY_AIR">DISPLAY_AIR <b>0x0000000F</b></span>
+│ ├─ <span id="ren.DISPLAY_WARP">DISPLAY_WARP <b>0x00000010</b></span>   <i>-- Enable gravity wells</i>
+│ ├─ <span id="ren.DISPLAY_PERS">DISPLAY_PERS <b>0x00000020</b></span>   <i>-- Display Persistent lines</i>
+│ ├─ <span id="ren.DISPLAY_EFFE">DISPLAY_EFFE <b>0x00000040</b></span>
 │ │
 │ ├─ <span id="ren.renderModes">nil/table renderModes</span>     () <i>-- =&gt; Get/set the render mode table</i>
 │ │            └─              (table renderModeTable) 

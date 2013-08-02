@@ -304,55 +304,56 @@ The Big Tree
 ╟ renderer (ren) 
 ║ │
 ║ │
-║ ├─ PMODE          -- Pixel drawing modes. See http://powdertoy.co.uk/System/External/MediaWiki/images/a/a3/Particle_Drawing_Modes.png
-║ ├─ PMODE_NONE     -- Invisible
-║ ├─ PMODE_FLAT     -- Regular like Basic view
-║ ├─ PMODE_BLOB     -- Blurry like Blob view
-║ ├─ PMODE_BLUR     -- Blurry like wtrv
-║ ├─ PMODE_GLOW     -- Glowy like PLUT with fancy view
-║ ├─ PMODE_SPARK    -- Sparks used to be drawn more fancily
-║ ├─ PMODE_FLARE    -- Flare like BOMB
-║ ├─ PMODE_LFLARE   -- Large flare like DEST
-║ ├─ PMODE_ADD      -- If particles are stacking then adds up the colours
-║ ├─ PMODE_BLEND    -- Weaker than the above, does blendy magic.
-║ │
-║ ├─ PSPEC_STICKMAN -- Only works for STKM, shows them as STKM
-║ ├─ OPTIONS        -- 
-║ ├─ NO_DECO        -- politely refuses decorations be drawn upon it
-║ │
-║ ├─ DECO_FIRE      -- enables changing the blur colour via deco
-║ ├─ FIREMODE       -- 
-║ ├─ FIRE_ADD       -- A pixel mode that makes it drawn like a fire particle. 
-║ ├─ FIRE_BLEND     -- ^ with blendy magic.
-║ │
-║ ├─ EFFECT
-║ ├─ EFFECT_GRAVIN  -- Enables what PRTI does, however more life/ctype magic may be needed
-║ ├─ EFFECT_GRAVOUT -- ^ for PRTO
-║ ├─ EFFECT_LINES
-║ ├─ EFFECT_DBGLINES
-║ ├─ 
-║ ├─ RENDER_EFFE
-║ ├─ RENDER_FIRE
-║ ├─ RENDER_GLOW
-║ ├─ RENDER_BLUR
-║ ├─ RENDER_BLOB
-║ ├─ RENDER_BASC
-║ ├─ RENDER_NONE
-║ │
-║ ├─ COLOUR_HEAT    -- What particle colors get drawn as. This is like Heat view.
-║ ├─ COLOUR_LIFE    -- Like Life display 
-║ ├─ COLOUR_GRAD    -- Like Heat Gradient display
-║ ├─ COLOUR_BASC    -- Like Basic display
-║ ├─ COLOUR_DEFAULT -- Default whatever
-║ │
-║ ├─ DISPLAY_AIRC  
-║ ├─ DISPLAY_AIRP   -- Display air pressure
-║ ├─ DISPLAY_AIRV   -- Display air velocity
-║ ├─ DISPLAY_AIRH   -- Display air heat
-║ ├─ DISPLAY_AIR
-║ ├─ DISPLAY_WARP   -- Enable gravity wells
-║ ├─ DISPLAY_PERS   -- Display Persistent lines
-║ ├─ DISPLAY_EFFE
+│ │  -- Pixel drawing modes. See Particle_Drawing_Modes.png
+│ ├─ PMODE 0x00000FFF         -- Bitmask to get display modes
+│ ├─ PMODE_NONE 0x00000000    -- Invisible
+│ ├─ PMODE_FLAT 0x00000001    -- Regular like Basic view
+│ ├─ PMODE_BLOB 0x00000002    -- Blurry like Blob view
+│ ├─ PMODE_BLUR 0x00000004    -- Blurry like wtrv
+│ ├─ PMODE_GLOW 0x00000008    -- Glowy like PLUT with fancy view
+│ ├─ PMODE_SPARK 0x00000010   -- Sparks used to be drawn more fancily
+│ ├─ PMODE_FLARE 0x00000020   -- Flare like BOMB
+│ ├─ PMODE_LFLARE 0x00000040  -- Large flare like DEST
+│ ├─ PMODE_ADD 0x00000080     -- If particles are stacking then adds up the colours
+│ ├─ PMODE_BLEND 0x00000100   -- Weaker than the above, does blendy magic.
+│ │
+│ ├─ PSPEC_STICKMAN 0x00000200 -- Only works for STKM, shows them as STKM
+│ ├─ OPTIONS 0x0000F000        -- A bit mask for the option bit
+│ ├─ NO_DECO 0x00001000        -- politely refuses decorations be drawn upon it (like LCRY)
+│ │
+│ ├─ DECO_FIRE 0x00002000           -- enables changing the blur colour via deco
+│ ├─ FIREMODE 0x00FF0000            -- Bit mask for fire modes (below)
+│ ├─ FIRE_ADD 0x00100000            -- A pixel mode that makes it drawn like a fire particle. 
+│ ├─ FIRE_BLEND 0x00200000          -- ^ with blendy magic.
+│ │
+│ ├─ EFFECT 0xFF000000
+│ ├─ EFFECT_GRAVIN 0x01000000  -- Enables what PRTI does, however more life/ctype magic may be needed
+│ ├─ EFFECT_GRAVOUT 0x02000000 -- ^ for PRTO
+│ ├─ EFFECT_LINES 0x04000000
+│ ├─ EFFECT_DBGLINES 0x08000000
+│ ├─ 
+│ ├─ RENDER_EFFE OPTIONS | PSPEC_STICKMAN | EFFECT | PMODE_SPARK | PMODE_FLARE | PMODE_LFLARE
+│ ├─ RENDER_FIRE OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_ADD | PMODE_BLEND | FIREMODE
+│ ├─ RENDER_GLOW OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_GLOW | PMODE_ADD | PMODE_BLEND
+│ ├─ RENDER_BLUR OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLUR | PMODE_ADD | PMODE_BLEND
+│ ├─ RENDER_BLOB OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLOB | PMODE_ADD | PMODE_BLEND
+│ ├─ RENDER_BASC OPTIONS | PSPEC_STICKMAN | PMODE_FLAT | PMODE_ADD | PMODE_BLEND | EFFECT_LINES
+│ ├─ RENDER_NONE OPTIONS | PSPEC_STICKMAN | PMODE_FLAT
+│ │
+│ ├─ COLOUR_HEAT 0x0000001    -- What particle colors get drawn as. This is like Heat view.
+│ ├─ COLOUR_LIFE 0x0000002    -- Like Life display 
+│ ├─ COLOUR_GRAD 0x0000004    -- Like Heat Gradient display
+│ ├─ COLOUR_BASC 0x0000008    -- Like Basic display
+│ ├─ COLOUR_DEFAULT 0x00000000 -- Default whatever
+│ │
+│ ├─ DISPLAY_AIRC 0x00000001  
+│ ├─ DISPLAY_AIRP 0x00000002   -- Display air pressure
+│ ├─ DISPLAY_AIRV 0x00000004   -- Display air velocity
+│ ├─ DISPLAY_AIRH 0x00000008   -- Display air heat
+│ ├─ DISPLAY_AIR 0x0000000F
+│ ├─ DISPLAY_WARP 0x00000010   -- Enable gravity wells
+│ ├─ DISPLAY_PERS 0x00000020   -- Display Persistent lines
+│ ├─ DISPLAY_EFFE 0x00000040
 ║ │
 ║ ├─ nil/table renderModes     () -- => Get/set the render mode table
 ║ │            └─              (table renderModeTable) 
