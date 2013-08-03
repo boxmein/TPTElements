@@ -1,21 +1,23 @@
-include layout
+extends layout
 
 block content
-  include includes/reference.html
+  include includes/reference-lua.html
 
 block custom_aside
-  li: a(href='#treetop') Treetop
-  li: a(href='#notes') Notes
-  li: a(href='#tpt') tpt.*
-  li: a(href='#elements') elements.*
-  li: a(href='#simulation') simulation.*
-  li: a(href='#renderer') renderer.*
-  li: a(href='#graphics') graphics.*
-  li: a(href='#filesystem') filesystem.*
-  li: a(href='#interface') interface.*
-  li: a(href='#bit') bit.*
-  li: a(href='#boolint') boolint ?!
-  li: a(href='#properties') properties
-  li: a(href='#tpt.el') tpt.el.*
-  li: a(href='#elements.property') elements.property()
-  li: a(href='#particles') particles
+  p Movement
+  ul
+    li: a(href='#treetop') Treetop
+    li: a(href='#notes') Notes
+    li: a(href='#tpt') tpt.*
+    li: a(href='#elements') elements.*
+    li: a(href='#simulation') simulation.*
+    li: a(href='#renderer') renderer.*
+    li: a(href='#graphics') graphics.*
+    li: a(href='#filesystem') filesystem.*
+    li: a(href='#interface') interface.*
+    li: a(href='#bit') bit.*
+    li: a(href='#boolint') boolint ?!
+    li: a(href='#properties') properties
+    li: a(href='#tpt.el') tpt.el.*
+    li: a(href='#elements.property') elements.property()
+    li: a(href='#particles') particles  
