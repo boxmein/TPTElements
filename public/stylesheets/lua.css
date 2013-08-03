@@ -1,0 +1,14 @@
+#propertyList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.propline .close {
+  cursor: default;
+  position: relative;
+  left: -10px;
+  color: #162d3a;
+}
+.propline:hover .close {
+  color: #98bacf;
+}
