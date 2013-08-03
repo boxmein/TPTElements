@@ -1,0 +1,646 @@
+This is a pretty complete reference of the Powder Toy Lua API. 
+Comments can be hidden.
+Use Ctrl+F to find content.
+<a href="lua-reference.txt">Downloadable textfile</a>
+<pre><code class="content">
+luaref.txt
+==========
+
+TPT Lua reference.
+Because, frankly, the Wiki pages are not that good.
+
+Meant to be Ctrl+F-ed or just really painstakingly read through.
+
+<span id="notes">Notes</span>
+<i>-----</i>
+
+* The tree below is pretty packed with information. The doc has long lines so it
+  is suggested that you disable word wrap.
+* <b id="boolint">boolint</b> = integer that acts as a boolean (0 or 1)
+* <b>number</b> = Lua's natural number type, = "real"
+* I'll insert default values or other notes right next to the argument inside 
+  brackets <b>[]</b>. 
+* <b>d.</b> is short for default. 
+* <b>1||2</b> in tpt.setwindowsize means that the correct value is either 1 or 2, 
+  nothing else.
+* <b>0:255</b> means a value between 0 and 255.
+* <b>mixed</b> type means "whatever fits there"
+* <b>NYI:</b> Not Yet Implemented
+* If not explicitly noted, all color values have limits of <b>0 to 255</b> (incl. firea/r/g/b, cola/r/g/b) and default to white.
+
+<span id="treetop">The Big Tree</span>
+<i>------------</i>
+
+
+(global)
+│
+│
+│  <i id="tpt">-- Legacy Lua API</i>
+│  <i>-- Most, if not every, methods here are covered in other APIs. </i>
+│  <i>-- Except versions. Those are only accessible here.</i>
+├ tpt
+│ │
+│ ├─ <span id="tpt.version">version</span> 
+│ │  ├─ major <i>-- ex. 81</i>
+│ │  ├─ minor <i>-- ex. 0</i>
+│ │  └─ build <i>-- ex. 292</i>
+│ │
+│ ├─ <span id="tpt.parts">parts []</span> <i>-- ZERO-INDEXED Array of particles by index </i>
+│ │ <i>--           (int type; int life, ctype; float x, y, vx, vy; float temp; </i>
+│ │ <i>--           float pavg<b>[2]</b>; int flags; int tmp; int tmp2; unsigned int dcolour)</i>
+│ ├─ partsdata = nil <i>-- NYI</i>
+│ │
+│ ├─ el -- Covered under <a href="#tpt.el">#properties</a> below.
+│ │  ├─ dust
+│ │  └─ ....
+│ │
+│ ├─ test                      () <i>-- ??? </i>
+│ ├─ <span id="tpt.drawtext">nil drawtext</span>              (int x, int y, string text) <i>-- =&gt; Draws a text string for the next frame</i>
+│ │      ├─                    (int x, int y, string text, int r, int g, int b)
+│ │      └─                    (int x, int y, string text, int r, int g, int b, int a)
+│ │
+│ ├─ <span id="tpt.create">int<b>[index]</b> create</span>         (int x, int y) <i>-- =&gt; Creates a particle</i>
+│ ├─ <span id="tpt.set_pause">nil/int set_pause</span>         (boolint state) <i>-- =&gt; Sets the game's "paused" state. (1 = paused). -1 returns the paused state.</i>
+│ ├─ <span id="tpt.toggle_pause">int toggle_pause</span>          () <i>-- =&gt; set_pause without state</i>
+│ ├─ <span id="tpt.set_console">nil set_console</span>           (boolint state) <i>-- =&gt; Opens or closes the console. (1 = open)</i>
+│ ├─ <span id="tpt.log">nil log/span>                   (string text) <i>-- =&gt; Outputs to the right side of the console. Use for very small values only.</i>
+│ ├─ <span id="tpt.set_pressure">nil set_pressure</span>          (int x, int y, int width, int height, int value) <i>-- Sets pressure for given rectangle. <b>[wall coordinates]</b></i>
+│ ├─ <span id="tpt.set_gravity">nil set_gravity</span>           (int x, int y) <i>-- =&gt; Sets the Newtonian Gravity for a given position. </i>
+│ │                            (int x, int y, int width, int height)
+│ │                            (int x, int y, int width, int height, int value<b>[d. 0.0]</b>)
+│ │
+│ ├─ <span id="tpt.reset_gravity_field">nil reset_gravity_field</span>   (int x, int y) <i>-- =&gt; Sets gravity at (x, y) to 0.0</i>
+│ │      └─                    (int x, int y, int width, int height)
+│ │
+│ ├─ <span id="tpt.reset_velocity">nil reset_velocity</span>        (int x, int y) <i>-- =&gt; Sets velocity at (x, y) to 0.0</i>
+│ │      └─                    (int x, int y, int width, int height)
+│ │
+│ ├─ <span id="tpt.reset_spark">nil reset_spark</span>           () <i>-- =&gt; Turns all SPRK into its ctype</i>
+│ ├─ <span id="tpt.set_property">nil set_property</span>          (string property, mixed value) <i>-- <b>[every element]</b></i>
+│ │      ├─                    (string property, mixed value, string type) <i>-- <b>[elements of 1 type]</b></i>
+│ │      ├─                    (string property, mixed value, int index) <i>-- <b>[particle via index]</b></i>
+│ │      ├─                    (string property, mixed value, int index, string type) <i>-- <b>[???]</b></i>
+│ │      ├─                    (string property, mixed value, int x, int y) <i>-- <b>[particle via position]</b></i>
+│ │      ├─                    (string property, mixed value, int x, int y, string type) <i>-- <b>[???]</b></i>
+│ │      ├─                    (string property, mixed value, int x, int y, int width, int height) <i>-- <b>[region]</b></i>
+│ │      └─                    (string property, mixed value, int x, int y, int width, int height, string type) <i>-- <b>[region, filter via type]</b></i>
+│ │
+│ ├─ <span id="tpt.get_property">mixed get_property</span>        (string property, int index)
+│ │        └─                  (string property, int x, int y) 
+│ │
+│ ├─ <span id="tpt.set_wallmap">nil set_wallmap</span>           (int x, int y, int value) <i>-- =&gt; Set wall at <b>[wall coordinate]</b> x,y</i>
+│ │      └─                    (int x, int y, <b>[NYI:int width, int height,]</b> int value)
+│ │
+│ ├─ <span id="tpt.get_wallmap">int get_wallmap</span>           (int x, int y, <b>[NYI: int width, int height]</b>)   <i>-- =&gt; Get the wall at <b>[wall coordinates!]</b> x, y</i>
+│ ├─ <span id="tpt.set_elecmap">nil set_elecmap</span>           (int x, int y, int value) <i>-- =&gt; Sets the sim-&gt;emap value for <b>[wall coordinate]</b> x, y</i>
+│ │      └─                    (int x, int y, <b>[NYI:int width, int height,]</b> int value)
+│ │
+│ ├─ <span id="tpt.get_elecmap">int get_elecmap</span>           (int x, int y) <i>-- =&gt; Returns the sim-&gt;emap value for <b>[wall coordinate]</b> x, y</i>
+│ ├─ <span id="tpt.drawpixel">nil drawpixel</span>             (int x, int y) <i>-- =&gt; Draws a pixel for the next frame</i>
+│ │      ├─                    (int x, int y, int r, int g, int b)
+│ │      └─                    (int x, int y, int r, int g, int b, int a)
+│ │
+│ ├─ <span id="tpt.drawrect">nil drawrect</span>              (int x, int y, int width, int height) <i>-- =&gt; Draws a hollow rect for the next frame</i>
+│ │      ├─                    (int x, int y, int width, int height, int red, int green, int blue)
+│ │      └─                    (int x, int y, int width, int height, int red, int green, int blue, int alpha)
+│ │
+│ ├─ <span id="tpt.fillrect">nil fillrect</span>              (int x, int y, int width, int height) <i>-- =&gt; Draws a filled rect for the next frame</i>
+│ │      ├─                    (int x, int y, int width, int height, int red, int green, int blue)
+│ │      └─                    (int x, int y, int width, int height, int red, int green, int blue, int alpha)
+│ │
+│ ├─ <span id="tpt.drawline">nil drawline</span>              (int x1, int y1, int x2, int y2) <i>-- =&gt; Draws a line for the next frame</i>
+│ │      ├─                    (int x1, int y1, int x2, int y2, int red, int green, int blue)
+│ │      └─                    (int x1, int y1, int x2, int y2, int red, int green, int blue, int alpha)
+│ │
+│ ├─ <span id="tpt.textwidth">int textwidth</span>             (string text) <i>-- =&gt; Find out the width of a string of text in the TPT font</i>
+│ ├─ <span id="tpt.get_name">string get_name</span>           () <i>-- =&gt; Returns username</i>
+│ ├─ <span id="tpt.set_shortcuts">nil set_shortcuts</span>         (boolint state) <i>-- =&gt; Enable/Disable key shortcuts</i>
+│ ├─ <span id="tpt.delete">nil delete                (int index) <i>-- =&gt; Delete particle @ position/index</i>
+│ │      └─                    (int x, int y)
+│ │
+│ ├─ <span id="tpt.register_step">nil register_step</span>         (function onTick) <i>-- =&gt; Add a function to be run every tick. Max of 6.</i>
+│ ├─ <span id="tpt.unregister_step">nil unregister_step</span>       (function onTick) <i>-- =&gt; Remove an existing function from running.</i>
+│ ├─ <span id="tpt.register_mouseclick">nil register_mouseclick</span>   (function onClick) <i>-- =&gt; Add a function to run on mouse click. Arguments: int mousex, int mousey, int button<b>[1:3]</b>, int event</i>
+│ ├─ <span id="tpt.unregister_mouseclick">nil unregister_mouseclick</span> (function onClick) <i>-- =&gt; Remove ^.</i>
+│ ├─ <span id="tpt.register_keypress">nil register_keypress</span>     (function onKey) <i>-- =&gt; Add a function to run on keypress. Arguments: char key, int keyCode, int modifierKeys, int event</i>
+│ ├─ <span id="tpt.unregister_keypress">nil unregister_keypress</span>   (function onKey) <i>-- =&gt; Remove ^.</i>
+│ ├─ <span id="tpt.register_mouseevent">nil register_mouseevent</span>   <i>-- = register_mouseclick</i>
+│ ├─ <span id="tpt.unregister_mouseevent">nil unregister_mouseevent</span> <i>-- = unregister_mouseclick</i>
+│ ├─ <span id="tpt.register_keyevent">nil register_keyevent</span>     <i>-- = register_keypress</i>
+│ ├─ <span id="tpt.unregister_keyevent">nil unregister_keyevent</span>   <i>-- = register_keyevent</i>
+│ ├─ <span id="tpt.input">string input</span>              (string title, string message) <i>-- Input box for values</i>
+│ ├─ <span id="tpt.message_box">nil message_box</span>           (string title, string message) <i>-- OK box, same as alert() in Javascript</i>
+│ ├─ <span id="tpt.get_numOfParts">int get_numOfParts</span>        () <i>-- =&gt; Returns the particle count right now (max: 235008)</i>
+│ ├─ <span id="tpt.start_getPartIndex">nil start_getPartIndex</span>    () <i>-- =&gt; Starts an iteration over particle indexes</i>
+│ ├─ <span id="tpt.set_property">bool next_getPartIndex</span>    () <i>-- =&gt; True if there's a particle ID coming up next</i>
+│ ├─ <span id="tpt.set_property">int<b>[index]</b> getPartIndex</span>   () <i>-- =&gt; Returns current particle index. USE: tpt.start_getPartIndex() while tpt.next_getPartIndex() do i = tpt.getPartIndex() .... end</i>
+│ ├─ <span id="tpt.hud">nil/int hud</span>               (boolint state) <i>-- =&gt; Show/Hide the HUD. (1 = Show). -1 returns current state.</i>
+│ ├─ <span id="tpt.newtonian_gravity">nil/int newtonian_gravity</span> (boolint state) <i>-- =&gt; Set Newtonian Gravity. (1 = On). -1 returns current state.</i>
+│ ├─ <span id="tpt.ambient_heat">nil/int ambient_heat</span>      (boolint state) <i>-- =&gt; Set Ambient Heat. (1 = On) -1 returns current state.</i>
+│ ├─ <span id="tpt.active_menu">nil/int active_menu</span>       (int menuID)     <i>-- =&gt; Set active menu section. -1 returns current state.</i>
+│ ├─ <span id="tpt.decorations_enable">nil/int decorations_enable</span>(boolint state) <i>-- =&gt; Toggle decorations. (1 = On) -1 returns current state.</i>
+│ ├─ <span id="tpt.display_mode">nil display_mode</span>          (int displayID)  <i>-- =&gt; Set Display mode. </i>
+│ ├─ <span id="tpt.throw_error">nil throw_error</span>           (string text) <i>-- =&gt; Display an error message.</i>
+│ ├─ <span id="tpt.heat">nil/int heat</span>                  (boolint state) <i>-- =&gt; Toggle Heat. (1 = On) -1 returns current state.</i>
+│ ├─ <span id="tpt.setfire">nil setfire</span>               (int strength<b>[=1]</b>) <i>-- =&gt; Set strength of fire effects</i>
+│ ├─ <span id="tpt.setdebug">nil setdebug</span>              (int level) <i>-- =&gt; Deprecated:  Set debug level. 1 is what D produces. 4 or 5 used to be something awesome.</i>
+│ ├─ <span id="tpt.setfpscap">nil setfpscap</span>             (int maxFPS<b>[=60]</b>) <i>-- =&gt; Set max FPS</i>
+│ ├─ <span id="tpt.getscript">nil getscript</span>             (string author, string id) <i>-- =&gt; Fetch a script from the TPT Script Index. The index has no known entries as of 24.07.2013.</i>
+│ ├─ <span id="tpt.setwindowsize">nil setwindowsize</span>         (int scale<b>[=1||2, d. 1]</b>, boolint fullscreen<b>[=0]</b>) <i>-- =&gt; Set window size (scaled and fullscreen)</i>
+│ ├─ <span id="tpt.watertest">int watertest</span>             () <i>-- =&gt; Toggle water equalization. Returns current state.</i>
+│ ├─ <span id="tpt.screenshot">nil screenshot</span>            () <i>-- =&gt; Take a screenshot and save it as screenshot_####.png</i>
+│ ├─ <span id="tpt.element">int/string element</span>        (string element) <i>-- =&gt; Return element ID from string</i>
+│ │             └─             (int id) <i>-- =&gt; Return string from element ID</i>
+│ │
+│ ├─ <span id="tpt.element_func">nil element_func</span>          (int elementID, function onElement) <i>-- =&gt; Make a particle update function. </i>
+│ │      │  <i>-- Arguments: int index, int x, int y, int surround_space, int nt. Return: 1 if particle killed</i>
+│ │      └─                    (int elementID, function onElement, bool replace) <i>-- =&gt; Replace the previous update function.</i>
+│ │
+│ └─ <span id="tpt.graphics_func">nil graphics_func</span>         (int elementID, function onDraw) <i>-- =&gt; Make an element look fancy. </i>
+│  <i>-- Arguments: int index, int colr, int colg, int colb. </i>
+│  <i>-- Return: boolint cache, int pixel_mode, int cola, int colr, int colg, int colb, int firea, int firer, int fireg, and int fireb.</i>
+│ 
+│  <i id="elements">-- Elements API</i>
+│  <i>-- Everything to do with elements, adding them, modifying them, ...</i>
+│  <i>--</i>
+│  
+├ elements (elem)
+│ │ 
+│ │ 
+│ ├─ <span id="elem.TYPE_PART">TYPE_PART <b>0x00001</b></span>
+│ ├─ <span id="elem.TYPE_LIQUID">TYPE_LIQUID <b>0x00002</b></span>
+│ ├─ <span id="elem.TYPE_SOLID">TYPE_SOLID <b>0x00004</b></span>
+│ ├─ <span id="elem.TYPE_GAS">TYPE_GAS <b>0x00008</b></span>
+│ ├─ <span id="elem.TYPE_ENERGY">TYPE_ENERGY <b>0x00010</b></span>
+│ │ 
+│ ├─ <span id="elem.PROP_CONDUCTS">PROP_CONDUCTS <b>0x00020</b></span>
+│ ├─ <span id="elem.PROP_BLACK">PROP_BLACK <b>0x00040</b></span>
+│ ├─ <span id="elem.PROP_NEUTPENETRATE">PROP_NEUTPENETRATE <b>0x00080</b></span>
+│ ├─ <span id="elem.PROP_NEUTABSORB">PROP_NEUTABSORB <b>0x00100</b></span>
+│ ├─ <span id="elem.PROP_NEUTPASS">PROP_NEUTPASS <b>0x00200</b></span>
+│ ├─ <span id="elem.PROP_DEADLY">PROP_DEADLY <b>0x00400</b></span>
+│ ├─ <span id="elem.PROP_HOT_GLOW">PROP_HOT_GLOW <b>0x00800</b></span>
+│ ├─ <span id="elem.PROP_LIFE">PROP_LIFE <b>0x01000</b></span>
+│ ├─ <span id="elem.PROP_RADIOACTIVE">PROP_RADIOACTIVE <b>0x02000</b></span>
+│ ├─ <span id="elem.PROP_LIFE_DEC">PROP_LIFE_DEC <b>0x04000</b></span>
+│ ├─ <span id="elem.PROP_LIFE_KILL">PROP_LIFE_KILL <b>0x08000</b></span>
+│ ├─ <span id="elem.PROP_LIFE_KILL_DEC">PROP_LIFE_KILL_DEC <b>0x10000</b></span>
+│ ├─ <span id="elem.PROP_SPARKSETTLE">PROP_SPARKSETTLE <b>0x20000</b></span>
+│ ├─ <span id="elem.PROP_NOAMBHEAT">PROP_NOAMBHEAT <b>0x40000</b></span>
+│ ├─ <span id="elem.PROP_DRAWONCTYPE">PROP_DRAWONCTYPE <b>0x80000</b></span> <i>-- Like CLNE, can draw onto it and it'll set the ctype</i>
+│ ├─ <span id="elem.PROP_NOCTYPEDRAW">PROP_NOCTYPEDRAW <b>0x100000</b></span> <i>-- Cannot be drawn as a ctype. Stuff like EMBR are here.</i>
+│ │ 
+│ ├─ <span id="elem.FLAG_STAGNANT">FLAG_STAGNANT <b>0x1</b></span>
+│ ├─ <span id="elem.FLAG_SKIPMOVE">FLAG_SKIPMOVE <b>0x2</b></span>
+│ ├─ <span id="elem.FLAG_MOVABLE">FLAG_MOVABLE <b>0x8</b></span>
+│ │ 
+│ ├─ <span id="elem.ST_NONE">ST_NONE <b>0</b></span>
+│ ├─ <span id="elem.ST_SOLID">ST_SOLID <b>1</b></span>
+│ ├─ <span id="elem.ST_LIQUID">ST_LIQUID <b>2</b></span>
+│ ├─ <span id="elem.ST_GAS">ST_GAS <b>3</b></span>
+│ │
+│ ├─ <span id="elem.SC_WALL">SC_WALL <b>0</b></span>
+│ ├─ <span id="elem.SC_ELEC">SC_ELEC <b>1</b></span>
+│ ├─ <span id="elem.SC_POWERED">SC_POWERED <b>2</b></span>
+│ ├─ <span id="elem.SC_SENSOR">SC_SENSOR <b>3</b></span>
+│ ├─ <span id="elem.SC_FORCE">SC_FORCE <b>4</b></span>
+│ ├─ <span id="elem.SC_EXPLOSIVE">SC_EXPLOSIVE <b>5</b></span>
+│ ├─ <span id="elem.SC_GAS">SC_GAS <b>6</b></span>
+│ ├─ <span id="elem.SC_LIQUID">SC_LIQUID <b>7</b></span>
+│ ├─ <span id="elem.SC_POWDERS">SC_POWDERS <b>8</b></span>
+│ ├─ <span id="elem.SC_SOLIDS">SC_SOLIDS <b>9</b></span>
+│ ├─ <span id="elem.SC_NUCLEAR">SC_NUCLEAR <b>10</b></span>
+│ ├─ <span id="elem.SC_SPECIAL">SC_SPECIAL <b>11</b></span>
+│ ├─ <span id="elem.SC_LIFE">SC_LIFE <b>12</b></span>
+│ ├─ <span id="elem.SC_TOOL">SC_TOOL <b>13</b></span>
+│ ├─ <span id="elem.SC_DECO">SC_DECO <b>14</b></span>
+│ │
+│ ├─ <span id="elem.DEFAULT_PT">DEFAULT_PT_<b>[DUST]</b></span> <i>-- One for every element. Stores their ID.</i>
+│ │
+│ ├─ <span id="elem.allocate">int allocate</span>              (string namespace, string name) <i>-- =&gt; Sets up a space for a new element. Returns new element ID. </i>
+│ │  <i>-- Creates key elements.NAMESPACE_PT_NAME for the ID. </i>
+│ ├─ <span id="elem.free">nil free</span>                  (int elementID) <i>-- =&gt; Deletes a given element from existence.</i>
+│ ├─ <span id="elem.loadDefault">nil loadDefault</span>           () <i>-- =&gt; Deletes all new elements. Restores all default elements.</i>
+│ ├─ <span id="elem.element">nil/table element</span>         (int elementID) <i>-- =&gt; Returns a table with the element's properties, to modify and set further on</i>
+│ │            └─              (int elementID, table properties) <i>-- =&gt; Sets _all_ the properties of an element to ones from the table. Useful for element cloning.</i>
+│ └─ <span id="elem.property">nil/mixed property</span>        (int elementID, string property) <i>-- =&gt; Returns an element's single property.</i>
+│              └─              (int elementID, string property, mixed value) <i>-- =&gt; Sets an element's single property to value.</i>
+│
+│  <i id="simulation">-- Simulation API</i>
+│  <i>-- Everything to do with particles, pressure, heat, gravity, resetting temperature, whatnot.</i>
+│  <i>--</i>
+│  
+├ simulation (sim)
+│ │
+│ ├─ <span id="sim.partNeighbours">table partNeighbours</span>      (int x, int y, int radius) <i>-- =&gt; Find list of particles around center particle, in radius.</i>
+│ │        partNeighbors       (int x, int y, int radius, int type)
+│ ├─ <span id="sim.partChangeType">nil partChangeType</span>        (int index, int type) <i>-- =&gt; Change particle type. Better than setting .type for special cases.</i>
+│ ├─ <span id="sim.partCreate">nil partCreate</span>            (int x, int y, int type) <i>-- =&gt; Create a particle. </i>
+│ ├─ <span id="sim.partProperty">nil/mixed partProperty</span>    (int index, string field) <i>-- =&gt; Get/set a property on a particle.</i>
+│ │            └─              (int index, string field, mixed value) 
+│ ├─ <span id="partPosition">int, int partPosition</span>     (int index) <i>-- =&gt; Get x,y from index</i>
+│ ├─ <span id="sim.partID">int partID</span>                (int x, int y) <i>-- =&gt; Get index from x, y</i>
+│ ├─ <span id="sim.partKill">nil partKill</span>              (int index) <i>-- =&gt; Delete a particle properly</i>
+│ │      └─                    (int x, int y)
+│ ├─ <span id="sim.pressure">nil/int pressure</span>          (int x, int y) <i>-- =&gt; Get/set pressure at <b>[wall coordinates]</b> x,y</i>
+│ │          ├─                (int x, int y, int value)
+│ │          └─                (int x, int y, int width, int height, int value)
+│ ├─ <span id="sim.ambientHeat">nil/int ambientHeat</span>       (int x, int y) <i>-- =&gt; Get/set ambient heat at <b>[wall coordinates]</b> x,y</i>
+│ │          ├─                (int x, int y, int value)
+│ │          └─                (int x, int y, int width, int height, int value)
+│ ├─ <span id="sim.velocityX">nil/int velocityX</span>         (int x, int y) <i>-- =&gt; Get/set velocity (x) at <b>[wall coordinates]</b> x,y</i>
+│ │          ├─                (int x, int y, int value)
+│ │          └─                (int x, int y, int width, int height, int value)
+│ ├─ <span id="sim.velocityY">nil/int velocityY</span>         (int x, int y) <i>-- =&gt; Get/set velocity (y) at <b>[wall coordinates]</b> x,y</i>
+│ │          ├─                (int x, int y, int value)
+│ │          └─                (int x, int y, int width, int height, int value)
+│ ├─ <span id="sim.gravMap">nil/int gravMap</span>           (int x, int y) <i>-- =&gt; Get/set gravity at <b>[wall coordinates]</b> x,y</i>
+│ │          ├─                (int x, int y, int value)
+│ │          └─                (int x, int y, int width, int height, int value)
+│ ├─ <span id="sim.createParts">int createParts</span>           (int cx, int cy, int rx<b>[=d. 5]</b>, int ry<b>[=d. 5]</b>, 
+│ │                             int type<b>[=d. selectedl]</b>, int brush<b>[=d. circle]</b>, int flags<b>[=d. replace flags]</b>) 
+│ │                             <i>-- =&gt; Creates multiple particles (like drawing with a brush!) </i>
+│ │  <i>-- Set rx and ry to horizontal and vertical radius (ellipse brush). Returns count of affected.</i>
+│ ├─ <span id="sim.createLine">int createLine</span>            (int x1, int y1, int x2, int y2, int rx, int ry, <i>-- =&gt; Create line with createParts. Returns count of affected.</i>
+│ │                             int type<b>[=d. selectedl]</b>, int brush<b>[=d. circle]</b>, int flags<b>[=d. replace flags]</b>)
+│ ├─ <span id="sim.createBox">int createBox</span>             (int x1, int y1, int x2, int y2, int type<b>[=d. selectedl]</b>, int flags<b>[=d. replace flags]</b>) <i>-- =&gt; Filled box. Returns count of affected.</i>
+│ ├─ <span id="sim.floodParts">int floodParts</span>            (int x, int y, int type, int cm, int flags<b>[=d. replace flags]</b>) <i>-- =&gt; Flood like ctrl+shift+click. Returns count of affected.</i>
+│ ├─ <span id="sim.createWalls">int createWalls</span>           (int cx, int cy, int rx<b>[=d. 0]</b>, int ry<b>[=d. 0]</b>, int type<b>[=d. 8]</b>) <i>-- =&gt; Create walls. </i>
+│ │  <i>-- (wall types go from right to left, 1 for rightmost not delete). Returns count of affected.</i>
+│ ├─ <span id="sim.createWallLine">nil createWallLine</span>        (int x1, int y1, int x2, int y2, int rx, int ry, int type<b>[=d. 8]</b>) <i>-- =&gt; Create line with createParts                     </i>
+│ ├─ <span id="sim.createWallBox">nil createWallBox</span>         (int x1, int y1, int x2, int y2, int type<b>[=d. 8]</b>) <i>-- =&gt; Wall boxes!</i>
+│ ├─ <span id="sim.floodWalls">int floodWalls</span>            (int x, int y, int type<b>[=d. 8]</b>, int bm) <i>-- =&gt; Flood walls! Returns count of affected.</i>
+│ ├─ <span id="sim.toolBrush">int toolBrush</span>             (int x, int y, int rx, int ry, int tool, int brush<b>[=d. circle]</b>) <i>-- =&gt; Apply a tool (AIR, VACU, GRAV, HEAT)</i>
+│ ├─ <span id="sim.toolLine">nil toolLine</span>              (int x1, int y1, int x2, int y2, int rx, int ry, int tool, int brush<b>[=d. circle]</b>) <i>-- =&gt; Tool brush with line</i>
+│ ├─ <span id="sim.toolBox">nil toolBox</span>               (int x1, int y1, int x2, int y2, int tool, float strength<b>[=d. 1.0]</b>) <i>-- =&gt; Tool via box</i>
+│ ├─ <span id="sim.decoBrush">nil decoBrush</span>             (int x, int y, int rx, int ry, int r, int g, int b, int a, int tool<b>[=d. DECO_DRAW]</b>, int brush<b>[=d. circle]</b>) <i>-- =&gt; Draw decorations</i>
+│ ├─ <span id="sim.decoLine">nil decoLine</span>              (int x, int y, int rx, int ry, int r, int g, int b, int a, int tool<b>[=d. DECO_DRAW]</b>, int brush<b>[=d. circle]</b>)
+│ ├─ <span id="sim.decoBox">nil decoBox</span>               (int x1, int y1, int x2, int y2, int rx<b>[unused]</b>, int ry<b>[unused]</b>, int r, int g, int b, int a, int tool) <i>-- =&gt; Decorations as a box</i>
+│ ├─ <span id="sim.decoColor">nil decoColor</span>             () <i>-- =&gt; Get/Set currently selected deco colour   </i>
+│ │  nil decoColour            (int colour<b>[=d. 0xFFFF0000]</b>) <i>-- (0xAARRGGBB)</i>
+│ ├─ <span id="sim.clearSim">nil clearSim</span>              () <i>-- =&gt; Clear</i>
+│ ├─ <span id="sim.resetTemp">nil resetTemp</span>             () <i>-- =&gt; Resets heat of every particle OR every conductor particle (for PTCT/NTCT, metal heating, TUNG, ....)</i>
+│ │      └─                    (boolint onlyConductives)
+│ │
+│ ├─ <span id="sim.resetPressure">nil resetPressure</span>         () <i>-- =&gt; Resets pressure everywhere / at x, y / as a box</i>
+│ │      ├─                    (int x, int y)  
+│ │      └─                    (int x1, int y1, int width, int height)
+│ │
+│ ├─ <span id="sim.saveStamp">string saveStamp</span>          (int x, int y, int width, int height) <i>-- =&gt; Saves a stamp and returns its cryptic name</i>
+│ ├─ <span id="sim.loadStamp">nil/int loadStamp</span>         (mixed id, int x, int y) <i>-- =&gt; Loads a stamp and places it at x, y. </i>
+│ │  <i>-- ID can be char<b>[10]</b> or integer. Note: paused state is ignored! 1 if not OK, nil otherwise.</i>
+│ ├─ <span id="sim.loadSave">nil loadSave</span>              (int saveID, int timehistory) <i>-- =&gt; Loads a save or its previous variant at the time (in exact seconds!) it was saved.</i>
+│ ├─ <span id="sim.getSaveID">nil/int getSaveID</span>         () <i>-- =&gt; Returns the current save's ID.</i>
+│ ├─ int, int adjustCoords     (int x, int y) <i>-- =&gt; Translates the coordinates for the zoom window</i>
+│ ├─ <span id="sim.prettyPowders">nil/int prettyPowders</span>     () <i>-- =&gt; Gets/Sets the powder noise thing</i>
+│ │          └─                (boolint state)
+│ ├─ <span id="sim.gravityGrid">nil/int gravityGrid</span>       () <i>-- =&gt; Gets/Sets the gravity dot thing</i>
+│ │          └─                (boolint state)
+│ ├─ <span id="sim.edgeMode">nil/int edgeMode</span>          () <i>-- =&gt; Gets/Sets the edge mode. 0 = Void. 1 = Solid.</i>
+│ │          └─                (int mode)
+│ ├─ <span id="sim.gravityMode">nil/int gravityMode</span>       () <i>-- =&gt; Gets/Sets gravity mode. Vertical, Radial, Off, in some order.</i>
+│ │          └─                (int mode)
+│ ├─ <span id="sim.airMode">nil/int airMode</span>           () <i>-- =&gt; Gets/Sets the air mode. On, No Velocity, No Pressure, No Update, Off in some order.</i>
+│ │          └─                (int mode)
+│ ├─ <span id="sim.waterEqualisation">waterEqualisation</span>         () <i>-- =&gt; Gets/Sets water equalization.</i>
+│ │  waterEqualization         (boolint state) 
+│ ├─ <span id="sim.ambientAirTemp">nil/int ambientAirTemp</span>    () <i>-- =&gt; Gets/Sets Ambient Heat mode's air temperature. Default: 293.15</i>
+│ │          └─                (int temp)
+│ ├─ <span id="sim.elementCount">int elementCount</span>          (int type) <i>-- =&gt; Returns the count of a given particle.</i>
+│ ├─ ? parts                   () <i>-- =&gt; ?</i>
+│ ├─ ? pmap                    (int x, int y) <i>-- =&gt; Returns particle at (x, y). Same as PartID. </i>
+│ └─ neighbours                (int x, int y, int rx, int ry) <i>-- =&gt; ? </i>
+│     neighbors
+│
+│  <i id="renderer">-- Renderer API</i>
+│  <i>-- Everything to do with how particles look.</i>
+│  <i>--</i>
+│  
+├ renderer (ren) 
+│ │
+│ │  <i>-- Pixel drawing modes. See <a href="http://powdertoy.co.uk/System/External/MediaWiki/images/a/a3/Particle_Drawing_Modes.png">Particle_Drawing_Modes.png</a></i>
+│ ├─ <span id="ren.PMODE">PMODE <b>0x00000FFF</b></span>         <i>-- Bitmask to get display modes</i>
+│ ├─ <span id="ren.PMODE">PMODE_NONE <b>0x00000000</b></span>    <i>-- Invisible</i>
+│ ├─ <span id="ren.PMODE">PMODE_FLAT <b>0x00000001</b></span>    <i>-- Regular like Basic view</i>
+│ ├─ <span id="ren.PMODE">PMODE_BLOB <b>0x00000002</b></span>    <i>-- Blurry like Blob view</i>
+│ ├─ <span id="ren.PMODE">PMODE_BLUR <b>0x00000004</b></span>    <i>-- Blurry like wtrv</i>
+│ ├─ <span id="ren.PMODE">PMODE_GLOW <b>0x00000008</b></span>    <i>-- Glowy like PLUT with fancy view</i>
+│ ├─ <span id="ren.PMODE">PMODE_SPARK <b>0x00000010</b></span>   <i>-- Sparks used to be drawn more fancily</i>
+│ ├─ <span id="ren.PMODE">PMODE_FLARE <b>0x00000020</b></span>   <i>-- Flare like BOMB</i>
+│ ├─ <span id="ren.PMODE">PMODE_LFLARE <b>0x00000040</b></span>  <i>-- Large flare like DEST</i>
+│ ├─ <span id="ren.PMODE">PMODE_ADD <b>0x00000080</b></span>     <i>-- If particles are stacking then adds up the colours</i>
+│ ├─ <span id="ren.PMODE">PMODE_BLEND <b>0x00000100</b></span>   <i>-- Weaker than the above, does blendy magic.</i>
+│ │
+│ ├─ <span id="ren.PSPEC_STICKMAN">PSPEC_STICKMAN <b>0x00000200</b></span> <i>-- Only works for STKM, shows them as STKM</i>
+│ ├─ <span id="ren.OPTIONS">OPTIONS</span> <b>0x0000F000</b></span>        <i>-- A bit mask for the option bit</i>
+│ ├─ <span id="ren.NO_DECO">NO_DECO</span> <b>0x00001000</b></span>        <i>-- politely refuses decorations be drawn upon it (like LCRY)</i>
+│ │
+│ ├─ <span id="ren.DECO_FIRE">DECO_FIRE</span> <b>0x00002000</b>           <i>-- enables changing the blur colour via deco</i>
+│ ├─ <span id="ren.FIREMODE">FIREMODE</span> <b>0x00FF0000</b>            <i>-- Bit mask for fire modes (below)</i>
+│ ├─ <span id="ren.FIRE_ADD">FIRE_ADD</span> <b>0x00100000</b>            <i>-- A pixel mode that makes it drawn like a fire particle. </i>
+│ ├─ <span id="ren.FIRE_BLEND">FIRE_BLEND</span> <b>0x00200000</b>          <i>-- ^ with blendy magic.</i>
+│ │
+│ ├─ <span id="ren.EFFECT">EFFECT <b>0xFF000000</b></span>
+│ ├─ <span id="ren.EFFECT_GRAVIN">EFFECT_GRAVIN <b>0x01000000</b></span>  <i>-- Enables what PRTI does, however more life/ctype magic may be needed</i>
+│ ├─ <span id="ren.EFFECT_GRAVOUT">EFFECT_GRAVOUT <b>0x02000000</b></span> <i>-- ^ for PRTO</i>
+│ ├─ <span id="ren.EFFECT_LINES">EFFECT_LINES <b>0x04000000</b></span>
+│ ├─ <span id="ren.EFFECT_DBGLINES">EFFECT_DBGLINES <b>0x08000000</b></span>
+│ ├─ 
+│ ├─ <span id="ren.RENDER_EFFE">RENDER_EFFE <b>OPTIONS | PSPEC_STICKMAN | EFFECT | PMODE_SPARK | PMODE_FLARE | PMODE_LFLARE</b></span>
+│ ├─ <span id="ren.RENDER_FIRE">RENDER_FIRE <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_ADD | PMODE_BLEND | FIREMODE</b></span>
+│ ├─ <span id="ren.RENDER_GLOW">RENDER_GLOW <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_GLOW | PMODE_ADD | PMODE_BLEND</b></span>
+│ ├─ <span id="ren.RENDER_BLUR">RENDER_BLUR <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLUR | PMODE_ADD | PMODE_BLEND</b></span>
+│ ├─ <span id="ren.RENDER_BLOB">RENDER_BLOB <b>OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLOB | PMODE_ADD | PMODE_BLEND</b></span>
+│ ├─ <span id="ren.RENDER_BASC">RENDER_BASC <b>OPTIONS | PSPEC_STICKMAN | PMODE_FLAT | PMODE_ADD | PMODE_BLEND | EFFECT_LINES</b></span>
+│ ├─ <span id="ren.RENDER_NONE">RENDER_NONE <b>OPTIONS | PSPEC_STICKMAN | PMODE_FLAT</b></span>
+│ │
+│ ├─ <span id="ren.COLOUR_HEAT">COLOUR_HEAT <b>0x0000001</b></span>    <i>-- What particle colors get drawn as. This is like Heat view.</i>
+│ ├─ <span id="ren.COLOUR_LIFE">COLOUR_LIFE <b>0x0000002</b></span>    <i>-- Like Life display </i>
+│ ├─ <span id="ren.COLOUR_GRAD">COLOUR_GRAD <b>0x0000004</b></span>    <i>-- Like Heat Gradient display</i>
+│ ├─ <span id="ren.COLOUR_BASC">COLOUR_BASC <b>0x0000008</b></span>    <i>-- Like Basic display</i>
+│ ├─ <span id="ren.COLOUR_DEFAULT">COLOUR_DEFAULT <b>0x00000000</b></span> <i>-- Default whatever</i>
+│ │
+│ ├─ <span id="ren.DISPLAY_AIRC">DISPLAY_AIRC <b>0x00000001</b></span>  
+│ ├─ <span id="ren.DISPLAY_AIRP">DISPLAY_AIRP <b>0x00000002</b></span>   <i>-- Display air pressure</i>
+│ ├─ <span id="ren.DISPLAY_AIRV">DISPLAY_AIRV <b>0x00000004</b></span>   <i>-- Display air velocity</i>
+│ ├─ <span id="ren.DISPLAY_AIRH">DISPLAY_AIRH <b>0x00000008</b></span>   <i>-- Display air heat</i>
+│ ├─ <span id="ren.DISPLAY_AIR">DISPLAY_AIR <b>0x0000000F</b></span>
+│ ├─ <span id="ren.DISPLAY_WARP">DISPLAY_WARP <b>0x00000010</b></span>   <i>-- Enable gravity wells</i>
+│ ├─ <span id="ren.DISPLAY_PERS">DISPLAY_PERS <b>0x00000020</b></span>   <i>-- Display Persistent lines</i>
+│ ├─ <span id="ren.DISPLAY_EFFE">DISPLAY_EFFE <b>0x00000040</b></span>
+│ │
+│ ├─ <span id="ren.renderModes">nil/table renderModes</span>     () <i>-- =&gt; Get/set the render mode table</i>
+│ │            └─              (table renderModeTable) 
+│ ├─ <span id="ren.displayModes">nil/table displayModes</span>    () <i>-- =&gt; Get/set the display mode table</i>
+│ │            └─              (table displayModeTable) 
+│ ├─ <span id="ren.colourMode">nil/int colourMode</span>        () <i>-- =&gt; Get/set color mode</i>
+│ │  colorMode                 (int colourMode) 
+│ ├─ <span id="ren.decorations">nil/boolint decorations</span>   () <i>-- =&gt; Get or set whether decorations are enabled.</i>
+│ │              └─            (boolint state)
+│ ├─ <span id="ren.grid">nil/int grid</span>              () <i>-- =&gt; Get or set the grid display size</i>
+│ │          └─                (int size) 
+│ └─ nil/int debugHUD          () <i>-- =&gt; Get/set whether or not debug HUD is visible. Replacement for tpt.setdebug</i>
+│            └─                (int level)
+│  
+│  <i id="graphics">-- Graphics API</i>
+│  <i>-- Drawing other stuff onto the screen, like text or boxes.</i>
+│  <i>--</i>
+│  
+├ graphics (gfx)
+│ │ 
+│ ├─ <span id="ren.H">WIDTH</span> <i>-- =&gt; YRES + MENUSIZE</i>
+│ ├─ <span id="ren.T">HEIGHT</span> <i>-- =&gt; XRES + BARSIZE</i>
+│ │ 
+│ ├─ <span id="gfx.textSize">int textSize</span>              (string text) <i>-- =&gt; Get width of string in TPT font.  </i>
+│ ├─ <span id="gfx.drawText">nil drawText</span>              (int x, int y, string text) <i>-- =&gt; Draw text for one frame, every colour value defaults to 255</i>
+│ │      └─                    (int x, int y, string text, int r, int g, int b, int a)
+│ │ 
+│ ├─ <span id="gfx.drawLine">nil drawLine</span>              (int x1, int x2, int y1, int y2) <i>-- Draws a line for one frame, colours default to 255</i>
+│ │      └─                    (int x1, int y1, int x2, int y2, int r, int g, int b, int a)
+│ ├─ <span id="gfx.drawRect">nil drawRect</span>              (int x, int y, int width, int height) <i>-- =&gt; Draws a hollow rect for the next frame</i>
+│ │      └─                    (int x, int y, int width, int height, int r, int g, int b)
+│ ├─ <span id="gfx.fillRect">nil fillRect</span>              (int x, int y, int width, int height) <i>-- =&gt; Draws a filled rect for the next frame</i>
+│ │      └─                    (int x, int y, int width, int height, int r, int g, int b, int a)
+│ ├─ <span id="gfx.drawCircle">nil drawCircle</span>            (int cx, int cy, int rx, int ry) <i>-- =&gt; Draws an ellipse with two radiuses and a center point</i>
+│ │      └─                    (int cx, int cy, int rx, int ry, int r, int g, int b, int a)
+│ └─ <span id="gfx.fillCircle">nil fillCircle</span>            (int cx, int cy, int rx, int ry) <i>-- =&gt; Draws an ellipse with two radiuses and a center point</i>
+│        └─                    (int cx, int cy, int rx, int ry, int r, int g, int b, int a)
+│ 
+│  <i id="filesystem">-- Filesystem API</i>
+│  <i>-- Funnest API yet.</i>
+│  <i>-- </i>
+│  
+├ fileSystem (fs)
+│ │ 
+│ ├─ <span id="fs.list">nil/table list</span>            (string folder) <i>-- =&gt; Lists the contents of a directory, be it other directories or files.</i>
+│ ├─ <span id="fs.exists">bool exists</span>               (string path)
+│ ├─ <span id="fs.isFile">bool isFile</span>               (string path) 
+│ ├─ <span id="fs.isDirectory">bool isDirectory</span>          (string path) 
+│ ├─ <span id="fs.makeDirectory">bool makeDirectory</span>        (string path) <i>-- Returns true on success.</i>
+│ ├─ <span id="fs.removeDirectory">bool removeDirectory</span>      (string path) <i>-- Returns true on success.</i>
+│ ├─ <span id="fs.removeFile">bool removeFile</span>           (string path) <i>-- Returns true on success.</i>
+│ ├─ <span id="fs.move">bool move</span>                 (string path, string newPath)
+│ └─ <span id="fs.copy">bool copy</span>                 (string path, string newPath)
+│ 
+│  <i id="interface">-- Interface API</i>
+│  <i>-- Oh no. </i>
+│  <i>-- If you ever make sense of this you have my congratulations.</i>
+│ 
+├ interface (ui)
+│ │ 
+│ ├─ <span id="ren.showWindow">nil showWindow</span>                (Window w) <i>-- =&gt; Opens a Window.</i>
+│ ├─ <span id="ren.closeWindow">nil closeWindow</span>               (Window w) <i>-- =&gt; Closes a Window.</i>
+│ ├─ <span id="ren.addComponent">nil addComponent</span>              (Component c) <i>-- =&gt; Adds a Component to the main window.</i>
+│ ├─ <span id="ren.removeComponent">nil removeComponent</span>           (Component c) <i>-- =&gt; Removes a Component from the main window.</i>
+│ │  
+│ ├─ <b id="interface.Component">Component</b> <i>-- Generic class for utilities</i>
+│ │  ├─ nil/bool :visible      () <i>-- Gets/sets whether the component is visible</i>
+│ │  │           └─            (bool visible)
+│ │  │
+│ │  ├─ nil/int,int :size      () <i>-- Gets/sets the component's size</i>
+│ │  │              └─         (int width, int height)
+│ │  │
+│ │  └─ nil/int,int :position  () <i>-- Gets/sets the component's position</i>
+│ │                 └─         (int x1, int y1)
+│ │ 
+│ ├─ <b id="interface.Button">Button</b>
+│ │  │
+│ │  ├─ Button :new            (int x, int y, int width, int height) <i>-- =&gt; Creates a new button. Event listener needs to be attached later.</i>
+│ │  │         └─              (int x, int y, int width, int height, string text, string tooltip)
+│ │  ├─ nil :action            (function onClick) <i>-- =&gt; Attaches an event listener. Arguments: Button sender</i>
+│ │  ├─ nil/string :text       () <i>-- =&gt; Gets/sets the button's text</i>
+│ │  │             └─          (string text) 
+│ │  └─ nil/bool :enabled      () <i>-- =&gt; Get/set the button's enabled state</i>
+│ │              └─            (bool state) 
+│ │
+│ ├─ <b id="interface.ProgressBar">ProgressBar</b>
+│ │  │
+│ │  │
+│ │  ├─ ProgressBar :new       (int x, int y, int width, int height, int progress, string status) <i>-- =&gt; Creates a new instance.</i>
+│ │  ├─ nil/int :progress      () <i>-- =&gt; Gets/sets the progress bar progress <b>[0:100]</b> -1 makes it scroll right slowly.</i>
+│ │  │          └─             (int progress) 
+│ │  └─ nil/string :status     () <i>-- =&gt; Gets/sets the progress bar's status text.</i>
+│ │                └─          (string status)
+│ │ 
+│ ├─ <b id="interface.Slider">Slider</b>
+│ │  │
+│ │  ├─ Slider :new            (int x, int y, int width, int height) <i>-- =&gt; Creates a new instance. Specify the event listener and handler later on.</i>
+│ │  ├─ nil :onValueChanged    (function onChange) <i>-- =&gt; Attaches a onChanged event handler. Arguments: sender, value</i>
+│ │  ├─ nil/int :value         () <i>-- =&gt; Gets/sets its value. </i>
+│ │  │          └─             (int value) 
+│ │  └─ nil/int :steps         () <i>-- =&gt; Gets/sets the amount of 'steps' the slider has.</i>
+│ │             └─             (int steps) 
+│ │ 
+│ ├─ <b id="interface.Checkbox">Checkbox</b>
+│ │  │
+│ │  ├─ Checkbox :new          (int x, int y, int width, int height, <b>[string text = ""]</b>) <i>-- =&gt; Creates a new instance.</i>
+│ │  ├─ nil :action            (function onChange) <i>-- =&gt; Arguments: sender, value</i>
+│ │  ├─ nil/string :text       () <i>-- =&gt; Gets/sets its text. </i>
+│ │  │             └─          (string text) 
+│ │  └─ nil/int :checked       () <i>-- =&gt; Gets/sets its checked state. </i>
+│ │             └─             (int checked) 
+│ │    
+│ │ 
+│ ├─ <b id="interface.Label">Label</b>
+│ │  │
+│ │  ├─ Label :new             (int x, int y, int width, int height, <b>[string text = ""]</b>)
+│ │  └─ nil/string :text       () <i>-- =&gt; Gets/sets its text. </i>
+│ │                └─          (string text) 
+│ │    
+│ │ 
+│ ├─ <b id="interface.Textbox">Textbox</b>
+│ │  │
+│ │  ├─ Textbox :new           (int x, int y, int width, int height <b>[, string text = "" [, string placeholder = "" ]</b>])
+│ │  ├─ nil :onTextChanged     (function onChange) <i>-- =&gt; Arguments: sender</i>
+│ │  ├─ nil/bool   :readonly   () <i>-- =&gt; Gets/sets its readonly state. </i>
+│ │  │             └─          (string readonly) 
+│ │  └─ nil/string :text       () <i>-- =&gt; Gets/sets its text. </i>
+│ │                └─          (string text) 
+│ │ 
+│ │ 
+│ └─ <b id="interface.Window">Window</b>
+│    │
+│    ├─ Window :new            (int x, int y, int width, int height) <i>-- =&gt; A container element for components. Set x/y to -1 to center.</i>
+│    │ 
+│    ├─ nil :onInitialized     (function func) -- => Function listener for initialization. No arguments.
+│    ├─ nil :onTick            (function func) -- => Every tick. No arguments.
+│    ├─ nil :onExit            (function func) -- => When the window closes. No arguments.
+│    ├─ nil :onTryOkay         (function func) -- => 
+│    ├─ nil :onDraw            (function func) -- => When the window is drawn.
+│    ├─ nil :onMouseUp         (function func) -- => A: int x, int y, int button
+│    ├─ nil :onMouseDown       (function func) -- => A: int x, int y, int button
+│    ├─ nil :onMouseMove       (function func) -- => A: int x, int y, int dx, int dy
+│    ├─ nil :onMouseWheel      (function func) -- => A: int x, int y, int d
+│    ├─ nil :onKeyPress        (function func) -- => A: int key, Uint16 character, bool shift, bool ctrl, bool alt
+│    ├─ nil :onKeyRelease      (function func) -- => A: int key, Uint16 character, bool shift, bool ctrl, bool alt
+│    ├─ nil :onFocus           (function func) -- => When receives focus. No arguments. 
+│    ├─ nil :onBlur            (function func) -- => When loses focus. No arguments.
+│    ├─ nil :onTryExit         (function func) -- => When user attempts to exit the window. No arguments.
+│    ├─ nil :addComponent      (Component c) <i>-- =&gt; Adds a Component to the Window.</i>
+│    └─ nil :removeComponent   (Component c) <i>-- =&gt; Removes a Component from the Window.</i>
+│  
+│  <i id="bit">-- Bit API</i>
+│  <i>-- Because Lua doesn't have one.</i>
+│  
+└ bit
+  │ 
+  ├─ int tobit                 (int input) <i>-- =&gt; Normalize for binary operations. Unneeded if you use bit.* functions.s</i>
+  ├─ string tohex              (int input, int length) <i>-- =&gt; Generate a hex string from the input.</i>
+  │ 
+  ├─ int bnot                  (int input) <i>-- =&gt; Performs bitwise NOT (~input)</i>
+  ├─ int band                  (int... input) <i>-- =&gt; Performs bitwise AND (input&amp;input) over all arguments.</i>
+  ├─ int bor                   (int... input) <i>-- =&gt; Performs bitwise OR (input|input) over all arguments. </i>
+  ├─ int bxor                  (int... input) <i>-- =&gt; Performs bitwise XOR (input^input) over all arguments. </i>
+  │ 
+  ├─ int lshift                (int input, int count) <i>-- =&gt; Performs a leftwards bit shift (input &lt;&lt; count). </i>
+  ├─ int rshift                (int input, int count) <i>-- =&gt; Performs a rightwards bit shift (input &gt;&gt; count). </i>
+  ├─ int arshift               (int input, int count) <i>-- =&gt; Performs a rightwards arithmetic bit shift (input &gt;&gt;&gt; count). </i>
+  │ 
+  ├─ int rol                   (int input, int count) <i>-- =&gt; Rotates a bit right by count bits. </i>
+  ├─ int ror                   (int input, int count) <i>-- =&gt; Rotates a bit right by count bits. </i>
+  │ 
+  └─ int bswap                 (int input) <i>-- =&gt; Swaps endianness of the number.</i>
+
+
+
+
+
+
+
+<b id="properties">Properties</b>
+----------
+
+An element has many properties as seen above in the tpt.parts[] array definition. 
+I've copied the list below for reference.
+
+Elements
+~~~~~~~~
+
+* Note: mul stands for multiplier. Used to determine the end result by
+  multiplying it to the determined one before application.
+* A range [0:x] without a second element [0:] means it can go on however much.
+
+<b id="tpt.el">tpt.el.[inst].*</b>
+  │
+  ├─ char[4] name 
+  ├─ int color          <i> -- 0xAARRGGBB (Element menu uses 0xRRGGBB## !!)</i>
+  ├─ float advection    <i> -- [d. 1f:0f] </i>
+  ├─ float airdrag      <i> -- [d. 1f:0f] </i>
+  ├─ float airloss      <i> -- [d. 1f:0f] </i>
+  ├─ float loss         <i> -- [d. 1f:0f] </i>
+  ├─ float collision    <i> -- [mul: 0f]</i>
+  ├─ float gravity      <i> -- [signed: 0f] </i>
+  ├─ float diffusion    <i> -- [mul: 0f]</i>
+  ├─ float hotair       <i> -- [mul: 0f]</i>
+  ├─ int falldown       <i> -- [0:solid||1:powder||2:liquid]</i>
+  ├─ int flammable      <i> -- [d. 0f:]</i>
+  ├─ int explosive      <i> -- [0:no||1:fire||2:fire/2.5pressure]</i>
+  ├─ boolint meltable   
+  ├─ int hardness  
+  ├─ boolint menu    
+  ├─ boolint enabled 
+  ├─ int weight    
+  ├─ int menusection 
+  ├─ float heat         <i> -- [0f:10000f] in Kelvin (Celsius-273.15)</i>
+  ├─ int hconduct       <i> -- [0:250]</i>
+  ├─ int state          <i> -- use state constants in elements.ST_* </i>
+  ├─ int properties     <i> -- use constants in elements.*</i>
+  └─ char * description
+
+<b id="elements.property">elements.property(*</b>
+  │
+  ├─ string Name
+  ├─ int Colour/Color
+  ├─ boolint MenuVisible
+  ├─ int MenuSection
+  ├─ float Advection
+  ├─ float AirDrag
+  ├─ float AirLoss
+  ├─ float Loss
+  ├─ float Collision
+  ├─ float Gravity
+  ├─ float Diffusion
+  ├─ float HotAir
+  ├─ int Falldown
+  ├─ boolint Flammable
+  ├─ int Explosive
+  ├─ boolint Meltable
+  ├─ float Hardness
+  ├─ int Weight
+  ├─ int Temperature
+  ├─ int HeatConduct
+  ├─ string Description
+  ├─ int State
+  ├─ int Properties
+  ├─ int LowPressure
+  ├─ element LowPressureTransition
+  ├─ int HighPressure
+  ├─ element HighPressureTransition
+  ├─ int LowTemperature
+  ├─ element LowTemperatureTransition
+  ├─ int HighTemperature
+  ├─ element HighTemperatureTransition
+  ├─ function Update
+  └─ function Graphics  
+
+<b id="particles">Particles</b>
+~~~~~~~~~
+
+(particle)
+  │
+  ├─ int type
+  ├─ int life
+  ├─ int ctype
+  ├─ float x
+  ├─ float y
+  ├─ float vx
+  ├─ float vy
+  ├─ float temp
+  ├─ float pavg[2]
+  ├─ int flags
+  ├─ int tmp
+  ├─ int tmp2
+  └─ unsigned int dcolour
+
+
+</code></pre>
