@@ -1,0 +1,12 @@
+extends layout
+block content
+  include includes/lua.html
+
+block custom_aside
+  p Lua stuff
+  ul
+    li: a(id='addprop') Add a property line
+    li: a(id='tclone') Toggle cloning line (clones another element)
+    li: a(id='tgraphics') Add a Graphics function (optional)
+    li: a(id='tupdate') Add an Update function (optional)
+    li: a(id='tmodloader') Add cracker64's mod loader headers

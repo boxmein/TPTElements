@@ -1,0 +1,23 @@
+
+<span id="cracker64" style="display: none"><i>--VER <b>1.0</b> UPDATE <b>http://pastebin.com/raw.php?i=FKxVYV01</b></i></span>
+<i>-- Allocates space for a new element. Use four letters for name, and anything unique for a namespace.</i>
+local el = elements.allocate("<b>namespace</b>", "<b>elem</b>")
+<span id="cloneToggle">elements.element(el, elements.element(elements.<b>DEFAULT</b>_PT_<b>DMND</b>)) <i> -- Use this to clone some other element first.</i></span>
+<ul id="propertyList">
+  <li class="propline">elements.property(el, "<b>Name</b>", "<b>AWSM</b>") <i>-- Use these to change properties.</i>
+</li> 
+</ul>
+<span id="graphicsFunc" style="display: none">function el_Graphics(index, colr, colg, colb)
+    <b><i>-- Return some important values (see <a href="../reference.html#graphics">reference</a>)
+    -- return cache, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, fireb</i>
+    return 1, 0x0000001, 255, colr, colg-10, colb, 0, 0, 0, 0</b>
+end
+tpt.graphics_func(el_Graphics, el)</span>
+<span id="updateFunc" style="display: none">function el_Update(index, partx, party, surround_space, nt)
+    <b>if surround_space==0 and nt==0 then
+        return 1 <i>-- This kills the pixel.</i>
+    else 
+        return 0 <i>-- This keeps it alive.</i>
+    end</b>
+end
+tpt.element_func(el_Update, el)</span>
