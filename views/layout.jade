@@ -3,8 +3,13 @@ html
   head
     title= TPTElements
     link(rel='stylesheet', href='/stylesheets/style.css')
+    block custom_styles
   body
     h1 TPTElements v2.0.0 (Express.js)
     br
     include includes/header
+    include includes/aside
     block content
+    script(type='text/javascript', src='/javascripts/jquery-1.9.0.min.js')
+    script(type='text/javascript', src='/javascripts/aside.js')
+    block custom_js
