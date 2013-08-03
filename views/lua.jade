@@ -1,6 +1,14 @@
 extends layout
 block content
-  include includes/lua.html
+  #code
+    include includes/lua.html
+
+
+block custom_js
+  script(src='/javascripts/aside-lua.js')
+
+block custom_styles
+  link(rel='stylesheet', href='/stylesheets/lua.css')
 
 block custom_aside
   p Lua stuff
