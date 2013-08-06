@@ -55,7 +55,11 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
     
     Update = &amp;Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
     Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics function. Change BCOL to what your element's Name is.</i>
-}
+
+    <i>// Photon wavelengths are ANDed with this value when a photon hits an element, 
+    // meaning that only wavelengths present in both this value and the original photon will remain in the reflected photon.
+    // Simply put, the color of the photon bouncing off, or what color to add to it.</i>
+    PhotonReflectWavelengths = <b>0x3FFFFFFF</b>;
 <i>
 /* 
 Keep in mind that: 
