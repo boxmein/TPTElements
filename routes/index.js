@@ -12,9 +12,9 @@ exports.lua = function(req, res){
 };
 
 exports.referenceLua = function (req, res) {
-  res.render('reference-lua');
+  res.render('reference-lua', {c: "--"});
 };
 
 exports.reference = function (req, res) {
-  res.render('reference'); 
+  res.render('reference', {c: "//"}); 
 }
