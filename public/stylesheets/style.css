@@ -1,2 +1,75 @@
-ol,ul{margin:0;padding:0}body{background:#162d3a;font:12px monospace;padding-left:100px;color:#efefef;white-space:pre;max-width:700px}a{text-decoration:none;color:#67899c}h1{font:2em monospace;margin-bottom:-10px}b{color:#98bacf;font-weight:400}i{color:#577d92;font-style:normal}.aside p{margin:0}.aside{border:1px solid #193341;position:fixed;top:50px;right:100px;background:#162d3a;text-align:left;white-space:pre-line;padding:5px}.aside ul{list-style:none;padding:-5px;margin:0;white-space:normal}.aside li{list-style-type:none;cursor:pointer;color:#67899c}.aside li:before{content:"- "}@media (max-width: 800px){.aside{ position:static}i,i.uno,.aside a:first-child,.aside a:nth-child(2){display:none}}::-webkit-scrollbar{background-color:#244a5f;width:5px}::-webkit-scrollbar-thumb{background-color:#efefef}::-webkit-scrollbar:horizontal{height:5px}::-webkit-scrollbar-corner{background-color:#244a5f}
-/* This beautiful CSS-File has been crafted with LESS (lesscss.org) and compiled by simpLESS (wearekiss.com/simpless) */
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #162d3a;
+  font: 12px monospace;
+  padding-left: 5%;
+  color: #efefef;
+  white-space: pre;
+  max-width: 700px;
+}
+a {
+  text-decoration: none;
+  color: #67899c;
+}
+h1 {
+  font: 2em monospace;
+  margin-bottom: -10px;
+}
+b {
+  color: #98bacf;
+  font-weight: normal;
+}
+i {
+  color: #577d92;
+  font-style: normal;
+}
+.aside p {
+  margin: 0;
+}
+.aside {
+  border: 1px solid #193341;
+  position: fixed;
+  top: 50px;
+  right: 100px;
+  background: #162d3a;
+  text-align: left;
+  white-space: pre-line;
+  padding: 5px;
+}
+.aside ul {
+  list-style: none;
+  padding: -5px;
+  margin: 0;
+  white-space: normal;
+}
+.aside li {
+  list-style-type: none;
+  cursor: pointer;
+  color: #67899c;
+}
+.aside li:before {
+  content: "- ";
+}
+@media (max-width: 700px) {
+  .aside {
+    position: static;
+    margin: 5px 0;
+  }
+}
+::-webkit-scrollbar {
+  background-color: #244a5f;
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #efefef;
+}
+::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+::-webkit-scrollbar-corner {
+  background-color: #244a5f;
+}
