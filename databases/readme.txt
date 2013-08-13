@@ -1,0 +1,1 @@
+This directory will have nedb databases inside. 
