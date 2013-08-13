@@ -1,2 +1,4 @@
 TPTElements
 node_modules
+*.nedb
+
