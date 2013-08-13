@@ -1,0 +1,22 @@
+extends lean-layout
+block content
+  #content.totes-center
+    if errors
+      ul#errs 
+        each error in errors
+          if error == "[object Object]"
+            p Registration successful!
+          else
+            li #{error}
+    h1 Register
+    br
+    form#register(method='POST')
+      input(type='text', name='login', value='Username')
+      input(type='password', name='password', value='clara oswin oswald')
+      input(type='submit', value='Submit')
+    
+block custom_styles
+  link(rel='stylesheet', href='/stylesheets/register.css')
+
+block custom_js
+  script(src='/javascripts/register.js')

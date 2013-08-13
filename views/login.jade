@@ -1,0 +1,24 @@
+extends lean-layout
+block content
+  #content.totes-center
+    if errors
+      ul#errs 
+        each error in errors
+          if error == "[object Object]"
+            p Login successful! Forwarding...
+          else
+            li #{error}
+    else
+      p Login successful!
+    h1 Login
+    br
+    form#login(method='POST')
+      input(type='text', name='login', value='Username')
+      input(type='password', name='password', value='clara oswin oswald')
+      input(type='submit', value='Submit')
+    
+block custom_styles
+  link(rel='stylesheet', href='/stylesheets/login.css')
+
+block custom_js
+  script(src='/javascripts/login.js')

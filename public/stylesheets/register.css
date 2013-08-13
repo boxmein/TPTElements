@@ -1,0 +1,30 @@
+.totes-center {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+#register input[type='text'],
+#register input[type='password'] {
+  display: block;
+  border: 1px solid #193341;
+  background-color: #162d3a;
+  color: #98bacf;
+  font-family: monospace;
+}
+#register input[type='submit'] {
+  width: 170px;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  color: #577d92;
+  font-family: monospace;
+  border: none !important;
+  background-color: #162d3a;
+}
+#content {
+  height: 100px;
+  width: 170px;
+}

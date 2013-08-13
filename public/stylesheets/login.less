@@ -1,0 +1,27 @@
+@import-once "globals";
+
+#login {
+  input[type='text'], input[type='password'] {
+    display: block;
+    border: 1px solid lighten(@backgroundColor, 2%);
+    background-color: @backgroundColor;
+    color: @editableColor;
+    font-family: @bodyFont;
+  }
+  input[type='submit'] {
+    width: 170px; 
+    text-align: center;
+    margin: 0; padding: 0;
+    color: @commentColor;
+    font-family: @bodyFont;
+    border: none !important;
+    background-color: @backgroundColor;
+  }
+}
+#content {
+  height: 100px;
+  width: 170px;
+}
+#errs {
+  list-style-type: none;
+}
