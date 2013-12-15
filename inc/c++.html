@@ -4,75 +4,139 @@
 //#TPT-Directive ElementClass Element_<b>BCOL</b> PT_<b>BCOL</b> <b>73</b>
 Element_<b>BCOL</b>::Element_<b>BCOL</b>()
 {
-    Identifier = "<b>DEFAULT_PT_BCOL</b>"; <i>// Element's name on the new lua API - it is best you leave it as such.</i>
-    Name = "<b id="elname">BCOL</b>"; <i>// Element's in-game name. (4 letters!). Write the NAME here to use for replacement.</i>
-         <i>// If you change this Name and this name ONLY, click the "BCOL ---> your element's name" button to change the rest</i>
-    Colour = PIXPACK(0x<b>333333</b>); <i>// Element's colour in hexadecimal. (Bits: RRGGBB)</i>
-    MenuVisible = <b>1</b>; <i>// Whether or not it's in a menu.</i>
-    MenuSection = SC_<b>POWDERS</b>; <i>// Which menu it's in.</i>
-    Enabled = <b>1</b>; <i>// Whether or not it's even enabled. Keep as 1 unless you have a good reason.</i>
-    
-    Advection = <b>0.4f</b>; <i>// How much moving air / wind affects it. </i>
-    AirDrag = <b>0.04f</b> * CFDS; <i>// How much air the particle "drags" along with it. </i>
-    AirLoss = <b>0.94f</b>; <i>// How much it slows down moving air. 1 for no effect, 0 for full effect.</i>
-    Loss = <b>0.95f</b>; <i>// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</i>
-    Collision = <b>-0.1f</b>; <i>// When this particle hits something, this value is used to determine new velocity.</i>
-    Gravity = <b>0.3f</b>; <i>// How fast the particle falls. Negative means it floats. </i>
-    Diffusion = <b>0.00f</b>; <i>// How much the particle wiggles like GAS.</i>
-    HotAir = <b>0.000f</b>  * CFDS; <i>// How much the particle increases pressure. </i>
-    Falldown = <b>1</b>; <i>// How does this particle move? (0 = solid. 1 = powder. 2 = liquid) </i>
-    
-    Flammable = <b>0</b>; <i>// How much this particle burns. (0 = not at all. &gt;0 = burns more.) </i>
-    Explosive = <b>0</b>; <i>// Does the particle explode? (0 = no. 1 = only with fire. 2 = with pressure &gt; 2.5 or fire.)</i>
-    Meltable = <b>5</b>; <i>// Does it melt? (0 = no. 1 = yes)</i>
-    Hardness = <b>2</b>; <i>// How much acid affects the particle. (0 = not at all. &gt;0 = more corrodable)</i>
-    
-    Weight = <b>90</b>; <i>// Particle weight. Determines which sinks below which. 
-         //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solid. -1 for energy.)</i>
-    
-    Temperature = <b>R_TEMP+0.0f</b>  +273.15f; <i>// How hot does it spawn with? Automatically converted to Celsius. R_TEMP is 22.00&deg; C</i>
-    HeatConduct = <b>150</b>; <i>// How well it transfers heat. (0 = badly. 255 = very very well) </i>
-    Description = "<b>Broken Coal. Heavy particles. See COAL</b>"; <i>// Element description. Is shown when mouse hovers over element.</i>
-    
-    State = ST_<b>SOLID</b>; <i>// Which state the element is in. (ST_NONE = Special. ST_SOLID = Solid. ST_LIQUID = Liquid. ST_GAS = Gas.)</i>
-    Properties = <b>TYPE_PART</b>; <i>// Element properties. See <a href="http://tpt.io/.213774">this</a> for details.</i>
-    
-    <i>// These next ones use a few special values.
-    // IPL = Impossible Pressure Low - use it to disable element transitions with low pressure.
-    // IPH = Impossible Pressure High - use it to disable element transitions with high pressure. 
-    // NT = No Type - use it as a dummy if you don't have a transition with that value. 
-    // ITL = Impossible Temperature Low - use it to disable element transitions with low temperature.
-    // ITH = Impossible Temperature High - use it to disable element transitions with high temperature.</i>
+  <i>// Element's name on the new lua API - format it like NAMESPACE_PT_ELEMENTNAME</i>
+  Identifier = "<b>DEFAULT_PT_BCOL</b>"; 
+  <i>// Element's in-game name. (Limited to 4 letters!)</i>
+  Name = "<b id="elname">BCOL</b>"; 
+  <i>// Element's colour in hexadecimal in the format 0xRRGGBB</i>
+  Colour = PIXPACK(0x<b>333333</b>); 
+  <i>// Whether or not it's going to exist in any element menu.</i>
+  MenuVisible = <b>1</b>; 
+  <i>// Which menu section it's in.
+  //Look for SC_* values in src/simulation/SimulationData.h</i>
+  MenuSection = SC_<b>POWDERS</b>; 
+  <i>// If the element is actually used in-game: 0 will disable the element entirely.</i>
+  Enabled = <b>1</b>; 
+  
+  <i>// How much moving air or wind affects it.</i>
+  Advection = <b>0.4f</b>; 
+  <i>// How much air the particle "drags" along with it when moving. </i>
+  AirDrag = <b>0.04f</b> * CFDS;
+  <i>// How much the particle slows down moving air. 1 for no effect, 0 for full effect.</i> 
+  AirLoss = <b>0.94f</b>; 
+  <i>// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</i>
+  Loss = <b>0.95f</b>; 
+  <i>// When this particle hits something, this value somehow helps determine new velocity.
+  // Ctrl+F .Collision in Simulation.cpp</i>
+  Collision = <b>-0.1f</b>; 
+  <i>// How fast the particle falls. Negative means it floats. </i>
+  Gravity = <b>0.3f</b>; 
+  <i>// How much the particle wiggles like GAS.</i>
+  Diffusion = <b>0.00f</b>;
+  <i>// How much the particle increases pressure. </i>
+  HotAir = <b>0.000f</b>  * CFDS; 
+  <i>// How does this particle move?
+  // (0 = solid. 1 = powder. 2 = liquid) </i>
+  Falldown = <b>1</b>; 
+  
+  <i>// How much this particle burns. 
+  // (0 = not at all. &gt;0 = burns more.) </i>
+  Flammable = <b>0</b>; 
+  <i>// Does the particle explode? 
+  // (0 = no. 1 = only with fire. 2 = with pressure &gt; 2.5 or with fire.)</i>
+  Explosive = <b>0</b>; 
+  <i>// Does it melt? 
+  // (0 = no. 1 = yes)</i>
+  Meltable = <b>5</b>; 
+  <i>// How much acid affects the particle. 
+  // (0 = not at all. &gt;0 = more corrodable)</i>
+  Hardness = <b>2</b>; 
 
-    LowPressure = <b>IPL</b>; <i>// How low should pressure be to trigger a transition? (It can be any number from -255 to 255)</i>
-    LowPressureTransition = <b>NT</b>; <i>// What to transition to when pressure is lower than LowPressure?</i>
-    HighPressure = <b>IPH</b>; <i>// How high should pressure be to trigger a transition? (It can be any number from -255 to 255)</i>
-    HighPressureTransition = <b>NT</b>; <i>// What to transition to when pressure is higher than HighPressure?</i>
-    LowTemperature = <b>ITL</b>; <i>// How low should temp be to trigger a transition? (It can be any number from 0 to 10000)</i>
-    LowTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is lower than LowTemperature? </i>
-    HighTemperature = <b>ITH</b>; <i>// How high should temp be to trigger a transition? (It can be any number from 0 to 10000)</i>
-    HighTemperatureTransition = <b>NT</b>; <i>// What to transition to when temp is higher than HighTemperature?</i>
-    
-    Update = &amp;Element_<b>BCOL</b>::update; <i>// The name of the updating function. Change BCOL to what your element's Name is.</i>
-    Graphics = &amp;Element_<b>BCOL</b>::graphics; <i>// The name of the graphics function. Change BCOL to what your element's Name is.</i>
+  <i>// Particle weight. Determines which sinks below which. 
+  //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solids. -1 for energy.)
+  // Values aren't limited to that however.</i>
+  Weight = <b>90</b>; 
+  
+  <i>// How hot does it spawn with? Automatically converted to Celsius.
+  //  #define R_TEMP 22 &lt;src/simulation/Elements.h&gt;</i>
+  Temperature = <b>R_TEMP+0.0f</b> + 273.15f; 
+  <i>// How well it transfers heat. 
+  // (0 = badly. 255 = very very well) </i>
+  HeatConduct = <b>150</b>; 
+  <i>// Element description, or the little text you get when mousing over the element menu item.</i>
+  Description = "<b>Broken Coal. Heavy particles. See COAL</b>"; 
+  
+  <i>// Which state the element is in. 
+  // (ST_NONE = other. ST_SOLID = Solid. ST_LIQUID = Liquid. ST_GAS = Gas.)</i>
+  State = ST_<b>SOLID</b>; 
+
+  <i>// Element properties. Binary OR them together.
+  //  See <a href="http://tpt.io/.213774">this forum post</a> for details.</i>
+  Properties = <b>TYPE_PART</b>; 
+
+
+  <i>
+  /*
+    So this next part is about transitions. 
+    How this works is, you have to tell TPT about your upper and lower threshold
+    and the elements it'll change to when the threshold is met.
+    There's also a few predefined elements for when you don't want transitions: 
+    unreachable levels of pressure and temperature which will never trigger a 
+    transition as well as an element for No Type.
+
+    IPL = Impossibly Low Pressure (That Never Will Be Reached)
+    IPH = Impossibly High Pressure
+    NT = No Type Whatsoever
+    ITL = Impossibly Low Temperature
+    ITH = Impossibly High Temperature
+  */</i>
+
+  <i>// if pressure is lower than this then change to LowPressureTransition</i>
+  LowPressure = <b>IPL</b>;
+  LowPressureTransition = <b>NT</b>;
+
+  <i>// if pressure is higher than this then change to HighPressureTransition</i>
+  HighPressure = <b>IPH</b>; 
+  HighPressureTransition = <b>NT</b>;
+
+  <i>// if temperature is higher than this then change to HighTemperatureTransition</i>
+  LowTemperature = <b>ITL</b>;
+  LowTemperatureTransition = <b>NT</b>;
+
+  <i>// if temperature is lower than this then change to LowTemperatureTransition</i>
+  HighTemperature = <b>ITH</b>;
+  HighTemperatureTransition = <b>NT</b>;
+  
+  <i>// address of the update function, 99% of the time it's Element_YOURELEMENT::update</i>
+  Update = &amp;Element_<b>BCOL</b>::update;
+
+  <i>// address of the graphics function. 50% of the time you won't need it, 
+  // and 50% of the time all the time you will have it as Element_YOURELEMENT::graphics</i>
+  Graphics = &amp;Element_<b>BCOL</b>::graphics; 
 }
 <i>
 /* 
-Keep in mind that: 
 
-  #define UPDATE_FUNC_ARGS Simulation* sim, int i, int x, int y, int surround_space, int nt, Particle *parts, int pmap[YRES][XRES]
+  #define UPDATE_FUNC_ARGS Simulation* sim, int i, int x, int y, 
+          int surround_space, int nt, Particle *parts, int pmap[YRES][XRES]
+
   #define UPDATE_FUNC_SUBCALL_ARGS sim, i, x, y, surround_space, nt, parts, pmap
-  #define GRAPHICS_FUNC_ARGS Renderer * ren, Particle *cpart, int nx, int ny, int *pixel_mode, int* cola, int *colr, int *colg, 
-                             int *colb, int *firea, int *firer, int *fireg, int *fireb
-  #define GRAPHICS_FUNC_SUBCALL_ARGS ren, cpart, nx, ny, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, fireb
-  #define BOUNDS_CHECK true
+  #define GRAPHICS_FUNC_ARGS Renderer * ren, Particle *cpart, int nx, int ny, 
+          int *pixel_mode, int* cola, int *colr, int *colg, 
+          int *colb, int *firea, int *firer, int *fireg, int *fireb
 
+  #define GRAPHICS_FUNC_SUBCALL_ARGS ren, cpart, nx, ny, pixel_mode, cola, colr, 
+          colg, colb, firea, firer, fireg, fireb
+  #define BOUNDS_CHECK true
 */
-</i>
+
+// Reactions and movement go here</i>
+
 //#TPT-Directive ElementHeader Element_<b>BCOL</b> static int update(UPDATE_FUNC_ARGS)
-int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS) <i>// Here starts the function that all reactions and movement should be in.</i>
+int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS)
  {
-  <b class="code">int r, rx, ry, trade, temp;
+  <b class="code">//Example code
+  int r, rx, ry, trade, temp;
   if (parts[i]&gt;=0) {
     sim->create_part(i, x, y, PT_FIRE);
     return 1;
@@ -139,11 +203,13 @@ int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS) <i>// Here starts the function
   </b>
 }
 
+<i>// Shinies go here</i>
 
 //#TPT-Directive ElementHeader Element_<b>BCOL</b> static int graphics(GRAPHICS_FUNC_ARGS)
-int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS) <i>// Here starts the function all graphics and looks should be in.</i>
+int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS)
 {
 <b class="code">
+  // Example code
   *colr += (cpart->tmp2-295.15f)/3;
   
   if (*colr > 170)
@@ -166,11 +232,12 @@ int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS) <i>// Here starts the func
 </b>
 }
 
+<i>// Explicit destructors!</i>
 Element_<b>BCOL</b>::~Element_<b>BCOL</b>() {}
 
 <i>
 /* 
-  When you can't use generator.py, 
+  If AND ONLY IF you can't use generator.py, 
   here are the lines to manually copy to ElementClasses.cpp and ElementClasses.h: 
   (Make sure to paste them into appropriate places - order probably matters for the
   elements.push_back line, but not for the ElementClasses.h lines!)
