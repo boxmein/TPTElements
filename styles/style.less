@@ -1,0 +1,122 @@
+@import-once "globals";
+
+// Reset
+ol, ul {
+  margin: 0;	
+  padding: 0;
+}
+
+// -----------------------------------------------------------------------------
+// Basics
+
+body {
+	background: @backgroundColor;
+	font: 12px @bodyFont;
+	padding-left: 5%;
+	color: @textColor;
+	white-space: pre;
+	max-width: 700px;
+}
+a, .liveurls {
+	text-decoration: none;
+	cursor: pointer;
+	color: @linkColor;
+}
+h1 {
+	font: 2em @bodyFont;
+	margin-bottom: -10px;
+}
+b {
+	color: @editableColor;
+	font-weight: normal;
+}
+i {
+	color: @commentColor;
+	font-style: normal;
+}
+
+
+// -----------------------------------------------------------------------------
+// Aside-bar
+
+.aside p {
+	margin:0;
+}
+
+.aside {
+	border: 1px solid lighten(@backgroundColor, 2%);
+	position: fixed;
+	top: 50px; 
+	right: 100px; 
+	background: @backgroundColor;
+	text-align: left;
+	padding: 5px;
+	white-space: normal;
+}
+.aside ul {
+	list-style: none;
+	padding: -5px;
+	margin: 0;
+	white-space: normal;
+}
+.aside li {
+	list-style-type: none;
+	cursor: pointer;
+	color: @linkColor;
+}
+
+// Cheap "- " prefixes for list items
+.aside li:before {
+	content: "- ";
+}
+
+// -----------------------------------------------------------------------------
+// When stuff gets resized to be too tight
+
+
+@media (max-width: 700px) {
+	.aside {
+		// Set the aside box into the flow.
+		position: static; 
+		margin: 5px 0;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+// scrollbar
+
+::-webkit-scrollbar {
+	background-color: lighten(@backgroundColor, 10%);
+	width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: @textColor;
+}
+
+::-webkit-scrollbar:horizontal {
+	height: 5px;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: lighten(@backgroundColor, 10%);
+}
+
+// -----------------------------------------------------------------------------
+// Lua related stuff
+
+#propertyList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.propline .close {
+  cursor: default;
+  position: relative; 
+  color: @backgroundColor;
+}
+.propline:hover .close {
+  color: @editableColor;
+}

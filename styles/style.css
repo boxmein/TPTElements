@@ -1,0 +1,99 @@
+.totes-center {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #162d3a;
+  font: 12px monospace;
+  padding-left: 5%;
+  color: #efefef;
+  white-space: pre;
+  max-width: 700px;
+}
+a,
+.liveurls {
+  text-decoration: none;
+  cursor: pointer;
+  color: #67899c;
+}
+h1 {
+  font: 2em monospace;
+  margin-bottom: -10px;
+}
+b {
+  color: #98bacf;
+  font-weight: normal;
+}
+i {
+  color: #577d92;
+  font-style: normal;
+}
+.aside p {
+  margin: 0;
+}
+.aside {
+  border: 1px solid #193341;
+  position: fixed;
+  top: 50px;
+  right: 100px;
+  background: #162d3a;
+  text-align: left;
+  padding: 5px;
+  white-space: normal;
+}
+.aside ul {
+  list-style: none;
+  padding: -5px;
+  margin: 0;
+  white-space: normal;
+}
+.aside li {
+  list-style-type: none;
+  cursor: pointer;
+  color: #67899c;
+}
+.aside li:before {
+  content: "- ";
+}
+@media (max-width: 700px) {
+  .aside {
+    position: static;
+    margin: 5px 0;
+  }
+}
+::-webkit-scrollbar {
+  background-color: #244a5f;
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #efefef;
+}
+::-webkit-scrollbar:horizontal {
+  height: 5px;
+}
+::-webkit-scrollbar-corner {
+  background-color: #244a5f;
+}
+#propertyList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.propline .close {
+  cursor: default;
+  position: relative;
+  left: -10px;
+  color: #162d3a;
+}
+.propline:hover .close {
+  color: #98bacf;
+}
