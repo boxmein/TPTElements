@@ -16,7 +16,7 @@
 // The <i>dark blue</i> stuff is comments, those can be hidden.
 // Some ease-of-use features are in the box on the right.
 // You can simply copy/paste everything here after modifying.
-// by boxmein / <a class="liveurls" data-to="cpp">C++ version</a> / <a class="liveurls" data-to="lua">Lua version</a> / <a class="liveurls" data-to="c">C version</a> / <a class="liveurls" data-to="reference">Reference</a> 
+// by boxmein / <a class="liveurls" data-to="cpp">C++</a> / <a class="liveurls" data-to="lua">Lua</a> / <a class="liveurls" data-to="c">C</a> / <a class="liveurls" data-to="reference">Property reference</a> 
 // extras: <a href="lua-reference.html">Lua reference</a> / <a href="OPS-reference.html">OPS reference</a>
 // external stuff: <a href="http://github.com/boxmein/TPTElements/tree/backbone">on GitHub</a> / <a href="http://tpt.io/@boxmein">Contact</a> / <a href="http://powdertoy.co.uk/Wiki/W/Coding-tutorial.html">Coding tutorial</a> / <a href="http://powdertoy.co.uk">Powder Toy</a>
 	</div>
@@ -164,6 +164,8 @@
 				});
 				var page = new CodeScreen({whereis: 'inc/c++.html'});
 				codev = new CodeView({model: page});
+				// turn <b> elements into textboxes
+				$('b').attr('contentEditable', 'true');
 			},
 			c: function() {
 				if (hasstuff)
@@ -172,6 +174,8 @@
 
 				var page = new CodeScreen({whereis: 'inc/c.html'});
 				codev = new CodeView({model: page});
+				// turn <b> elements into textboxes
+				$('b').attr('contentEditable', 'true');
 			},
 
 			reference: function() {
@@ -181,6 +185,8 @@
 
 				var page = new CodeScreen({whereis: 'inc/reference.html'});
 				codev = new CodeView({model: page});
+				// turn <b> elements into textboxes
+				$('b').attr('contentEditable', 'true');
 			},
 
 			luaref: function() {
@@ -190,6 +196,8 @@
 
 				var page = new CodeScreen({whereis: 'inc/reference-lua.html'});
 				codev = new CodeView({model: page});
+				// turn <b> elements into textboxes
+				$('b').attr('contentEditable', 'true');
 			},
 
 			lua: function() {
@@ -218,6 +226,8 @@
 
 
 				codev = new CodeView({model: page});
+				// turn <b> elements into textboxes
+				$('b').attr('contentEditable', 'true');
 			}
 		});
 
@@ -226,9 +236,6 @@
 
 		if (document.location.hash == "") 
 			App.navigate('cpp', {trigger: true});
-
-		// turn <b> elements into textboxes
-		$('b').attr('contenteditable', 'true');
 
 		$('a.liveurls').click(function() {
 			App.navigate($(this).data('to'), {trigger: true});
