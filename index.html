@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>TPTElements v3.0</title>
+	<link rel="stylesheet" href="styles/style.css" />
+</head>
+<body>
+	
+	<!-- what should I call this bit -->
+	<h1>TPTElements v3.0 (Backbone.js)</h1>
+	<div class="header">
+// Create your own elements by copying and pasting the code below. 
+// In a way, provides boilerplate code. 
+// Shortly put, you can edit all the <b>bright blue</b> stuff.
+// The <i>dark blue</i> stuff is comments, those can be hidden.
+// Some ease-of-use features are in the box on the right.
+// You can simply copy/paste everything here after modifying.
+// by boxmein / <a class="liveurls" data-to="cpp">C++ version</a> / <a class="liveurls" data-to="lua">Lua version</a> / <a class="liveurls" data-to="c">C version</a> / <a class="liveurls" data-to="reference">Reference</a> 
+// extras: <a href="lua-reference.html">Lua reference</a> / <a href="OPS-reference.html">OPS reference</a>
+// external stuff: <a href="http://github.com/boxmein/TPTElements/tree/backbone">on GitHub</a> / <a href="http://tpt.io/@boxmein">Contact</a> / <a href="http://powdertoy.co.uk/Wiki/W/Coding-tutorial.html">Coding tutorial</a> / <a href="http://powdertoy.co.uk">Powder Toy</a>
+	</div>
+
+	<div class="aside"></div>
+	<div id="code"></div>
+
+
+	<!-- Template for the aside part -->
+	<script type="text/template" id="asideview-template">
+		<% _.each(asideitems, function(each) { %>
+		<p> <%= each.heading %> </p>
+		<ul> 
+			<% _.each(each.items, function(ea) { %>
+				<li> <%= ea %> </li>
+			<% }); %>
+		</ul>
+		<% }); %>
+	</script>
+
+	<!-- Template for the code part -->
+
+	<script type="text/template" id="codeview-template"><%= code %></script>
+
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+
+		// keep in store the aside box for Lua
+		var lua_stuff = {
+			heading: 'Lua stuff',
+			items: [
+			'<a id="addprop">Add Property</a>',
+			'<a id="tclone">Clone element?</a>',
+			'<a id="tgraphics">Graphics function?</a>',
+			'<a id="tupdate">Update function?</a>',
+			'<a id="tmodload">cracker64\'s update script?</a>']
+		}, 
+		cpp_stuff = {
+			heading: 'C/++ stuff',
+			items: ['<a id="resetcodes">Reset codeboxes</a>']
+		}
+		// whether or not we've applied a language-specific box
+		hasstuff = false;
+
+		// one aside box
+
+		var AsideItem = Backbone.Model.extend({
+			defaults: {
+				heading: 'General stuff',
+				items: ['<a href="javascript:$(\'i\').toggle(\'fast\')">Toggle comments</a>',
+				        '<a href="javascript:window.scrollTo(0);">To the top!</a>']
+			}
+		});
+
+		// a collection of Aside sections
+
+		var AsideItems = Backbone.Collection.extend({
+			model: AsideItem
+		});
+
+		// a display of the collection of Aside sections
+
+		var AsideView = Backbone.View.extend({
+			el: $('.aside')[0],
+			template: _.template($('#asideview-template').html()),
+
+			initialize: function(){
+	      this.listenTo(this.collection, 'change', this.render);
+	      this.render();
+			},
+			render: function() {
+				this.$el.html(this.template( {asideitems: this.collection.toJSON()} ));
+				return this;
+			}
+		});
+
+		// a model for the content of the body aside from the header
+
+		var CodeScreen = Backbone.Model.extend({
+			defaults: {
+				html: '',
+				whereis: 'inc/c++.html'
+			},
+			initialize: function() {
+				var that = this;
+
+				$.ajax({url: this.attributes.whereis, async: false}).then(function(data, status, jqxhr) {
+					console.log(status); 
+					that.attributes.html = data; 
+
+				}, function(jqxhr, status, err) {
+					console.log(status);
+					console.log(err);
+				});
+			}
+		});
+
+		// a view of one of the bodies at a time
+
+		var CodeView = Backbone.View.extend({
+			el: $('#code'),
+			template: _.template($("#codeview-template").html()),
+
+			initialize: function() {
+				return this.render();
+			},
+
+			render: function() {
+				this.$el.html(this.template({code: this.model.get('html')}));
+				return this;
+			}
+		});
+
+		var asides = new AsideItems([new AsideItem()]);
+		var asidev = new AsideView({collection: asides});
+		var codev;
+
+		AppRouter = Backbone.Router.extend({
+
+			routes: {
+
+				"lua": "lua",
+				"reference": "reference",
+				"lua_reference": "luaref",
+				"c": "c",
+				"cpp": "cpp"
+			},
+
+			cpp: function() {
+				if (hasstuff) 
+					asides.pop();
+
+				asides.push(cpp_stuff);
+				hasstuff = true;
+
+				asidev.render();
+
+				$("#resetcodes").click(function(){
+					$(".code").html("// edit me");
+				});
+				var page = new CodeScreen({whereis: 'inc/c++.html'});
+				codev = new CodeView({model: page});
+			},
+			c: function() {
+				if (hasstuff)
+					asides.pop();
+				hasstuff = false;
+
+				var page = new CodeScreen({whereis: 'inc/c.html'});
+				codev = new CodeView({model: page});
+			},
+
+			reference: function() {
+				if (hasstuff)
+					asides.pop();
+				hasstuff = false;
+
+				var page = new CodeScreen({whereis: 'inc/reference.html'});
+				codev = new CodeView({model: page});
+			},
+
+			luaref: function() {
+				if (hasstuff)
+					asides.pop();
+				hasstuff = false;
+
+				var page = new CodeScreen({whereis: 'inc/reference-lua.html'});
+				codev = new CodeView({model: page});
+			},
+
+			lua: function() {
+				var page = new CodeScreen({whereis: 'inc/lua.html'});
+
+				if (hasstuff) 
+					asides.pop();
+
+				asides.push(lua_stuff);
+				hasstuff = true;
+
+				asidev.render();
+				// add functionality to the buttons
+
+				$("#tclone").click(function() {$("#cloneToggle").toggle('fast');});
+				$("#tgraphics").click(function() {$("#graphicsFunc").toggle('fast');});
+				$("#tupdate").click(function() {$("#updateFunc").toggle('fast');});
+
+				$("#addprop").click(function() { 
+  				$("#propertyList").append(
+  					$('<li class="propline"><span onclick="$(this).parent().remove()" '+
+  						'class="close">[X]</span> elements.property(el, "<b>Name</b>",'+ 
+  						'"<b>AWSM</b>")</li>').find('b')
+  						.attr('contentEditable', 'true').end());
+				});
+
+
+				codev = new CodeView({model: page});
+			}
+		});
+
+		App = new AppRouter();
+		Backbone.history.start();
+
+		if (document.location.hash == "") 
+			App.navigate('cpp', {trigger: true});
+
+		// turn <b> elements into textboxes
+		$('b').attr('contenteditable', 'true');
+
+		$('a.liveurls').click(function() {
+			App.navigate($(this).data('to'), {trigger: true});
+		});
+	});
+	</script>
+</body>
+</html>
