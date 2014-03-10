@@ -1,3 +1,12 @@
+// entry file -> JSON processor
+// file format:
+// NAME <function signature> \r\n
+// DESCRIPTION <function description> \r\n 
+// LINK #anchor-to-lua-reference.html \r\n 
+// DETAILS
+// <markdown text for details until end of file>
+// usage: node generatesearchjson.js <path to lua script entry directory>
+
 var fs = require('fs')
   , md = require('markdown').markdown
   , path = require('path')

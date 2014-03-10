@@ -1,3 +1,10 @@
+// a handy tool to decompress/compress LZW
+// usage: node lzwtool.js <mode> <file>
+// <mode> = d for decompress
+// <mode> = c for compress
+// outputs to stdout
+
+
 // LZW-compress a string
 function lzw_encode(s) {
     var dict = {};

@@ -1,3 +1,9 @@
+// Turns JSON into a compressed LZW file
+// ...strips indenting and then LZW compresses and outputs to stdout.
+// usage: node jsonpack.js <json file>
+// 
+
+
 // LZW-compress a string
 function lzw_encode(s) {
   var dict = {};
