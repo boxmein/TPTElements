@@ -3,27 +3,22 @@
 <head>
 	<meta charset="UTF-8">
 	<title>TPTElements v3.0</title>
+
 	<link rel="stylesheet" href="styles/style.css" />
+	<!-- <link rel="stylesheet/less" type="text/css" href="styles/style.less" />
+	<script src="less-1.4.1.min.js"></script> -->
 </head>
-<body>
-	
-	<!-- what should I call this bit -->
-	<h1>TPTElements v3.0 (Backbone.js)</h1>
-	<div class="header">
+<body><h1>TPTElements v3.0 (Backbone.js)</h1><div class="header">
 // Create your own elements by copying and pasting the code below. 
 // In a way, provides boilerplate code. 
-// Shortly put, you can edit all the <b>bright blue</b> stuff.
-// The <i>dark blue</i> stuff is comments, those can be hidden.
+// Shortly put, you can edit all the <span class="editable" contentEditable="true">bright blue</span> stuff.
+// The <span class="comment">dark blue</span> stuff is comments, those can be hidden.
 // Some ease-of-use features are in the box on the right.
 // You can simply copy/paste everything here after modifying.
-// by boxmein / <a class="liveurls" data-to="cpp">C++</a> / <a class="liveurls" data-to="lua">Lua</a> / <a class="liveurls" data-to="c">C</a> / <a class="liveurls" data-to="reference">Property reference</a> 
+// by boxmein / <a class="liveurls" data-to="cpp">C++</a> / <a class="liveurls" data-to="lua">Lua</a> / <a class="liveurls" data-to="c">C</a> 
 // extras: <a href="lua-reference.html">Lua reference</a> / <a href="OPS-reference.html">OPS reference</a>
-// external stuff: <a href="http://github.com/boxmein/TPTElements/tree/backbone">on GitHub</a> / <a href="http://tpt.io/@boxmein">Contact</a> / <a href="http://powdertoy.co.uk/Wiki/W/Coding-tutorial.html">Coding tutorial</a> / <a href="http://powdertoy.co.uk">Powder Toy</a>
-	</div>
-
-	<div class="aside"></div>
-	<div id="code"></div>
-
+// external stuff: <a href="http://github.com/boxmein/TPTElements/tree/backbone">on GitHub</a> / <a href="http://tpt.io/@boxmein">Contact</a> / <a href="http://powdertoy.co.uk/Wiki/W/Coding-tutorial.html">Coding tutorial</a> / <a href="http://powdertoy.co.uk">Powder Toy</a></div><div class="aside"></div>
+<div id="code"></div>
 
 	<!-- Template for the aside part -->
 	<script type="text/template" id="asideview-template">
@@ -62,7 +57,7 @@
 		cpp_stuff = {
 			heading: 'C/++ stuff',
 			items: ['<a id="resetcodes">Reset codeboxes</a>']
-		}
+		};
 		// whether or not we've applied a language-specific box
 		hasstuff = false;
 
@@ -71,7 +66,7 @@
 		var AsideItem = Backbone.Model.extend({
 			defaults: {
 				heading: 'General stuff',
-				items: ['<a href="javascript:$(\'i\').toggle(\'fast\')">Toggle comments</a>',
+				items: ['<a href="javascript:$(\'.comment\').toggle(\'fast\')">Toggle comments</a>',
 				        '<a href="javascript:window.scrollTo(0);">To the top!</a>']
 			}
 		});
@@ -144,8 +139,6 @@
 			routes: {
 
 				"lua": "lua",
-				"reference": "reference",
-				"lua_reference": "luaref",
 				"c": "c",
 				"cpp": "cpp"
 			},
@@ -160,7 +153,7 @@
 				asidev.render();
 
 				$("#resetcodes").click(function(){
-					$(".code").html("// edit me");
+					$(".codebox").html("// edit me");
 				});
 				var page = new CodeScreen({whereis: 'inc/c++.html'});
 				codev = new CodeView({model: page});
@@ -173,28 +166,6 @@
 				hasstuff = false;
 
 				var page = new CodeScreen({whereis: 'inc/c.html'});
-				codev = new CodeView({model: page});
-				// turn <b> elements into textboxes
-				$('b').attr('contentEditable', 'true');
-			},
-
-			reference: function() {
-				if (hasstuff)
-					asides.pop();
-				hasstuff = false;
-
-				var page = new CodeScreen({whereis: 'inc/reference.html'});
-				codev = new CodeView({model: page});
-				// turn <b> elements into textboxes
-				$('b').attr('contentEditable', 'true');
-			},
-
-			luaref: function() {
-				if (hasstuff)
-					asides.pop();
-				hasstuff = false;
-
-				var page = new CodeScreen({whereis: 'inc/reference-lua.html'});
 				codev = new CodeView({model: page});
 				// turn <b> elements into textboxes
 				$('b').attr('contentEditable', 'true');
@@ -226,8 +197,6 @@
 
 
 				codev = new CodeView({model: page});
-				// turn <b> elements into textboxes
-				$('b').attr('contentEditable', 'true');
 			}
 		});
 
