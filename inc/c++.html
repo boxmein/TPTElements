@@ -1,81 +1,81 @@
-<i>// src/simulation/elements/&lt;elementname&gt;.cpp:</i>
+<span class="comment">// src/simulation/elements/&lt;elementname&gt;.cpp:</span>
 #include "simulation/Elements.h"
 
-//#TPT-Directive ElementClass Element_<b>BCOL</b> PT_<b>BCOL</b> <b>73</b>
-Element_<b>BCOL</b>::Element_<b>BCOL</b>()
+//#TPT-Directive ElementClass Element_<span class="editable" contentEditable="true">BCOL</span> PT_<span class="editable" contentEditable="true">BCOL</span> <span class="editable" contentEditable="true">73</span>
+Element_<span class="editable" contentEditable="true">BCOL</span>::Element_<span class="editable" contentEditable="true">BCOL</span>()
 {
-  <i>// Element's name on the new lua API - format it like NAMESPACE_PT_ELEMENTNAME</i>
-  Identifier = "<b>DEFAULT_PT_BCOL</b>"; 
-  <i>// Element's in-game name. (Limited to 4 letters!)</i>
-  Name = "<b id="elname">BCOL</b>"; 
-  <i>// Element's colour in hexadecimal in the format 0xRRGGBB</i>
-  Colour = PIXPACK(0x<b>333333</b>); 
-  <i>// Whether or not it's going to exist in any element menu.</i>
-  MenuVisible = <b>1</b>; 
-  <i>// Which menu section it's in.
-  //Look for SC_* values in src/simulation/SimulationData.h</i>
-  MenuSection = SC_<b>POWDERS</b>; 
-  <i>// If the element is actually used in-game: 0 will disable the element entirely.</i>
-  Enabled = <b>1</b>; 
+  <span class="comment">// Element's name on the new lua API - format it like NAMESPACE_PT_ELEMENTNAME</span>
+  Identifier = "<span class="editable" contentEditable="true">DEFAULT_PT_BCOL</span>"; 
+  <span class="comment">// Element's in-game name. (Limited to 4 letters!)</span>
+  Name = "<span class="editable" contentEditable="true">BCOL</span>"; 
+  <span class="comment">// Element's colour in hexadecimal in the format 0xRRGGBB</span>
+  Colour = PIXPACK(0x<span class="editable" contentEditable="true">333333</span>); 
+  <span class="comment">// Whether or not it's going to exist in any element menu.</span>
+  MenuVisible = <span class="editable" contentEditable="true">1</span>; 
+  <span class="comment">// Which menu section it's in.
+  //Look for SC_* values in src/simulation/SimulationData.h</span>
+  MenuSection = SC_<span class="editable" contentEditable="true">POWDERS</span>; 
+  <span class="comment">// If the element is actually used in-game: 0 will disable the element entirely.</span>
+  Enabled = <span class="editable" contentEditable="true">1</span>; 
   
-  <i>// How much moving air or wind affects it.</i>
-  Advection = <b>0.4f</b>; 
-  <i>// How much air the particle "drags" along with it when moving. </i>
-  AirDrag = <b>0.04f</b> * CFDS;
-  <i>// How much the particle slows down moving air. 1 for no effect, 0 for full effect.</i> 
-  AirLoss = <b>0.94f</b>; 
-  <i>// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</i>
-  Loss = <b>0.95f</b>; 
-  <i>// When this particle hits something, this value somehow helps determine new velocity.
-  // Ctrl+F .Collision in Simulation.cpp</i>
-  Collision = <b>-0.1f</b>; 
-  <i>// How fast the particle falls. Negative means it floats. </i>
-  Gravity = <b>0.3f</b>; 
-  <i>// How much the particle wiggles like GAS.</i>
-  Diffusion = <b>0.00f</b>;
-  <i>// How much the particle increases pressure. </i>
-  HotAir = <b>0.000f</b>  * CFDS; 
-  <i>// How does this particle move?
-  // (0 = solid. 1 = powder. 2 = liquid) </i>
-  Falldown = <b>1</b>; 
+  <span class="comment">// How much moving air or wind affects it.</span>
+  Advection = <span class="editable" contentEditable="true">0.4f</span>; 
+  <span class="comment">// How much air the particle "drags" along with it when moving. </span>
+  AirDrag = <span class="editable" contentEditable="true">0.04f</span> * CFDS;
+  <span class="comment">// How much the particle slows down moving air. 1 for no effect, 0 for full effect.</span> 
+  AirLoss = <span class="editable" contentEditable="true">0.94f</span>; 
+  <span class="comment">// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</span>
+  Loss = <span class="editable" contentEditable="true">0.95f</span>; 
+  <span class="comment">// When this particle hits something, this value somehow helps determine new velocity.
+  // Ctrl+F .Collision in Simulation.cpp</span>
+  Collision = <span class="editable" contentEditable="true">-0.1f</span>; 
+  <span class="comment">// How fast the particle falls. Negative means it floats. </span>
+  Gravity = <span class="editable" contentEditable="true">0.3f</span>; 
+  <span class="comment">// How much the particle wiggles like GAS.</span>
+  Diffusion = <span class="editable" contentEditable="true">0.00f</span>;
+  <span class="comment">// How much the particle increases pressure. </span>
+  HotAir = <span class="editable" contentEditable="true">0.000f</span>  * CFDS; 
+  <span class="comment">// How does this particle move?
+  // (0 = solid. 1 = powder. 2 = liquid) </span>
+  Falldown = <span class="editable" contentEditable="true">1</span>; 
   
-  <i>// How much this particle burns. 
-  // (0 = not at all. &gt;0 = burns more.) </i>
-  Flammable = <b>0</b>; 
-  <i>// Does the particle explode? 
-  // (0 = no. 1 = only with fire. 2 = with pressure &gt; 2.5 or with fire.)</i>
-  Explosive = <b>0</b>; 
-  <i>// Does it melt? 
-  // (0 = no. 1 = yes)</i>
-  Meltable = <b>5</b>; 
-  <i>// How much acid affects the particle. 
-  // (0 = not at all. &gt;0 = more corrodable)</i>
-  Hardness = <b>2</b>; 
+  <span class="comment">// How much this particle burns. 
+  // (0 = not at all. &gt;0 = burns more.) </span>
+  Flammable = <span class="editable" contentEditable="true">0</span>; 
+  <span class="comment">// Does the particle explode? 
+  // (0 = no. 1 = only with fire. 2 = with pressure &gt; 2.5 or with fire.)</span>
+  Explosive = <span class="editable" contentEditable="true">0</span>; 
+  <span class="comment">// Does it melt? 
+  // (0 = no. 1 = yes)</span>
+  Meltable = <span class="editable" contentEditable="true">5</span>; 
+  <span class="comment">// How much acid affects the particle. 
+  // (0 = not at all. &gt;0 = more corrodable)</span>
+  Hardness = <span class="editable" contentEditable="true">2</span>; 
 
-  <i>// Particle weight. Determines which sinks below which. 
+  <span class="comment">// Particle weight. Determines which sinks below which. 
   //(1 = gas. 2 = light. 0-49 = liquids. 50-99 = powders. 100 = solids. -1 for energy.)
-  // Values aren't limited to that however.</i>
-  Weight = <b>90</b>; 
+  // Values aren't limited to that however.</span>
+  Weight = <span class="editable" contentEditable="true">90</span>; 
   
-  <i>// How hot does it spawn with? Automatically converted to Celsius.
-  //  #define R_TEMP 22 &lt;src/simulation/Elements.h&gt;</i>
-  Temperature = <b>R_TEMP+0.0f</b> + 273.15f; 
-  <i>// How well it transfers heat. 
-  // (0 = badly. 255 = very very well) </i>
-  HeatConduct = <b>150</b>; 
-  <i>// Element description, or the little text you get when mousing over the element menu item.</i>
-  Description = "<b>Broken Coal. Heavy particles. See COAL</b>"; 
+  <span class="comment">// How hot does it spawn with? Automatically converted to Celsius.
+  //  #define R_TEMP 22 &lt;src/simulation/Elements.h&gt;</span>
+  Temperature = <span class="editable" contentEditable="true">R_TEMP+0.0f</span> + 273.15f; 
+  <span class="comment">// How well it transfers heat. 
+  // (0 = badly. 255 = very very well) </span>
+  HeatConduct = <span class="editable" contentEditable="true">150</span>; 
+  <span class="comment">// Element description, or the little text you get when mousing over the element menu item.</span>
+  Description = "<span class="editable" contentEditable="true">Broken Coal. Heavy particles. See COAL</span>"; 
   
-  <i>// Which state the element is in. 
-  // (ST_NONE = other. ST_SOLID = Solid. ST_LIQUID = Liquid. ST_GAS = Gas.)</i>
-  State = ST_<b>SOLID</b>; 
+  <span class="comment">// Which state the element is in. 
+  // (ST_NONE = other. ST_SOLID = Solid. ST_LIQUID = Liquid. ST_GAS = Gas.)</span>
+  State = ST_<span class="editable" contentEditable="true">SOLID</span>; 
 
-  <i>// Element properties. Binary OR them together.
-  //  See <a href="http://tpt.io/.213774">this forum post</a> for details.</i>
-  Properties = <b>TYPE_PART</b>; 
+  <span class="comment">// Element properties. Binary OR them together.
+  //  See <a href="http://tpt.io/.213774">this forum post</a> for details.</span>
+  Properties = <span class="editable" contentEditable="true">TYPE_PART</span>; 
 
 
-  <i>
+  <span class="comment">
   /*
     So this next part is about transitions. 
     How this works is, you have to tell TPT about your upper and lower threshold
@@ -89,32 +89,32 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
     NT = No Type Whatsoever
     ITL = Impossibly Low Temperature
     ITH = Impossibly High Temperature
-  */</i>
+  */</span>
 
-  <i>// if pressure is lower than this then change to LowPressureTransition</i>
-  LowPressure = <b>IPL</b>;
-  LowPressureTransition = <b>NT</b>;
+  <span class="comment">// if pressure is lower than this then change to LowPressureTransition</span>
+  LowPressure = <span class="editable" contentEditable="true">IPL</span>;
+  LowPressureTransition = <span class="editable" contentEditable="true">NT</span>;
 
-  <i>// if pressure is higher than this then change to HighPressureTransition</i>
-  HighPressure = <b>IPH</b>; 
-  HighPressureTransition = <b>NT</b>;
+  <span class="comment">// if pressure is higher than this then change to HighPressureTransition</span>
+  HighPressure = <span class="editable" contentEditable="true">IPH</span>; 
+  HighPressureTransition = <span class="editable" contentEditable="true">NT</span>;
 
-  <i>// if temperature is higher than this then change to HighTemperatureTransition</i>
-  LowTemperature = <b>ITL</b>;
-  LowTemperatureTransition = <b>NT</b>;
+  <span class="comment">// if temperature is higher than this then change to HighTemperatureTransition</span>
+  LowTemperature = <span class="editable" contentEditable="true">ITL</span>;
+  LowTemperatureTransition = <span class="editable" contentEditable="true">NT</span>;
 
-  <i>// if temperature is lower than this then change to LowTemperatureTransition</i>
-  HighTemperature = <b>ITH</b>;
-  HighTemperatureTransition = <b>NT</b>;
+  <span class="comment">// if temperature is lower than this then change to LowTemperatureTransition</span>
+  HighTemperature = <span class="editable" contentEditable="true">ITH</span>;
+  HighTemperatureTransition = <span class="editable" contentEditable="true">NT</span>;
   
-  <i>// address of the update function, 99% of the time it's Element_YOURELEMENT::update</i>
-  Update = &amp;Element_<b>BCOL</b>::update;
+  <span class="comment">// address of the update function, 99% of the time it's Element_YOURELEMENT::update</span>
+  Update = &amp;Element_<span class="editable" contentEditable="true">BCOL</span>::update;
 
-  <i>// address of the graphics function. 50% of the time you won't need it, 
-  // and 50% of the time all the time you will have it as Element_YOURELEMENT::graphics</i>
-  Graphics = &amp;Element_<b>BCOL</b>::graphics; 
+  <span class="comment">// address of the graphics function. 50% of the time you won't need it, 
+  // and 50% of the time all the time you will have it as Element_YOURELEMENT::graphics</span>
+  Graphics = &amp;Element_<span class="editable" contentEditable="true">BCOL</span>::graphics; 
 }
-<i>
+<span class="comment">
 /* 
 
   #define UPDATE_FUNC_ARGS Simulation* sim, int i, int x, int y, 
@@ -130,12 +130,12 @@ Element_<b>BCOL</b>::Element_<b>BCOL</b>()
   #define BOUNDS_CHECK true
 */
 
-// Reactions and movement go here</i>
+// Reactions and movement go here</span>
 
-//#TPT-Directive ElementHeader Element_<b>BCOL</b> static int update(UPDATE_FUNC_ARGS)
-int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS)
+//#TPT-Directive ElementHeader Element_<span class="editable" contentEditable="true">BCOL</span> static int update(UPDATE_FUNC_ARGS)
+int Element_<span class="editable" contentEditable="true">BCOL</span>::update(UPDATE_FUNC_ARGS)
  {
-  <b class="code">//Example code
+  <span class="editable codebox" contentEditable="true">//Example code
   int r, rx, ry, trade, temp;
   if (parts[i]&gt;=0) {
     sim->create_part(i, x, y, PT_FIRE);
@@ -200,15 +200,15 @@ int Element_<b>BCOL</b>::update(UPDATE_FUNC_ARGS)
   if(parts[i].temp > parts[i].tmp2)
     parts[i].tmp2 = parts[i].temp;
   return 0;
-  </b>
+  </span>
 }
 
-<i>// Shinies go here</i>
+<span class="comment">// Shinies go here</span>
 
-//#TPT-Directive ElementHeader Element_<b>BCOL</b> static int graphics(GRAPHICS_FUNC_ARGS)
-int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS)
+//#TPT-Directive ElementHeader Element_<span class="editable" contentEditable="true">BCOL</span> static int graphics(GRAPHICS_FUNC_ARGS)
+int Element_<span class="editable" contentEditable="true">BCOL</span>::graphics(GRAPHICS_FUNC_ARGS)
 {
-<b class="code">
+<span class="editable codebox" contentEditable="true">
   // Example code
   *colr += (cpart->tmp2-295.15f)/3;
   
@@ -229,13 +229,13 @@ int Element_<b>BCOL</b>::graphics(GRAPHICS_FUNC_ARGS)
     *colb += sin(frequency*q*2.22 +3.14) * 64;
   }
   return 0;
-</b>
+</span>
 }
 
-<i>// Explicit destructors!</i>
-Element_<b>BCOL</b>::~Element_<b>BCOL</b>() {}
+<span class="comment">// Explicit destructors!</span>
+Element_<span class="editable" contentEditable="true">BCOL</span>::~Element_<span class="editable" contentEditable="true">BCOL</span>() {}
 
-<i>
+<span class="comment">
 /* 
   If AND ONLY IF you can't use generator.py, 
   here are the lines to manually copy to ElementClasses.cpp and ElementClasses.h: 
@@ -244,18 +244,18 @@ Element_<b>BCOL</b>::~Element_<b>BCOL</b>() {}
 */
 
 // Into ElementClasses.h: 
-</i>
+</span>
 
-#define PT_<b>BCOL</b> <b>73</b>
+#define PT_<span class="editable" contentEditable="true">BCOL</span> <span class="editable" contentEditable="true">73</span>
 
-class Element_<b>BCOL</b> : public Element
+class Element_<span class="editable" contentEditable="true">BCOL</span> : public Element
 {
 public:
-  Element_<b>BCOL</b>();
-  virtual ~Element_<b>BCOL</b>();
+  Element_<span class="editable" contentEditable="true">BCOL</span>();
+  virtual ~Element_<span class="editable" contentEditable="true">BCOL</span>();
   static int update(UPDATE_FUNC_ARGS);
 };
 
-<i>// Into ElementClasses.cpp (into the vector definition): </i>
+<span class="comment">// Into ElementClasses.cpp (into the vector definition): </span>
 
-elements.push_back(Element_<b>BCOL</b>());
+elements.push_back(Element_<span class="editable" contentEditable="true">BCOL</span>());
