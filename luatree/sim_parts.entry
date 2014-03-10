@@ -1,0 +1,5 @@
+NAME ? sim.parts ()
+DESCRIPTION Returns iterator which returns existing particles every iteration.
+LINK 
+DETAILS
+undefined

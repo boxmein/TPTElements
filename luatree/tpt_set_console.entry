@@ -1,0 +1,5 @@
+NAME nil tpt.set_console (boolint state)
+DESCRIPTION Toggles visibility of the console screen
+LINK 
+DETAILS
+A state of 1 means the console is open. Passing -1 will return the current value.

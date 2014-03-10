@@ -1,0 +1,5 @@
+NAME int tpt.get_elecmap (int x, int y)
+DESCRIPTION Returns the sim->emap value for wall-position x, y
+LINK 
+DETAILS
+undefined

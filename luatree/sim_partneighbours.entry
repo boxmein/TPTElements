@@ -1,0 +1,5 @@
+NAME table sim.partNeighbours (int x, int y, int radius, int type)
+DESCRIPTION Find list of particles around a center location, in a given radius.
+LINK 
+DETAILS
+Useful for searching for a single type of particle in a large radius.

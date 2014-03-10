@@ -1,0 +1,5 @@
+NAME nil tpt.unregister_keypress (function onKey)
+DESCRIPTION Remove a given key press function.
+LINK 
+DETAILS
+undefined

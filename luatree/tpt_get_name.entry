@@ -1,0 +1,5 @@
+NAME string tpt.get_name ()
+DESCRIPTION Returns the current user's username
+LINK 
+DETAILS
+undefined

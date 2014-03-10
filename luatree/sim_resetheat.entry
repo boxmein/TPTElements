@@ -1,0 +1,5 @@
+NAME nil sim.resetHeat (boolint onlyConductives)
+DESCRIPTION Resets heat of every particle to room temperature (optionally, only all conductive elements)
+LINK 
+DETAILS
+undefined

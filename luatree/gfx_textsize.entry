@@ -1,0 +1,5 @@
+NAME int gfx.textSize (string text)
+DESCRIPTION Get the width of a string when it's drawn in TPT's font
+LINK 
+DETAILS
+undefined

@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>search thing</title>
+  <style>
+    * {
+      -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+              box-sizing: border-box;
+    }
+    body {
+      background: #081015;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #DEDEDE;
+      margin-left: 5%;
+      line-height: 1.5em;
+    }
+    a {
+      cursor: pointer;
+      color: inherit;
+      text-decoration: underline;
+    }
+    h1 {
+      font-family: monospace;
+      font-size: 2em;
+      font-weight: normal;
+      text-align: center;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+
+
+    p {
+      margin: 0.35em 0;
+    }
+
+    code {
+      background-color: #222;
+      color: #4DA9BF;
+      display: inline;
+      margin: 0;
+      padding: 1px;
+    }
+    pre > code {
+      display: block;
+      padding: 5px;
+    }
+
+    code em{
+      font-style: normal;
+      color: #6DD9EF;
+    }
+
+    code i{
+      font-style: normal;
+      color: #FD2068;
+    }
+
+    code b {
+      color: #FFFF33;
+      font-weight: normal;
+    }
+
+    .entry {
+      width: 100%;
+
+      padding: 10px;
+      margin: 5px 0;
+
+      background: #182025;
+    }
+    .entry:hover {
+      background: #262833;
+    }
+    .entry .name {
+      color: #4DA9BF;
+    }
+
+    .entry .description {
+      color: #999;
+    }
+
+    #searchextra {
+      color: #384045;
+    }
+    #searchextra a {
+      text-decoration: none; 
+      -webkit-user-select: none;
+    }
+
+    #searchextra a.on {
+      color: #FD2068;
+    }
+
+    #container > div > p {
+      margin: 20px;
+    }
+    
+    #foot {
+      color: #283035;
+    }
+
+    #container {
+      margin: 5% auto; 
+      padding: 0;
+      max-width: 600px;
+    }
+
+    #input {
+      background-color: #182025;
+      border: 1px solid #060507;
+      margin-top: 30px;
+      padding: 7px;
+
+      font-family: monospace;
+      color: #FFF;
+      width: 100%;
+    }
+    #loading {
+      text-align: center;
+      margin: 5%;
+    }
+  </style>
+</head>
+<body>
+  
+  <div id="container">
+    <div>
+      <h1 id="unfade" title="doubleclick to show it again">it's like hoogle except for tpt</h1>
+      <noscript><h2>okay this is a place you <em>really</em> need javascript in.</noscript>
+      <div id="fadey" title="doubleclick to hide this">
+        <p>This is a search engine for the TPT programming APIs!<br>Just enter your search term below and see a detailed reference!</p>
+        <p>// Other things: <a href="lua-reference.html">Lua reference</a> / <a href="./">TPTElements</a> / <a href="http://tpt.io/">The Powder Toy</a></p>
+      </div>
+      
+      <input type="text" id="input" placeholder="Search" />
+      <div id="searchextra">
+        <a id="regex" title="Regular expressions!">[&times;]</a>
+        <a id="alwaysintense" title="Always Intense Searching">[i]</a>
+        <span id="resultno"></span>
+        <span id="totalno"></span>
+        
+      </div>
+    </div>
+    <ul id="results">
+      <div id="loading">Preparing....</div>
+    </ul>
+    <div id="foot">by boxmein 2014 <a href="http://cristgaming.com/pirate.swf">license</a></div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+
+  <script type="text/template" id="result_template">
+    <li class="entry" onclick="var d=this.getElementsByClassName('details')[0]; d.style.display=d.style.display=='none'?'block':'none';" onhover="var d=this.getElementsByClassName('details')[0];">
+      <div class="name"><%= name %></div>
+      <span class="description"><%= description %></span>
+      <div class="expand details" style="display: none" ><%= details %></div>
+    </li>
+  </script>
+
+  <script>
+  var extras = {};
+
+  // https://gist.github.com/revolunet/843889 
+  // Decompress an LZW-encoded string
+  function lzw_decode(s) {
+    var dict = {};
+    var data = (s + "").split("");
+    var currChar = data[0];
+    var oldPhrase = currChar;
+    var out = [currChar];
+    var code = 256;
+    var phrase;
+    for (var i=1; i<data.length; i++) {
+        var currCode = data[i].charCodeAt(0);
+        if (currCode < 256) {
+            phrase = data[i];
+        }
+        else {
+           phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
+        }
+        out.push(phrase);
+        currChar = phrase.charAt(0);
+        dict[code] = oldPhrase + currChar;
+        code++;
+        oldPhrase = phrase;
+    }
+    return out.join("");
+  }
+
+  window.onload = function() {
+    var input = $('#input');
+    var template = $('#result_template').html();
+    var alldata = [];
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "./search-min.lzw");
+    xhr.onload = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        try {
+          var text = lzw_decode(xhr.responseText);
+          alldata = JSON.parse(text).stuff;
+          window.thingtext = text;
+          // init stuff
+          $('#totalno').text(alldata.length + ' entries');
+          redisplay(alldata);
+        } catch (err) {
+          console.log(err);
+          $('#loading').html('Fatal error: <pre>' + err + '</pre>');
+        }
+      }
+    };
+    xhr.send(null);
+
+
+
+    // 
+    // Display entries into the y'know list with the template.
+    // 
+    var redisplay = function (data) {
+      var endHTML = "";
+      for (var i=0;i<data.length;i++) {
+        if (!(data[i].name || data[i].description || data[i].details))
+          console.log(data[i]);
+        endHTML += _.template(template, data[i]);
+      }
+      $('#resultno').html(data.length + ' result'+(data.length>1?'s':'')+' out of ');
+      $('#results').html(endHTML);
+    };
+
+    // 
+    // Search for the user query AND update listings.
+    // 
+    var searchUpdate = function (str, detailed) {
+      if (detailed || extras.alwaysintense) {
+        // extra searches!
+        redisplay(_.filter(alldata, function(el) {
+          if (!extras.regex)
+            return el.name.indexOf(str) !== -1 ||
+                   el.description.indexOf(str) !== -1 ||
+                   el.details.indexOf(str) !== -1; 
+          else {
+            try {
+              var rx = new RegExp(str, 'i');
+              return rx.test(el.name) || 
+                     rx.test(el.description) || 
+                     rx.test(el.details);
+            }
+            catch (err) {
+              console.error(err); 
+
+              // let's continue searching without the regex, because it's 
+              // unworking obviously!
+
+              $('#regex').click();
+            }
+          }
+        }));
+      }
+      else {
+        // basic plain quick searching
+        redisplay(_.filter(alldata, function(el) {
+          if (!extras.regex)
+          return el.name.indexOf(str) !== -1; 
+          else {
+            try {
+              var rx = new RegExp(str, 'i');
+              return rx.test(el.name);
+            }
+            catch (err) {
+              console.error(err); 
+              // if we turned off regex here it'd be utterly annoying
+            }
+          }
+        }));
+      }
+    };
+
+    // [[heavy searching]]
+    input.submit(function(evt) {
+      evt.preventDefault(); 
+      searchUpdate(evt.target.value, true);
+    });
+
+    // light searching
+    input.keypress(function(evt) {
+      searchUpdate(evt.target.value, false);
+    });
+
+    // search extras, like regex or whatnot
+    $('#searchextra a').click(function(evt) { 
+      $(evt.target).toggleClass('on'); 
+      extras[evt.target.id] = !extras[evt.target.id]; 
+    });
+
+    $('#fadey').dblclick(function() {
+      $(this).fadeOut(); 
+      localStorage.fadeSearchHtmlOut = true;
+    });
+    $('#unfade').dblclick(function() {
+      localStorage.fadeSearchHtmlOut = false;
+      $('#fadey').fadeIn();
+    })
+
+    if (localStorage && localStorage.fadeSearchHtmlOut == 'true') 
+      $('#fadey').hide();
+
+  };</script>
+</body>
+</html>

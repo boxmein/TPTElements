@@ -1,0 +1,5 @@
+NAME nil/int sim.ambientAirTemp (float temp)
+DESCRIPTION Gets/Sets Ambient Heat mode's air temperature. Default: 293.15
+LINK 
+DETAILS
+undefined

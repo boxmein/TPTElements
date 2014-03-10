@@ -1,0 +1,5 @@
+NAME int tpt.toggle_pause ()
+DESCRIPTION Inverts current paused-ness.
+LINK 
+DETAILS
+<p>It basically goes like this:</p>

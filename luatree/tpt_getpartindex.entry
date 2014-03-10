@@ -1,0 +1,5 @@
+NAME int tpt.getPartIndex ()
+DESCRIPTION Returns the next used particle index.
+LINK 
+DETAILS
+undefined

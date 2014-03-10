@@ -1,0 +1,5 @@
+NAME table elem.element (int elementID, table newValues)
+DESCRIPTION Returns a table with the element's properties, or sets the table.
+LINK 
+DETAILS
+You can set a lot of element properties at once like this! <br>Or you can clone another element: <code>elements.element(elements.MY_PT_ELEMENT, elements.element(elements.DEFAULT_PT_DMND))</code>

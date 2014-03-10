@@ -1,0 +1,5 @@
+NAME nil gfx.drawRect (int x, int y, int width, int height, int r, int g, int b)
+DESCRIPTION Draws a hollow rect for the next frame >>>>> gfx.fillRect >>>>> nil fillRect >>>>> (int x, int y, int width, int height, int r, int g, int b, int a) >>>>> Draws a filled rect for the next frame
+LINK 
+DETAILS
+undefined

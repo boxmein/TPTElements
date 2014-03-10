@@ -1,0 +1,5 @@
+NAME nil gfx.drawCircle (int cx, int cy, int rx, int ry, int r, int g, int b, int a)
+DESCRIPTION Draws an ellipse with two radiuses and a center point >>>>> gfx.fillCircle >>>>> nil fillCircle >>>>> (int cx, int cy, int rx, int ry) >>>>> Draws an ellipse with two radiuses and a center point
+LINK 
+DETAILS
+undefined

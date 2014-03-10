@@ -1,0 +1,10 @@
+NAME nil tpt.drawtext (int x, int y, string text, int r, int g, int b, int a)
+DESCRIPTION Draws a text string only for the next frame
+LINK #tpt.drawtext
+DETAILS 
+Uses TPT's internal text renderer and internal font to render a bunch of text
+onto the screen for the next frame only (unless you redraw it every step inside
+a step function).
+
+You can call this function also without the color constants `r, g, b, a` in 
+which case the colors will default to white (r, g, b = 255; a = 100). 

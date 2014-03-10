@@ -1,0 +1,5 @@
+NAME nil sim.createWallBox (int x1, int y1, int x2, int y2, int type)
+DESCRIPTION Wall boxes!
+LINK 
+DETAILS
+Wall types go from right to left where the first wall from the right has the ID 1. Returns how many wall blocks were changed.

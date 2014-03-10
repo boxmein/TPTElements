@@ -1,0 +1,5 @@
+NAME int tpt.set_pause (int state)
+DESCRIPTION Pauses or unpauses the game
+LINK 
+DETAILS
+A state of 1 means the game is paused, a state of 0 means the game is not paused. Passing -1 will return the current state.

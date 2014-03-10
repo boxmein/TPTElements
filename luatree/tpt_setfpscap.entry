@@ -1,0 +1,5 @@
+NAME nil tpt.setfpscap (int maxFPS)
+DESCRIPTION Set maximum framerate
+LINK 
+DETAILS
+Usually the maximum FPS cap is 60. Setting it too high will eat up your CPU usage and setting it too low will make the UI unresponsive.

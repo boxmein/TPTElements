@@ -1,0 +1,5 @@
+NAME bool fs.makeDirectory (string path)
+DESCRIPTION Returns true on success.
+LINK 
+DETAILS
+undefined

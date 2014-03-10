@@ -1,0 +1,5 @@
+NAME bool tpt.next_getPartIndex ()
+DESCRIPTION True if there's a particle ID to be returned by getPartIndex
+LINK 
+DETAILS
+undefined

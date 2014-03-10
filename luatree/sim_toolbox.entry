@@ -1,0 +1,5 @@
+NAME nil sim.toolBox (int x1, int y1, int x2, int y2, int tool, float strength)
+DESCRIPTION Apply a tool in a box. You can also specify how intensely the box applies the tool.
+LINK 
+DETAILS
+undefined

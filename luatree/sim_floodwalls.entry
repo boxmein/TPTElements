@@ -1,0 +1,5 @@
+NAME int sim.floodWalls (int x, int y, int type, int bm)
+DESCRIPTION Flood-fill walls from an origin point.
+LINK 
+DETAILS
+Wall types go from right to left where the first wall from the right has the ID 1. Returns how many wall blocks were changed.

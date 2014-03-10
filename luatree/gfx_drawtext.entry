@@ -1,0 +1,5 @@
+NAME nil gfx.drawText (int x, int y, string text, int r, int g, int b, int a)
+DESCRIPTION Draw text for one frame = tpt.drawtext
+LINK 
+DETAILS
+undefined

@@ -1,0 +1,5 @@
+NAME nil/int ren.colourMode (int colourMode)
+DESCRIPTION Get/set color mode >>>>> ren.decorations >>>>> nil/boolint decorations >>>>> (boolint state) >>>>> Get or set whether decorations are enabled.
+LINK 
+DETAILS
+undefined

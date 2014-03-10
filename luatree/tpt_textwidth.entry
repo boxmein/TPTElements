@@ -1,0 +1,5 @@
+NAME int tpt.textwidth (string text)
+DESCRIPTION Find out the width of a string of text in the TPT font.
+LINK 
+DETAILS
+undefined

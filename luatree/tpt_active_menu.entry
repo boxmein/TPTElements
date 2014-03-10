@@ -1,0 +1,5 @@
+NAME nil/int tpt.active_menu (int menuID)
+DESCRIPTION Set active menu section.
+LINK 
+DETAILS
+See <a href="lua-reference.html#elem.SC_WALL">SC_*</a>. -1 returns current state.

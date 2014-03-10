@@ -1,0 +1,10 @@
+NAME int bit.bswap (int input)
+DESCRIPTION Swaps endianness of the number.
+LINK #bit.bswap
+DETAILS
+In short, reverses the bits of the number. Useful for converting from little 
+endian to big and back.
+
+      1101 0010 
+    swap 
+    = 0100 1011

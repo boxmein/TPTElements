@@ -1,0 +1,5 @@
+NAME nil/int sim.velocityX (int x, int y, int width, int height, int value)
+DESCRIPTION Get/set velocity (x) at x,y
+LINK 
+DETAILS
+undefined

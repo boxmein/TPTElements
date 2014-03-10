@@ -1,0 +1,5 @@
+NAME int/string tpt.element (string/int element)
+DESCRIPTION Return element ID from element name as string, or element name from element ID. 
+LINK 
+DETAILS
+undefined

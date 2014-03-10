@@ -1,0 +1,5 @@
+NAME nil/mixed sim.partProperty (int index, string field, mixed value)
+DESCRIPTION Get/set a property on a particle.
+LINK 
+DETAILS
+Like tpt.get/set_property only better.

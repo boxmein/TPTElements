@@ -1,0 +1,5 @@
+NAME int sim.createBox (int x1, int y1, int x2, int y2, int type, int flags)
+DESCRIPTION Create a filled rectangle of particles.
+LINK 
+DETAILS
+Type defaults to what's currently selected with left-clicking and flags is some weird variable but it'll default to a reasonable value. It returns how many particles had been changed.

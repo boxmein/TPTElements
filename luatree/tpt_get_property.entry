@@ -1,0 +1,5 @@
+NAME mixed tpt.get_property (string property, int index)
+DESCRIPTION Returns some property of a given particle
+LINK 
+DETAILS
+Alternatively you can call this function with <tt>(string property, int x, int y)</tt>

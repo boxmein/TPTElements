@@ -1,0 +1,5 @@
+NAME nil tpt.set_gravity (int x, int y, int width, int height, int value)
+DESCRIPTION Sets the Newtonian Gravity for a given position. 
+LINK 
+DETAILS
+Omitting the width or height will make them default to 1. Omitting <tt>value</tt> will make it default to 0.

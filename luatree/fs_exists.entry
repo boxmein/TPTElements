@@ -1,0 +1,5 @@
+NAME bool fs.exists (string path)
+DESCRIPTION Checks if a file exists
+LINK 
+DETAILS
+undefined

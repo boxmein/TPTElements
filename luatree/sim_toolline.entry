@@ -1,0 +1,5 @@
+NAME nil sim.toolLine (int x1, int y1, int x2, int y2, int rx, int ry, int tool, int brush)
+DESCRIPTION Apply a tool in a line. 
+LINK 
+DETAILS
+undefined

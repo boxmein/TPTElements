@@ -1,0 +1,5 @@
+NAME nil tpt.drawrect (int x, int y, int width, int height, int r, int g, int b, int a)
+DESCRIPTION Draws a rectangle's outlines.
+LINK 
+DETAILS
+<p>You can leave out the colours and alpha values in which case they'll default to opaque white.</p>

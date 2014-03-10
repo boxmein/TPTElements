@@ -1,0 +1,5 @@
+NAME nil tpt.setwindowsize (int scale, boolint fullscreen)
+DESCRIPTION Set window size.
+LINK 
+DETAILS
+Scale can either be 1 or 2 with a default 1 - this will make every pixel displayed 1x or 2x its size; fullscreen is kiosk mode, it resizes as much as it can and then blackens everything else out
