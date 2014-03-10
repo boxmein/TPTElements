@@ -1,36 +1,49 @@
-@import-once "globals";
+// Body background colour
+@backgroundColor: darken(#162D3A, 10%);
+// Woo generic fonts
+@bodyFont: monospace;
+// Text colour for the body.
+@textColor: #EFEFEF;
+// Applies to <i></i> tags
+@commentColor: desaturate(lighten(@backgroundColor, 40%), 20%);
+// Editable <b> boxes
+@editableColor: desaturate(lighten(@backgroundColor, 60%), 20%);
 
-// Reset
-ol, ul {
-  margin: 0;	
-  padding: 0;
-}
 
 // -----------------------------------------------------------------------------
 // Basics
 
 body {
 	background: @backgroundColor;
-	font: 12px @bodyFont;
-	padding-left: 5%;
+	font-family: @bodyFont;
+	font-size: 12px;
 	color: @textColor;
 	white-space: pre;
-	max-width: 700px;
+	margin-left: 5%;
 }
+
 a, .liveurls {
-	text-decoration: none;
 	cursor: pointer;
-	color: @linkColor;
+	color: inherit;
+	text-decoration: underline;
 }
 h1 {
-	font: 2em @bodyFont;
+	font-family: @bodyFont;
+	font-size: 2em;
+	font-weight: normal;
 	margin-bottom: -10px;
 }
-b {
+// Reset
+ol, ul {
+  margin: 0;	
+  padding: 0;
+}
+
+.editable {
 	color: @editableColor;
 	font-weight: normal;
 }
-i {
+.comment {
 	color: @commentColor;
 	font-style: normal;
 }
@@ -40,29 +53,35 @@ i {
 // Aside-bar
 
 .aside p {
-	margin:0;
+	margin: 0;
 }
 
 .aside {
-	border: 1px solid lighten(@backgroundColor, 2%);
+	
 	position: fixed;
 	top: 50px; 
 	right: 100px; 
-	background: @backgroundColor;
+	min-width: 200px;
+
 	text-align: left;
 	padding: 5px;
 	white-space: normal;
+
+	background: @backgroundColor;
+	border: 1px solid lighten(@backgroundColor, 5%);
+	
 }
 .aside ul {
-	list-style: none;
+
 	padding: -5px;
 	margin: 0;
+
+	list-style: none;
 	white-space: normal;
 }
 .aside li {
 	list-style-type: none;
 	cursor: pointer;
-	color: @linkColor;
 }
 
 // Cheap "- " prefixes for list items
