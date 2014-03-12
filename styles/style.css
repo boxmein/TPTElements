@@ -4,36 +4,34 @@ body {
   font-size: 12px;
   color: #efefef;
   white-space: pre;
-  margin-left: 5%;
-}
-a,
-.liveurls {
+  margin-left: 5%; }
+
+a, .liveurls {
   cursor: pointer;
   color: inherit;
-  text-decoration: underline;
-}
+  text-decoration: underline; }
+
 h1 {
   font-family: monospace;
   font-size: 2em;
   font-weight: normal;
-  margin-bottom: -10px;
-}
-ol,
-ul {
+  margin-bottom: -10px; }
+
+ol, ul {
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
+
 .editable {
   color: #92aebd;
-  font-weight: normal;
-}
+  font-weight: normal; }
+
 .comment {
   color: #577d92;
-  font-style: normal;
-}
+  font-style: normal; }
+
 .aside p {
-  margin: 0;
-}
+  margin: 0; }
+
 .aside {
   position: fixed;
   top: 50px;
@@ -43,37 +41,34 @@ ul {
   padding: 5px;
   white-space: normal;
   background: #081015;
-  border: 1px solid #0f1f28;
-}
+  border: 1px solid #0f1f28; }
+
 .aside ul {
   padding: -5px;
   margin: 0;
   list-style: none;
-  white-space: normal;
-}
+  white-space: normal; }
+
 .aside li {
   list-style-type: none;
-  cursor: pointer;
-}
+  cursor: pointer; }
+
 .aside li:before {
-  content: "- ";
-}
+  content: "- "; }
+
 @media (max-width: 700px) {
   .aside {
     position: static;
-    margin: 5px 0;
-  }
-}
+    margin: 5px 0; } }
 #propertyList {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
+
 .propline .close {
   cursor: default;
   position: relative;
-  color: #081015;
-}
+  color: #081015; }
+
 .propline:hover .close {
-  color: #92aebd;
-}
+  color: #92aebd; }
