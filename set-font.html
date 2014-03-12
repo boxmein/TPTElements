@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TPTElements font options</title>
+  <style>
+    * {
+      -webkit-box-sizing: border-box;
+         -moz-box-sizing: border-box;
+              box-sizing: border-box;
+    }
+    body {
+      background: #081015;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #DEDEDE;
+      margin-left: 5%;
+      line-height: 1.5em;
+    }
+    a {
+      cursor: pointer;
+      color: inherit;
+      text-decoration: underline;
+    }
+    h1 {
+      font-family: monospace;
+      font-size: 2em;
+      font-weight: normal;
+      text-align: center;
+    }
+    #container {
+      margin: 5% auto; 
+      padding: 0;
+      max-width: 600px;
+    }
+    #font {
+      border: 1px solid black; 
+      background-color: #182025;
+      border: 1px solid #060507;
+      margin-top: 15px;
+      padding: 7px;
+
+      font-family: monospace;
+      color: #FFF;
+      width: 100%;
+    }
+    #extra {
+      margin-left: 5px;
+    }
+    #extra a {
+      color: #384045;
+      text-decoration: none; 
+      -webkit-user-select: none;
+    }
+    #saved {
+      -webkit-transition: 0.5s ease-out;
+      -moz-transition: 0.5s ease-out;
+      -ms-transition: 0.5s ease-out;
+      -o-transition: 0.5s ease-out;
+      transition: 0.5s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Change your TPTElements font</h1>
+    
+    <p>So every person has a different monospaced font in mind when they think
+    'perfect programming font'. Or not monospaced. Whatever tickles your pickle.
+    Anyways I'll just get this over with and let users just use whichever font 
+    they want. A bit of a note beforehand: I won't check if the fonts are valid,
+    nor if they exist on your computer. Use this when you know what you're doing.
+    Or when someone else knows what you're doing. That's good too.</p>
+
+    <p>Oh, and don't worry, you won't be able to change this one's font. You can
+    always just come back here and not worry that everything's broken because you
+    broke the font string. :D</p>
+
+    <p>The font string will automatically be saved on page unload.</p>
+
+    <noscript style="color: #FFDDDD">And a lack of Javascript capability will break the functionality of it
+    anyway.</noscript>
+    
+    <input id="font" autofocus placeholder="New font family"> <br />
+    <div id="extra">
+      <a id="reset" href="javascript:;">Reset</a> 
+      <a id="save" href="javascript:;">Save</a> 
+      <a id="clear">Clear</a> 
+      <span id="saved" style="opacity: 0">Saved...</span>
+    </div>
+
+    <div id="nolocalstorage" style="display: none">
+    Your browser doesn't seem to support localStorage. That's a shame as I use
+    that exact thing to keep track of the font string.
+    </div>
+  </div>  
+  <script>
+    window.onload = function() {
+      var example_style = "'Consolas', 'Courier New', monospace";
+      
+      if (!localStorage) {
+        document.getElementById('font').setAttribute('disabled', '');
+        document.getElementById('font').style.borderColor='1px solid #FFDDDD';
+        document.getElementById('nolocalstorage').style.display='block';
+        return;
+      }
+
+      // ...so we have localStorage
+
+      if (localStorage.tptelements_font !== undefined)
+        document.getElementById('font').value = localStorage.tptelements_font;
+      else 
+        document.getElementById('font').value = localStorage.tptelements_font = example_style;
+
+      // okay now we've set up the default font
+      var hide_saved = function() {
+        document.getElementById('saved').style.opacity = 0;
+      };
+
+
+      // placebo
+      document.getElementById('save').onclick = function(evt) {
+        document.getElementById('saved').style.opacity = 1;
+        setTimeout(hide_saved, 1500);
+      };
+
+      // not placebo
+      document.getElementById('clear').onclick = function(evt) {
+        document.getElementById('font').value = '';
+      };
+
+      // not placebo
+      document.getElementById('reset').onclick = function(evt) {
+        document.getElementById('font').value = example_style;
+      };
+    };
+
+    
+    // let's have the user keep the default font, too
+    window.onbeforeunload = function() {
+      localStorage.tptelements_font = document.getElementById('font').value;
+    }
+  </script> 
+</body>
+</html>

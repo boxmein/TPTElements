@@ -312,7 +312,12 @@
 
     if (localStorage && localStorage.fadeSearchHtmlOut == 'true') 
       $('#fadey').hide();
-
+    
+    if (localStorage && 
+        localStorage.tptelements_font !== undefined && 
+        localStorage.tptelements_font !== '') {
+      document.body.style.fontFamily = localStorage.tptelements_font;
+    } 
   };</script>
 </body>
 </html>

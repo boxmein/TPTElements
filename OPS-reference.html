@@ -946,7 +946,12 @@ purple and more black-on-white.</p>
         $(this).addClass('hidden');
       }
     });
-
+    
+    if (localStorage && 
+        localStorage.tptelements_font !== undefined && 
+        localStorage.tptelements_font !== '') {
+      document.body.style.fontFamily = localStorage.tptelements_font;
+    } 
   });
   </script>
 </body>

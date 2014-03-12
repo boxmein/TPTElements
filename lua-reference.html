@@ -1173,6 +1173,12 @@ The same thing also applies for Lua.
     $(document.body).scrollTop(scr);
   });
   $("#bright").click(function(){$(document.body).toggleClass('bright');});
+  
+  if (localStorage && 
+        localStorage.tptelements_font !== undefined && 
+        localStorage.tptelements_font !== '') {
+      document.body.style.fontFamily = localStorage.tptelements_font;
+    } 
 </script>
 </body>
 </html>
