@@ -1,5 +1,7 @@
 NAME nil tpt.setfire (int strength)
-DESCRIPTION Set strength of fire effects
-LINK 
+DESCRIPTION Set the intensity multiplier of fire effects
+LINK #tpt.setfire
 DETAILS
-undefined
+Changes how strong fire effects are applied to particles that use fire effects. 
+The default intensity is **1**, larger values will make the fire much more 
+intense while lesser values will reduce the intensity.

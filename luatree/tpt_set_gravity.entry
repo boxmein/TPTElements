@@ -1,5 +1,19 @@
 NAME nil tpt.set_gravity (int x, int y, int width, int height, int value)
 DESCRIPTION Sets the Newtonian Gravity for a given position. 
-LINK 
+LINK #tpt.set_gravity
 DETAILS
-Omitting the width or height will make them default to 1. Omitting <tt>value</tt> will make it default to 0.
+Sets Newtonian Gravity at a position or area to some value. 
+
+### Default values
+
+**x** = 0  
+**y** = 0  
+**width** = XRES/CELL = 612 / 4 = 153  
+**height** = YRES/CELL = 384 / 4 = 96  
+**value** = 0
+
+### Examples
+
+Reset gravity at point (150, 150): `tpt.set_gravity(150, 150)`  
+Reset gravity from (100,100) to (300,300): `tpt.set_gravity(100, 100, 200, 200)`  
+Set the entire stage's gravity to 1000: `tpt.set_gravity(nil, nil, nil, nil, 1000)`

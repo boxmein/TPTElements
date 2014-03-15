@@ -1,5 +1,12 @@
 NAME nil/int tpt.newtonian_gravity (boolint state)
 DESCRIPTION Set Newtonian Gravity.
-LINK 
+LINK #tpt.newtonian_gravity
 DETAILS
-1 = On. -1 returns current state.
+Sets Newtonian Gravity on and off.
+
+Does the same thing as Ctrl+N in normal gameplay. 
+
+The number argument can be either 0 or 1, where 1 will enable Newtonian Gravity,
+and 0 will disable Newtonian Gravity. If you don't pass in any arguments, the 
+command will return an integer, either 0 or 1, about whether Newtonian Gravity
+is turned on at the given moment.

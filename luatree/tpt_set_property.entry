@@ -1,0 +1,30 @@
+NAME tpt.set_property (string property, mixed value, int x, int y, int width, int height, string type)
+DESCRIPTION Sets a particle property of some particles.
+LINK #tpt.set_property
+DETAILS 
+This function sets a [particle property][pp] of some particles. It's one of the 
+most useful functions in relation to actual particles, however it can be a bit 
+difficult to use due to the many ways you can call it. 
+
+The function actually has about 8 different ways you can call it. 
+
+    tpt.set_property(string property, mixed value)
+
+This sets some property to some value for every particle in the save. It does
+not apply any filters to pick out particles whatsoever.
+
+    tpt.set_property(string property, mixed value, string type)
+
+This sets some property to some value for every particle with the given type, 
+and for nothing else.
+
+    tpt.set_property(string property, mixed value, int index)
+
+This finds the one particle by its particle index and applies the property
+changes to that. 
+
+    tpt.set_property(string property, mixed value, int index, string type)
+
+This finds the one particle by its particle index and only applies if the 
+particle has the type specified.
+
