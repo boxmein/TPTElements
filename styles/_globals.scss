@@ -1,0 +1,18 @@
+// Global variables also mixins
+$backgroundColor: darken(#162D3A, 10%);
+$bodyFont: 'Consolas', 'Courier New', monospace;
+$fontSize: 12px;
+$textColor: #EFEFEF;
+
+$commentColor: desaturate(lighten($backgroundColor, 40%), 20%);
+$editableColor: desaturate(lighten($backgroundColor, 60%), 20%);
+
+$red: #FD2068;
+$yellow: #FFFF33;
+$cyan: #6DD9EF;
+
+@mixin border-box() {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}

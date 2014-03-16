@@ -1,0 +1,120 @@
+@import "globals";
+
+* {
+  @include border-box();
+}
+
+body {
+  background: $backgroundColor;
+  font-family: $bodyFont;
+  font-size: 12px;
+  color: $textColor;
+  margin-left: 5%;
+  line-height: 1.5em;
+}
+
+a {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: $bodyFont;
+  font-size: 2em;
+  font-weight: normal;
+  text-align: center;
+}
+
+ul {
+  margin: 0; padding: 0;
+  list-style-type: none;
+}
+
+p {
+  margin: 0.35em 0;
+}
+
+code {
+  background-color: darken($backgroundColor, 10%);
+  color: $textColor;
+  display: inline;
+  margin: 0;
+  padding: 1px;
+  
+  em, i, b {
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  // Short highlighting tags inside <code>
+  em {
+    color: $cyan;
+  }
+
+  i {
+    color: $red;
+  }
+
+  b {
+    color: $yellow;
+  }
+}
+pre > code {
+  display: block;
+  padding: 5px;
+}
+
+.entry {
+  width: 100%;
+
+  padding: 10px;
+  margin: 5px 0;
+
+  background: lighten($backgroundColor, 7.5%);
+
+  .name {
+    color: $cyan;
+  }
+  .description {
+    color: darken($textColor, 30%);
+  }
+}
+
+#searchextra, #foot {
+  color: lighten($backgroundColor, 5%);
+}
+
+#searchextra a {
+  text-decoration: none; 
+  -webkit-user-select: none;
+}
+
+#searchextra a.on {
+  color: $red;
+}
+
+#container {
+  margin: 5% auto; 
+  padding: 0;
+  max-width: 600px;
+  & > div > p {
+    margin: 20px;
+  }
+}
+
+#input {
+  background-color: lighten($backgroundColor, 5%);
+  border: 1px solid darken($backgroundColor, 5%);
+  margin-top: 30px;
+  padding: 7px;
+
+  font-family: $bodyFont;
+  color: $textColor;
+  width: 100%;
+}
+
+#loading {
+  text-align: center;
+  margin: 5%;
+}

@@ -1,14 +1,4 @@
-// Body background colour
-$backgroundColor: darken(#162D3A, 10%);
-// Woo generic fonts
-$bodyFont: monospace;
-// Text colour for the body.
-$textColor: #EFEFEF;
-// Applies to <i></i> tags
-$commentColor: desaturate(lighten($backgroundColor, 40%), 20%);
-// Editable <b> boxes
-$editableColor: desaturate(lighten($backgroundColor, 60%), 20%);
-
+@import "globals";
 
 // -----------------------------------------------------------------------------
 // Basics
