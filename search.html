@@ -162,7 +162,6 @@
     <li class="entry" onclick="var d=this.getElementsByClassName('details')[0]; d.style.display=d.style.display=='none'?'block':'none';" onhover="var d=this.getElementsByClassName('details')[0];">
       <div class="name"><%= name %></div>
       <span class="description"><%= description %></span>
-      <div class="expand details" style="display: none" ><%= details %></div>
     </li>
   </script>
 
@@ -228,7 +227,7 @@
     var redisplay = function (data) {
       var endHTML = "";
       for (var i=0;i<data.length;i++) {
-        if (!(data[i].name || data[i].description || data[i].details))
+        if (!(data[i].name || data[i].description /*|| data[i].details*/))
           console.log(data[i]);
         endHTML += _.template(template, data[i]);
       }
