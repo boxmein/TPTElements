@@ -56,7 +56,8 @@ var parsetoobj = function (file) {
       break;
     }
   }
-  obj.details = md.toHTML(data.slice(i+1).join('\n'));
+  // details could be a bit too long o.o
+  // obj.details = md.toHTML(data.slice(i+1).join('\n'));
   entries.stuff.push(obj);
   // console.log(obj);
 };
