@@ -1,5 +1,7 @@
 NAME nil gfx.drawLine (int x1, int y1, int x2, int y2, int r, int g, int b, int a)
 DESCRIPTION Draws a line for one frame
-LINK 
 DETAILS
-undefined
+Draws a line onto the screen. You can use this to draw graphics that don't
+affect the save in any way. 
+
+You can leave out colour attributes to have them default to opaque white.

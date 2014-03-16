@@ -1,0 +1,5 @@
+NAME int,int sim.partPosition (int index)
+DESCRIPTION Get x,y from a given particle index
+DETAILS
+This function allows you to find out the position of a particle with a given 
+index.

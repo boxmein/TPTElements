@@ -1,5 +1,5 @@
-NAME nil gfx.drawCircle (int cx, int cy, int rx, int ry, int r, int g, int b, int a)
-DESCRIPTION Draws an outline of an ellipse with two radiuses and a center point 
+NAME nil gfx.fillCircle (int cx, int cy, int rx, int ry, int ry, int r, int g, int b, int a) 
+DESCRIPTION Draws a filled ellipse with two radiuses and a center point
 DETAILS
 Any ellipse can be defined by a center point and the width and height of a
 rectangle that surrounds the ellipse. 
