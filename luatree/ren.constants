@@ -1,0 +1,59 @@
+# constant name <space> constant value <space> description \n
+# renderer.* API covered below
+# 
+# Pixel drawing modes. See Particle_Drawing_Modes.png for a quick reference.
+# 
+PMODE 0x00000FFF Bitmask to get display modes via binary AND
+PMODE_NONE 0x00000000 Invisible as in totally invisible
+PMODE_FLAT 0x00000001 Regular like Basic view
+PMODE_BLOB 0x00000002 Blurry like Blob view
+PMODE_BLUR 0x00000004 Blurry like wtrv
+PMODE_GLOW 0x00000008 Glowy like PLUT with fancy view
+PMODE_SPARK 0x00000010 Sparks used to be drawn more fancily
+PMODE_FLARE 0x00000020 Flare like BOMB
+PMODE_LFLARE 0x00000040 Large flare like DEST
+PMODE_ADD 0x00000080 If particles are stacking then adds up the colours
+PMODE_BLEND 0x00000100 Weaker than the above, does blendy magic.
+PSPEC_STICKMAN 0x00000200 Only works for STKM, shows them as STKM
+# 
+# Odd pixel modes
+# 
+OPTIONS 0x0000F000 A bit mask for the option bit. If you're making a custom render mode just always involve this.
+NO_DECO 0x00001000 politely refuses decorations be drawn upon it (like LCRY)
+DECO_FIRE 0x00002000 enables changing the blur colour via deco
+FIREMODE 0x00FF0000 Bit mask for fire modes (below)
+FIRE_ADD 0x00100000 A pixel mode that makes the particle be drawn like a fire particle. 
+FIRE_BLEND 0x00200000 Applies blending effects as well to FIRE_ADD.
+# 
+# Effect modes
+# 
+EFFECT 0xFF000000
+EFFECT_GRAVIN 0x01000000 Enables what PRTI does (particles flying inward), further particle property coding may be needed.
+EFFECT_GRAVOUT 0x02000000 ^ for PRTO
+EFFECT_LINES 0x04000000
+EFFECT_DBGLINES 0x08000000
+# 
+# Render modes 
+# 
+RENDER_EFFE - OPTIONS | PSPEC_STICKMAN | EFFECT | PMODE_SPARK | PMODE_FLARE | PMODE_LFLARE
+RENDER_FIRE - OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_ADD | PMODE_BLEND | FIREMODE
+RENDER_GLOW - OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_GLOW | PMODE_ADD | PMODE_BLEND
+RENDER_BLUR - OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLUR | PMODE_ADD | PMODE_BLEND
+RENDER_BLOB - OPTIONS | PSPEC_STICKMAN | /*PMODE_FLAT |*/ PMODE_BLOB | PMODE_ADD | PMODE_BLEND
+RENDER_BASC - OPTIONS | PSPEC_STICKMAN | PMODE_FLAT | PMODE_ADD | PMODE_BLEND | EFFECT_LINES
+RENDER_NONE - OPTIONS | PSPEC_STICKMAN | PMODE_FLAT
+# 
+# Color modes
+# 
+COLOUR_HEAT 0x0000001 This is like Heat view.
+COLOUR_LIFE 0x0000002 Like Life display 
+COLOUR_GRAD 0x0000004 Like Heat Gradient display
+COLOUR_BASC 0x0000008 Like Basic display. 
+COLOUR_DEFAULT 0x00000000 Default as in nothing changes.
+DISPLAY_AIRC 0x00000001 DISPLAY_AIRP 0x00000002 Display air pressure
+DISPLAY_AIRV 0x00000004 Display air velocity
+DISPLAY_AIRH 0x00000008 Display air heat
+DISPLAY_AIR 0x0000000F
+DISPLAY_WARP 0x00000010 Enable gravity wells
+DISPLAY_PERS 0x00000020 Display Persistent lines
+DISPLAY_EFFE 0x00000040
