@@ -1,0 +1,71 @@
+
+$bright_bg: #EFEFEF;
+$bright_fg: black;
+$bright_highlight: #000077;
+
+// Body styles
+body {
+  max-width: 1500px;
+
+  &.bright, &.bright .aside {
+    color: $bright_fg;
+    background-color: $bright_bg;
+  }
+  .brightonly {
+    display: none;
+  }
+}
+
+
+body.bright {
+  div.brightonly {
+    display: block;
+  }
+  span.brightonly {
+    display: inline;
+  }
+  .content > span[id]:hover {
+    cursor: default;
+    color: $bright_bg;
+    background-color: $bright_fg;
+  }
+  .editable, .comment {
+    color: $bright_highlight;
+  }
+}
+
+// Comments
+.comment {
+  &:before {
+    content: '-- ';
+  }
+
+  &.nodash:before {
+    content: '';
+  }
+}
+
+.content {
+  white-space: pre;
+  & > span[id]:hover {
+    cursor: default;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+#bright {
+  background-color: $bright_bg;
+  color: $bright_fg;
+}
+ 
+span.color {
+  &.r {
+  color: #FD2068;
+  }
+  &.y {
+    color: #FFFF33;
+  }
+  &.c {
+    color: #6DD9EF;
+  }
+}

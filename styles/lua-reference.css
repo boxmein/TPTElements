@@ -1,0 +1,40 @@
+body {
+  max-width: 1500px; }
+  body.bright, body.bright .aside {
+    color: black;
+    background-color: #efefef; }
+  body .brightonly {
+    display: none; }
+
+body.bright div.brightonly {
+  display: block; }
+body.bright span.brightonly {
+  display: inline; }
+body.bright .content > span[id]:hover {
+  cursor: default;
+  color: #efefef;
+  background-color: black; }
+body.bright .editable, body.bright .comment {
+  color: #000077; }
+
+.comment:before {
+  content: '-- '; }
+.comment.nodash:before {
+  content: ''; }
+
+.content {
+  white-space: pre; }
+  .content > span[id]:hover {
+    cursor: default;
+    background-color: rgba(255, 255, 255, 0.1); }
+
+#bright {
+  background-color: #efefef;
+  color: black; }
+
+span.color.r {
+  color: #FD2068; }
+span.color.y {
+  color: #FFFF33; }
+span.color.c {
+  color: #6DD9EF; }
