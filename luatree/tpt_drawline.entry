@@ -1,5 +1,7 @@
 NAME nil tpt.drawline (int x1, int y1, int x2, int y2, int r, int g, int b, int a)
 DESCRIPTION Draws a line for the next frame
-LINK 
 DETAILS
-<p>You can leave out the colours and alpha values in which case they'll default to opaque white.</p>
+Draws a line onto the screen. You can use this to draw graphics that don't
+affect the save in any way. 
+
+You can leave out colour attributes to have them default to opaque white.

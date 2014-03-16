@@ -1,5 +1,6 @@
 NAME int tpt.get_numOfParts ()
-DESCRIPTION Returns the particle count at the time of calling (a maximum of 235008)
+DESCRIPTION Returns the particle count at the time of calling.
 LINK 
 DETAILS
-undefined
+The maximum amount of particles that can exist on the screen is 235008 
+(612x384). 

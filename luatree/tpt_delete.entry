@@ -1,5 +1,7 @@
 NAME nil tpt.delete (int index)
 DESCRIPTION Delete particle at a position or index
-LINK 
 DETAILS
-<p>You can also call this function with <tt>(int x, int y)</tt></p>
+Simply wipes out the existence of a particle referred to by either position or 
+index. It's better than just setting the `type` property to 0.
+
+You can also call this function with `tpt.delete (int x, int y)`.

@@ -28,3 +28,21 @@ changes to that.
 This finds the one particle by its particle index and only applies if the 
 particle has the type specified.
 
+    tpt.set_property(string property, mixed value, int x, int y)
+
+This finds the referred particle as the top-most particle in a given location, 
+and applies the changes to that. 
+
+    tpt.set_property(string property, mixed value, number x, number y, string type)
+
+finds the referred particle as the top-most particle *of your type* in a given 
+location, and applies the changes to that. 
+
+    tpt.set_property(string property, object value, number x, number y, number 
+    width, number height)
+
+That signature allows you to apply the property changes to a box instead of a
+single particle. You can as well filter by type with the signature below: 
+
+    tpt.set_property(string property, object value, number x, number y, number 
+    width, number height, string type)
