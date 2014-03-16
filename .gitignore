@@ -1,3 +1,4 @@
 *.lzw
 *.tmp
 backup
+tools/node_modules
