@@ -1,0 +1,145 @@
+It's the simulation object! You can call me {.hl-1}sim{/} though.
+
+! Field constants
+
+You can use field constants instead of the equivalent strings, as field constants are integers and thus compare way faster than two strings do. 
+
+!! FIELD_CTYPE 
+Equivalent with the string: "[ctype|Particle properties#_ctype]"
+
+!! FIELD_DCOLOUR 
+Equivalent with the string: "[dcolour|Particle properties#_dcolour]"
+
+!! FIELD_FLAGS 
+Equivalent with the string: "[flags|Particle properties#_flags]"
+
+!! FIELD_LIFE 
+Equivalent with the string: "[life|Particle properties#_life]"
+
+!! FIELD_TEMP 
+Equivalent with the string: "[temp|Particle properties#_temp]"
+
+!! FIELD_TMP 
+Equivalent with the string: "[tmp|Particle properties#_tmp]"
+
+!! FIELD_TMP2 
+Equivalent with the string: "[tmp2|Particle properties#_tmp2]"
+
+!! FIELD_TYPE 
+Equivalent with the string: "[type|Particle properties#_type]"
+
+!! FIELD_VX 
+Equivalent with the string: "[vx|Particle properties#_vx]"
+
+!! FIELD_VY 
+Equivalent with the string: "[vy|Particle properties#_vy]"
+
+!! FIELD_X 
+Equivalent with the string: "[x|Particle properties#_x]"
+
+!! FIELD_Y 
+Equivalent with the string: "[y|Particle properties#_y]"
+
+! Methods
+
+!! partNeighbours
+{{table sim.partNeighbours (int x, int y, int radius)
+table  partNeighbours (int x, int y, int radius, int type)}}
+Returns a table of particles around the center position of (x, y) with your given radius. If you pass an element type, it also filters by type. Instead of ''Neighbours'' you can use ''Neighbors''.
+
+!! partChangeType
+
+{{nil sim.partChangeType (int index, int type)}}
+Change a particle's type to the passed type. There's probably some other magic involved, like creation temperatures, so it's better than setting the particle's .type.
+
+!! partCreate
+
+{{int sim.partCreate (int newindex, int x, int y, int type_and_var)}}
+Creates a particle into a position of (x,y).
+
+type_and_var is a compound variable which you can just set to your type if you don't want anything to do with the var part. Some elements, however, also use the var part of type_and_var. Then you can split up the type_and_var into a type and var part like this: 
+{{int type = type_and_var &amp; 0xFF;
+int var = (type_and_var >> 8) &amp; 0xFFFFFF;}}
+
+For example, var is used by GOL elements to specify which GOL element they are, and when you're setting CRAY's ctype to GOL elements, it secretly copies over the GOL element type too to its tmp2. 
+
+Set newindex to -1 to use the first available index and create a new particle.
+Set newindex to -2 to make your particle creation seem like it was from a brush (like the mouse). This lets you, for example, emulate how users set CLNE ctypes with the brush. 
+Set newindex to -3 to 'skip pmap checks'. 
+Otherwise, set newindex to any existing index to replace that index with the new particle.
+
+!!! Examples
+
+Create a particle at 100,100 with type DUST: 
+{{sim.partCreate(-1, 100, 100, elements.DEFAULT_PT_DUST)}}
+
+Create a particle at 100,100 with type LIFE(BRAN), or life type #23
+{{sim.partCreate(-1, 100, 100, bit.bor(bit.lshift(23, 8), elements.DEFAULT_PT_LIFE))}}
+
+!! partProperty
+
+{{mixed sim.partProperty(int index, string field)
+nil sim.partProperty(int index, string field, mixed value)}}
+
+Gets and sets [particle properties]. 
+
+!! partPosition
+
+{{int, int partPosition (int index)}}
+Returns x, y from a particle index.
+
+!! partID
+
+{{int partID (int x, int y)}}
+Returns particle index from x, y. If multiple particles are stacked, returns the index of the topmost particle.
+
+!! partKill
+
+{{nil partKill (int index)
+nil partKill (int x, int y)}}
+Delete and dispose of a particle. 
+
+!! pressure
+
+{{float pressure (int x, int y)
+nil pressure (int x, int y, float value)
+nil pressure (int x, int y, int width, int height, float value)}}
+Get and set pressure at the position in wall coordinates.
+Also, set pressure at a rectangle in wall coordinates to value. 
+
+!! ambientHeat
+
+{{float ambientHeat (int x, int y)
+nil ambientHeat (int x, int y, float value)
+nil ambientHeat (int x, int y, int width, int height, float value)}}
+Get and set ambient heat at the position in wall coordinates. 
+Also, set ambient heat at a rectangle in wall coordinates to value. 
+
+!! velocityX
+
+{{float velocityX (int x, int y)
+nil velocityX (int x, int y, float value)
+nil velocityX (int x, int y, int width, int height, float value)}}
+Get and set velocity (of the X axis) at the position in wall coordinates. 
+Also, set velocity (of the X axis) at a rectangle in wall coordinates to value. 
+
+!! velocityY
+
+{{float velocityY (int x, int y)
+nil velocityY (int x, int y, float value)
+nil velocityY (int x, int y, int width, int height, float value)}}
+Get and set velocity (of the Y axis) at the position in wall coordinates. 
+Also, set velocity (of the Y axis) at a rectangle in wall coordinates to value. 
+
+!! gravMap
+
+{{nil velocityY (int x, int y, float value)
+nil velocityY (int x, int y, int width, int height, float value)}}
+Set the gravity map value at the position in wall coordinates to value.
+Also, set velocity (of the Y axis) at a rectangle in wall coordinates to value. 
+
+!! createParts
+
+{{int createParts (int centerx, int centery, int radiusx, int radiusy, [element|Definitions#_Element] type, int brush, int flags)}}
+Create particles like a brush (the mouse) would. 
+centerx, centery define the center point of the brush, {br} radiusx, radiusy define the radiuses on the X and Y axes, {br} type is the [element|Definitions#_Element] type we're using, {br} brush is the [brush type|Brush#_Types], and {br} flags are the [brush flags|Brush#_Flags] we need to use.

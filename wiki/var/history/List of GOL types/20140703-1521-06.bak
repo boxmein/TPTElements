@@ -1,0 +1,174 @@
+This page lists all of the Game of Life types in this game, in two lists. There's an old ID and a new ID. 
+(Up to date as of [c4dcb37de40eda86871ba4e0992877528a208e39|https://github.com/simtr/The-Powder-Toy/blob/c4dcb37de40eda86871ba4e0992877528a208e39/src/simulation/SimulationData.h#L72-L122])
+{{//Old IDs for GOL types
+#define GT_GOL 78
+#define GT_HLIF 79
+#define GT_ASIM 80
+#define GT_2x2 81
+#define GT_DANI 82
+#define GT_AMOE 83
+#define GT_MOVE 84
+#define GT_PGOL 85
+#define GT_DMOE 86
+#define GT_34 87
+#define GT_LLIF 88
+#define GT_STAN 89
+#define GT_SEED 134
+#define GT_MAZE 135
+#define GT_COAG 136
+#define GT_WALL 137
+#define GT_GNAR 138
+#define GT_REPL 139
+#define GT_MYST 140
+#define GT_LOTE 142
+#define GT_FRG2 143
+#define GT_STAR 144
+#define GT_FROG 145
+#define GT_BRAN 146
+
+//New IDs for GOL types
+#define NGT_GOL 0
+#define NGT_HLIF 1
+#define NGT_ASIM 2
+#define NGT_2x2 3
+#define NGT_DANI 4
+#define NGT_AMOE 5
+#define NGT_MOVE 6
+#define NGT_PGOL 7
+#define NGT_DMOE 8
+#define NGT_34 9
+#define NGT_LLIF 10
+#define NGT_STAN 11
+#define NGT_SEED 12
+#define NGT_MAZE 13
+#define NGT_COAG 14
+#define NGT_WALL 15
+#define NGT_GNAR 16
+#define NGT_REPL 17
+#define NGT_MYST 18
+#define NGT_LOTE 19
+#define NGT_FRG2 20
+#define NGT_STAR 21
+#define NGT_FROG 22
+#define NGT_BRAN 23}}
+
+
+!! NGT_GOL 
+Value: 0
+Life type name: Conway's Game of Life
+Definition string: Born 3 / Survive 2, 3
+
+!! NGT_HLIF 
+Value: 1
+Life type name: High Life
+Definition string: Born 3, 6 / Survive 2, 3
+
+!! NGT_ASIM 
+Value: 2
+Life type name: Assimilation
+Definition string: Born 3, 4, 5 / Survive 4, 5, 6, 7
+
+!! NGT_2x2 
+Value: 3
+Life type name: 2x2
+Definition string: Born 3, 6 / Survive 1, 2, 5
+
+!! NGT_DANI 
+Value: 4
+Life type name: Day/Night
+Definition string: Born 3, 6, 7, 8 / Survive 3, 4, 6, 7, 8
+
+!! NGT_AMOE 
+Value: 5
+Life type name: Amoeba
+Definition string: Born 3, 5, 7 / Survive 1, 3, 5, 8
+
+!! NGT_MOVE 
+Value: 6
+Life type name: MOVE
+Definition string: Born 3, 6, 8 / Survive 2, 4, 5
+
+!! NGT_PGOL 
+Value: 7
+Life type name: Pseudo-Life
+Definition string: Born 3, 5, 7 / Survive 2, 3, 8
+
+!! NGT_DMOE 
+Value: 8
+Life type name: Di-amoeba
+Definition string: Born 3, 5, 6, 7, 8 / Survive 5, 6, 7, 8
+
+!! NGT_34 
+Value: 9
+Life type name: 3/4
+Definition string: Born 3, 4 / Survive 3, 4
+
+!! NGT_LLIF 
+Value: 10
+Life type name: Long Life
+Definition string: Born 3, 4, 5 / Survive 5&lt;
+
+!! NGT_STAN 
+Value: 11
+Life type name: Stains
+Definition string: Born 3, 6, 8 / Survive 2, 3, 5, 6, 7, 8
+
+!! NGT_SEED 
+Value: 12
+Life type name: Seeds
+Definition string: Born 2 / Survive -
+
+!! NGT_MAZE 
+Value: 13
+Life type name: Mazes
+Definition string: Born 3 / Survive 1, 2, 3, 4, 5
+
+!! NGT_COAG 
+Value: 14
+Life type name: Coagulations
+Definition string: Born 3, 7, 8 / Survive 2, 3, 5, 6, 7, 8
+
+!! NGT_WALL 
+Value: 15
+Life type name: Walled Cities
+Definition string: Born 4, 5, 6, 7, 8 / Survive 2, 3, 4, 5 
+
+!! NGT_GNAR 
+Value: 16
+Life type name: Gnarl
+Definition string: Born 1 / Survive 1
+
+!! NGT_REPL 
+Value: 17
+Life type name: Replicator
+Definition string: Born 1, 3, 5, 7 / Survive 1, 3, 5, 7
+
+!! NGT_MYST 
+Value: 18
+Life type name: Mystery
+Definition string: Born 3, 4, 5, 8 / Survive 0, 5, 6, 7, 8 
+
+!! NGT_LOTE 
+Value: 19
+Life type name: Life on the Edge
+Definition string: Born 3, 7 / Survive 3, 4, 5, 8 / Death Delay 4
+
+!! NGT_FRG2 
+Value: 20
+Life type name: Frog #2
+Definition string: Born 3 / Survive 1, 2, 4 / Death Delay 3
+
+!! NGT_STAR 
+Value: 21
+Life type name: Star Wars? 
+Definition string: Born 2, 7, 8 / Survive 3, 4, 5, 6 / Death Delay 6
+
+!! NGT_FROG 
+Value: 22
+Life type name: Frogs
+Definition string: Born 3, 4 / Survive 1, 2, 4 / Death Delay 3
+
+!! NGT_BRAN 
+Value: 23
+Life type name: Brian
+Definition string: Born 2, 4, 6 / Survive 6 / Death Delay 3

@@ -1,0 +1,55 @@
+{{struct Particle
+{
+	int type;
+	int life, ctype;
+	float x, y, vx, vy;
+	float temp;
+	float pavg[2];
+	int flags;
+	int tmp;
+	int tmp2;
+	unsigned int dcolour;
+	static std::vector&lt;StructProperty> GetProperties();
+};}}
+
+! type
+
+What [element ID|Element IDs] is this? 
+You can use the console and set it to the element name as well, but the console will silently convert your element name into an element ID.
+
+! life
+
+(How many frames does your particle have left to exist?)
+A lot of elements use it as the above, but it's actually just anything you want it to be. Just another integer.
+It's really easy, however, to make this integer count down to 0 from its current value. Just add [PROP_LIFE_DEC|Properties#_PROP_LIFE_DEC]. Also it's really easy to delete the particle automatically when its life value hits 0 - see [PROP_LIFE_KILL|Properties#_PROP_LIFE_KILL]
+
+! ctype
+
+If your particle needs to store another [element ID|Element IDs], this is the place to put it. Otherwise, it's just another integer. For example, CLNE stores what element it clones here. CRAY too.
+The game user interface usually displays an element's ctype value with the element name the ID is supposed to stand for. For example, when you hover over a DUST with ctype 28, you can see DUST (DMND).
+
+! x, y
+
+This is the particle's position on screen. Multiple particles can overlap one position, but this will break things that rely on pmap to find particles around them (every element!). 
+
+! vx, vy
+
+This stores the number, that is added to the x and y positions every frame. 
+
+A positive vx means the particle is moving towards the right edge, while a positive vy means the particle is moving towards the bottom edge. 
+
+! temp
+
+This stores the particle's temperature in Kelvins. Valid temperatures are clamped between 0 and 10000 K and are displayed in Celsius, which is simply offset by -273.15 degrees. No scientific accuracy guaranteed&trade;
+
+! pavg
+
+(To be written)
+
+! tmp, tmp2
+
+Those are two generic integers, that you can use for whatever purpose imaginable. It's common nowadays to set different operation modes based on the TMP value.
+
+! dcolour
+
+This stores the element's decoration colour which is drawn on top of the element's actual colour and can be changed by the user. It uses a simple 32-bit colour format, where the entire value looks something like 0xAARRGGBB, where AA represents the element's transparency, RR represents the red component, GG the green component and BB the blue component. All values range from 0x00 to 0xFF (or 0 to 255). 

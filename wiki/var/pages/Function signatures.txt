@@ -1,0 +1,34 @@
+If you stumble upon a function page in this wiki, you might find that I describe ''all'' functions (even Lua ones) first with C++-style function prototypes, which is because the Lua functions still expect values of a specific type (except when they're similar, such as 1.0 and 1 being mostly interchangeable). 
+
+Shortly put, a C++-style function prototype looks like this: 
+
+{{return_type function_name (argument1_type argument1_name, ...);}}
+
+Or, by example,
+
+{{int tpt.can_move(int src, int dst);}}
+
+which returns an integer, and expects two integers as its arguments. The argument names are there to help you remember what they're for.
+
+However, I have defined a few extra data types for the sake of brevity. They are:
+
+!! mixed
+
+{.hl-1}mixed{/} type is basically typeless, however some accurate guessing has to be done to see what fits into this argument.
+
+For example, when setting a [property of an element|Element properties], you ought to use generally the same data type that the property has, but the function itself doesn't discriminate the values in any way. You can set an element's Description to 1 but you can't set an element's life to "potato". 
+
+!! element
+
+The {.hl-1}element{/} type is exactly the same as an integer is, with the semantic addition that it has to be a valid [element ID|Element IDs].
+
+!! boolint
+
+The {.hl-1}boolint{/} is also an integer in every way, however its value can be either 0 or not 0, depending on if the Boolean value you want to get across is false or true respectively.
+
+{{    0 = false
+not 0 = true}}
+
+
+
+{tags:Code, Definition}

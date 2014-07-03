@@ -1,0 +1,76 @@
+(Up to date as of commit [ebe145b39ff1bc28912ed9e4ac058aeab0214388|https://github.com/simtr/The-Powder-Toy/blob/ebe145b39ff1bc28912ed9e4ac058aeab0214388/src/simulation/ElementGraphics.h#L4-L29])
+
+{{#define PMODE		0x00000FFF // extract PMODEs from pixel_mode
+#define PMODE_NONE	0x00000000
+#define PMODE_FLAT	0x00000001
+#define PMODE_BLOB	0x00000002
+#define PMODE_BLUR	0x00000004
+#define PMODE_GLOW	0x00000008
+#define PMODE_SPARK	0x00000010
+#define PMODE_FLARE	0x00000020
+#define PMODE_LFLARE	0x00000040
+#define PMODE_ADD	0x00000080
+#define PMODE_BLEND	0x00000100
+#define PSPEC_STICKMAN	0x00000200
+
+#define OPTIONS		0x0000F000 // extract OPTIONs from pixel_mode
+#define NO_DECO		0x00001000
+#define DECO_FIRE	0x00002000
+
+#define FIREMODE	0x00FF0000 // extract fire modes from pixel_mode
+#define FIRE_ADD	0x00010000
+#define FIRE_BLEND	0x00020000
+
+#define EFFECT		0xFF000000 // extract effect modes from pixel_mode
+#define EFFECT_GRAVIN	0x01000000
+#define EFFECT_GRAVOUT	0x02000000
+#define EFFECT_LINES	0x04000000
+#define EFFECT_DBGLINES	0x08000000}}
+
+! PMODE_NONE
+Prevents anything from being drawn, like WARP.
+
+! PMODE_FLAT
+Draw an opaque pixel, aka transparency is not applied.
+
+! PMODE_BLOB
+Adds a blobby effect, like you were using blob (5) display mode
+
+! PMODE_BLUR
+Liquids in Fancy display apply this. Adds a blur and makes the pixels remain sharp as well.
+
+! PMODE_GLOW
+Plain ol' glow. Stuff like ARAY (In fancy display) use this.
+
+! PMODE_SPARK
+Kinda dim PMODE_FLARE - GBMB uses this - beams running horizontally and vertically + glow to emphasize brightness
+
+! PMODE_FLARE
+Regularly bright PMODE_FLARE - BOMB uses this - beams running horizontally and vertically
+
+! PMODE_LFLARE
+Large and super bright PMODE_FLARE - DEST is the only thing using this.
+
+! PMODE_ADD
+This adds some magic to the equation to make multiple layered particles add up to be brighter than one particle alone.
+
+! PMODE_BLEND
+Even more magical than PMODE_ADD, somehow better for OpenGL? 
+
+! PSPEC_STICKMAN
+Something very STKM specific that won't work anywhere except on STKM
+
+! NO_DECO
+Disables decorations on this element (LCRY does this as well as some magic to paint itself colours)
+
+! DECO_FIRE
+The fire/blurriness colors get decorations too. Gasses might use this.
+
+! FIRE_ADD
+Adds fire colors around the element (although weak ones - LAVA and LIGH lines use that)
+
+! FIRE_BLEND
+Adds more impressive fire colors around the element. Gasses use this for their coloring.
+
+! EFFECT_GRAVIN, EFFECT_GRAVOUT
+PRTI/PRTO effect flags: note that they also need magic life/ctype variables, which I may or may not know how to set.

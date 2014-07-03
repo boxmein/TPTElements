@@ -1,0 +1,68 @@
+body {
+  font: 12px "Consolas", "Courier New", monospace;
+  color: #efefef;
+  background: #081015;
+  max-width: 600px;
+  margin: 5% auto; }
+
+a {
+  color: inherit; }
+  a:hover {
+    color: #92aebd; }
+
+header h1 a {
+  text-decoration: none; }
+
+header, footer {
+  color: #577d92; }
+
+.content h2 {
+  font-weight: normal;
+  margin-top: 2em;
+  color: #92aebd; }
+.content h3 {
+  font-weight: normal;
+  margin-top: 1em;
+  color: #92aebd; }
+.content .par-edit {
+  padding-left: 10px;
+  color: #577d92; }
+  .content .par-edit a {
+    text-decoration: none; }
+    .content .par-edit a:hover {
+      text-decoration: underline; }
+@media screen and (max-width: 600px) {
+  .content {
+    padding: 5px; } }
+
+ul {
+  list-style-type: none;
+  padding-left: 0; }
+  ul li:before {
+    content: '- '; }
+
+hr {
+  margin: 15px;
+  border: none;
+  border-top: 1px solid #446172; }
+
+footer {
+  padding: 0; }
+  footer.grid-container {
+    padding: 0; }
+  footer .grid-66, footer .grid-33 {
+    padding: 0; }
+
+.search input, .editor input, .editor textarea {
+  border: 1px solid #577d92;
+  background-color: #081015;
+  color: #577d92; }
+
+.editor textarea, .editor input {
+  color: #efefef; }
+
+.tagList {
+  color: #577d92; }
+
+.hl-1 {
+  color: #fd2068; }

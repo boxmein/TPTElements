@@ -1,0 +1,17 @@
+This page is all about the lovely brush, or the mouse, or whatever you want to call it. It groups together things you need to know when using the [createParts|sim#_createParts] functions. 
+
+! Types
+
+Brushes have types. You can try it out by pressing Tab in-game. There's an ellipse, a rectangle and an (isosceles) triangle.
+
+{{#define CIRCLE_BRUSH 0 // Ellipse
+#define SQUARE_BRUSH 1 // Rectangle
+#define TRI_BRUSH 2 // Triangle
+#define BRUSH_NUM 3 // How many brushes do we have?}}
+
+! Flags
+
+Sometimes the simulation is set up to have different modes enabled, like Replace mode or Specific Delete mode. Those are kept inside the sim->replaceModeFlags variable, and brush-using functions default to that current setting.
+
+{{#define REPLACE_MODE 0x1 //replace mode / specific delete flags
+#define SPECIFIC_DELETE 0x2}}

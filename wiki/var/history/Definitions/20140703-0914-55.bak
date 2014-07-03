@@ -1,0 +1,9 @@
+Here I'll formally define some of the words I'll be using throughout the wiki.
+
+!! Particle
+
+A particle is one of those pixel things you see on screen. For example, you can have 5 particles of the [element] dust on the screen, or two particles of photon on screen. It has its own [properties|Particle properties] which are unique to each particle, for example its x and y coordinates, life, type, ...
+
+!! Element
+
+An element is a certain type of [particle]. For example, water or dust or oil or coal. It has its own [properties|Element properties] (for example, starting temperature), which also include the update and graphics functions that get run once for each particle of this element type.

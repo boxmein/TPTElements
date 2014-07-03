@@ -1,0 +1,45 @@
+This is a sort of wiki for TPTElements. It's meant to gather all this data together and link it in a meaningful way. I do not intend to make this wiki publicly editable, however this might happen someday.
+
+Its secondary purpose is to reduce the cruft in the Lua reference, and allow me to comfortably link articles and knowledge together. 
+
+This also means I'll start moving out descriptions of functions from the reference into this wiki thing.
+
+----
+
+Here's some example links to get you started:
+
+* [Element properties]
+* [Particle properties]
+* [Function signatures]
+* [Definitions]
+* [Element IDs]
+
+----
+
+In this wiki I'll sometimes (often, even) show examples in the programming language [C++|http://en.wikipedia.org/wiki/C%2B%2B], and sometimes in the programming language [Lua|http://en.wikipedia.org/wiki/Lua_(programming_language)]. Those are necessary to talk about programming freely and to show examples about what you can and can not do in TPT. As an example, see these scripts below. 
+
+{{function key (keys, keyn, mod, evt) 
+  lastmod = mod
+  if evt == 1 then
+    -- pressed
+    lastkeyn = keyn
+    pressing = true
+  elseif evt == 2 then
+    -- released
+    lastkeyn = keyn
+    pressing = false
+  end
+end}}
+
+{{    // arrow up
+    if (Element_KSNS::arrows & 0x01) {
+      // walk two particles to the direction and turn into spark first thing
+      r = pmap[y-1][x];
+      // why can't i just short-circuited-OR the two
+      if (!r)
+        r = pmap[y-2][x];
+      
+      if (!r) 
+        return 0;}}
+
+{tags:MainPage}

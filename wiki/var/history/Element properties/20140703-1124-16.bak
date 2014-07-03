@@ -1,0 +1,261 @@
+{{class Element
+{
+public:
+  const char *Identifier;
+  const char *Name;
+  pixel Colour;
+  float Advection;
+  float AirDrag;
+  float AirLoss;
+  float Loss;
+  float Collision;
+  float Gravity;
+  float Diffusion;
+  float HotAir;
+  int Falldown;
+  int Flammable;
+  int Explosive;
+  int Meltable;
+  int Hardness;
+  int MenuVisible;
+  int Enabled;
+  int Weight;
+  int MenuSection;
+  float Temperature;
+  unsigned char HeatConduct;
+  const char *Description;
+  unsigned int Properties;
+  char State;
+
+  int (*Update) (UPDATE_FUNC_ARGS);
+  int (*Graphics) (GRAPHICS_FUNC_ARGS);
+
+
+  float HighPressure;
+  int HighPressureTransition;
+  float LowPressure;
+  int LowPressureTransition;
+  float HighTemperature;
+  int HighTemperatureTransition;
+  float LowTemperature;
+  int LowTemperatureTransition;
+
+  // not going to cover these:
+  VideoBuffer * (*IconGenerator)(int, int, int);
+  Element();
+  virtual ~Element() {}
+  static int defaultGraphics(GRAPHICS_FUNC_ARGS);
+  static int legacyUpdate(UPDATE_FUNC_ARGS);
+
+  static std::vector&lt;StructProperty> GetProperties();
+};}}
+
+The types apply to Lua as well, as you will have to pass a value of a type close enough to the sim.partProperty or tpt.set_property function
+
+!  Identifier
+
+Element's name on the Lua API. You usually set it to &lt;NAMESPACE&gt;_PT_&lt;ELEMENTNAME&gt;, in order to tell the executable what your element ID variable will be called inside Lua.
+
+An example value could be: 
+
+{{Identifier = "DEFAULT_PT_BCOL"; }}
+
+In Lua scripting, you can set it with: 
+
+{{local element_id = elements.allocate("DEFAULT", "BCOL")}}
+
+&lt;span id="properties.Name">string(4) Name&lt;/span>
+
+This is the element's name outside the Lua API. It's what will be drawn on top of the element's button and what one will use to refer to the element in the exclamation-point command interface.
+
+An example value could be: 
+
+{{Name = "BCOL";}}
+
+
+!  Colour
+
+This will be the particle's colour in RENDER_BASC mode as well as the element button's. It has a format similar to CSS colours: `0xRRGGBB` where every letter specifies which colour the byte specifies, so 0xFF0000 would have exactly 255/255 tones red, and 0 tones both green and blue.
+
+You can set it in C++ by using the PIXPACK preprocessor macro: 
+
+{{Colour = PIXPACK(0x333333);}}
+
+...and in Lua by using elements.property with the same hexadecimal value.
+
+!  MenuVisible
+
+Sets or gets whether this element gets placed into a menu. You can still access the element without it being in the menu via alt-click sampling. A value of 1 means that the item will have a button placed into some menu.
+
+!  MenuSection
+
+Which menu section the element button will be placed under. Element buttons are placed in reverse order, with the rightmost being the smallest ID generally, and new elements will be added to the left.
+
+!  Enabled
+
+If the element is enabled to be used in-game at all, use a value of 1. You can use a value of 0 to disable elements softly while still breaking every save in existence. In general, keep it as 1.
+
+!  Advection
+
+How much the particle is pushed by moving air. Normally 0 for solids, and up to
+1 for other elements. It can be negative, ANAR and DEST do this so it goes 
+towards pressure.
+
+!  AirDrag
+
+How much air the particle "drags" along with itself when moving. CFDS is a magical constant that makes airdrag properly work with different pressure grid sizes. Thus the definition should always be multiplied by that.
+
+For example,
+{{AirDrag = 0.004f * CFDS;}}
+
+!  AirLoss
+
+How much it reduces velocity. 1 for no effect, 0 for full effect.
+
+Note: TTAN is not powered by this and this means you can't make TTAN simply bysetting this value to zero. Pressure can jump around a bit, too!
+
+!  Loss
+
+How much speed the particle loses every frame. 1 means that no velocity is removed and anything less means that more velocity will be removed.
+
+!  Collision
+
+When this particle hits something, this value is used to determine new velocity.
+ 
+!  Gravity
+
+This determines how strongly gravity affects this particle. ANAR has this set as negative for example!
+
+{{// No effect
+Gravity = 0f; 
+// Floats upwards at normal gravity's speed
+Gravity = -1f; 
+// Floats downwards almost at normal gravity's speed
+Gravity = 0.999f;}}
+
+!  Diffusion
+
+(To be written)
+
+!  HotAir
+
+How much the particle increases the pressure around itself by, in order to simulate heating air around (this was made way before ambient heat). Another property that's mostly only used for gasses, but VENT/VACU have theirs at (-)0.010f. An extremely small number, sometimes as small as 0.000001f
+Note: ICE has this as a negative value - it slightly reduces pressure!
+
+!  Falldown
+
+Sets what kind of default moving code this particle will use.
+0 = Solid  (or rather, no 'regular' movement!)
+1 = Powder 
+2 = Liquid 
+
+!  Flammable
+
+How well this particle catches on fire. FIRE has a basic reaction in  which it checks how flammable nearby particles are and uses that as a number to say how quickly and how likely this particle will turn into fire. Particles are entirely nonflammable at 0 and from there on become increasingly more flammable.
+
+!  Explosive
+
+Sets default behaviour on if and how this element explodes. It works kind of like C4 does: like burning except it spreads around very quickly, often in a single tick, creating more pressure than normal. You can obviously do this in your update code though...
+
+0 = no default explosion behavior.
+1 = Explodes with fire.
+2 = Explodes with >2.5 pressure as well as fire.
+
+!  Meltable
+
+Does this particle melt into LAVA? (I'm not sure about the threshold just yet.)
+
+!  Hardness
+
+How well acid affects this particle. The bigger this value is, the better acid is at eating through it. 
+
+!  Weight
+
+Particle weight. A looong time ago there used to be a table that kept track of what element sank under which and which it stayed on top of.
+
+Below is an estimate to which range TPT's default elements' weights belong:
+
+    1 = gasses.
+    2 = very light powders. DUST?
+ 0-49 = liquids.
+50-99 = default powders.
+  100 = solids.
+   -1 = energy particles (PHOT/NEUT/ELEC/PROT).
+
+!  Temperature
+
+The spawning temperature of this element. If you draw or create it in a standard way then this is the heat the element will have once it's created. The value's in Kelvin though, so you'll have to convert if you don't like it. You could also just do addition if you're in C++ or even Lua, it gets optimized out. 
+
+{{// #define R_TEMP 22.0f
+Temperature = R_TEMP + 273.15f + 0.00f;}}
+
+!  HeatConduct
+
+Shows how well this particle transfers heat. In tpt.el.*, it's called hconduct instead of heatconduct. You can use a value from 0 (none at all) to 255 (really good). 
+
+INSL and FRME have this as 0. 
+INSL/INST/HSWC and a few more have 251.
+
+!  Description
+
+It's the text that the element shows when you put your mouse over its selection button! Meant to be an element's description semantically speaking, however. So use it as that :)
+
+{{Description = "Broken Coal. Heavy particles. See COAL";}}
+
+
+!  State
+
+It's just a flag to tell which state the element's in right now, or even if it doesn't have a state. The only place I've seen it used so far is STKM figuring out which particles it can spark...? 
+
+(elements.)ST_SOLID = Solid
+(elements.)ST_LIQUID = Liquid 
+(elements.)ST_GAS = Gas 
+(elements.)ST_NONE = None of the above. 
+
+{{State = ST_SOLID; }}
+
+
+!  Properties
+
+Every kind of element property other than the ones above. It's just a bunch of special flags that enable or disable things relating to this element. Some of the things include whether you can 'paint' ctypes onto this element, whether it can be 'painted' as a ctype onto other elements, stuff to do with neutron movements, etc. 
+
+If you want to use multiple at the same time, apply binary OR to them! Easy enough, right? 
+
+{{Properties = TYPE_PART | PROP_NEUTPENETRATE;}}
+
+!  Update
+
+This is a function that will be called for every particle once per tick. You can do various things here with the simulation and particles around you, and so this is an useful function for all sorts of updating purposes. 
+
+You can see the various objects you can access from the function (and others through them):
+
+(in C++):
+{{#define UPDATE_FUNC_ARGS Simulation* sim, int index, int x, int y, 
+                         int surround_space, int no_type, Particle *parts, 
+                         int pmap[YRES][XRES]}}
+
+(in Lua): number index, number x, number y, number surround_space, number nt
+
+Once you define your function, the assignment to this property is very simple: 
+
+Update = &amp;Element_BCOL::update;
+
+!  Graphics
+
+For how this works in Lua, you are passed four variables and expected to return a dozen more.
+
+Parameters: index, colr, colg, colb
+Return values: cache, pixel_mode, cola, colr, colg, colb, firea, firer, 
+               fireg, and fireb.
+
+The cache variable tells the graphics renderer not to call this function anymore, since the color won't change anyway. Aside that, all properties are the same as what C++ should have them.
+
+In C++ however, you are passed pointers with all the values to be returned. Bluntly assign to them as you would to any other pointer.
+
+{{*colr = 255;}}
+
+Also check out all the different arguments you will get as your function parameters.
+
+{{#define GRAPHICS_FUNC_ARGS Renderer * ren, Particle *cpart, int nx, int ny, 
+     int *pixel_mode, int *cola, int *colr, int *colg, 
+     int *colb, int *firea, int *firer, int *fireg, int *fireb}}

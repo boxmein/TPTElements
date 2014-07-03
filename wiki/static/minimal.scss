@@ -1,0 +1,106 @@
+// wow
+//# sass minimal.scss minimal.css --no-cache
+
+$backgroundcolor: darken(#162D3A, 10%);
+$fontfamily: 'Consolas', 'Courier New', monospace;
+$fontsize: 12px;
+$text: #EFEFEF;
+
+$accent: desaturate(lighten($backgroundcolor, 60%), 20%);
+$unaccent: darken($accent, 20%);
+
+$red: #FD2068;
+$yellow: #FFFF33;
+$cyan: #6DD9EF;
+
+// Basic styling
+body {
+  font: $fontsize $fontfamily;
+  color: $text;
+  background: $backgroundcolor;
+  max-width: 600px;
+  margin: 5% auto;
+}
+
+a {
+  color: inherit;
+  &:hover {
+    color: $accent;
+  }
+}
+header h1 a {
+  text-decoration: none;
+}
+
+header, footer {
+  color: $unaccent;
+}
+
+.content {
+  h2 {
+    font-weight: normal;
+    margin-top: 2em;
+    color: $accent; 
+  }
+  h3 {
+    font-weight: normal;
+    margin-top: 1em;
+    color: $accent;
+  }
+  .par-edit {
+    padding-left: 10px;
+    color: $unaccent;
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  @media screen and (max-width: 600px) {
+    padding: 5px;
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  li:before {
+    content: '- ';
+  }
+}
+
+hr {
+  margin: 15px;
+  border: none;
+  border-top: 1px solid darken($unaccent, 10%);
+}
+
+
+footer {
+  padding: 0;
+  &.grid-container { padding: 0; }
+  .grid-66, .grid-33 { padding: 0; } 
+}
+
+// Input boxes, esp in edit view
+.search input, .editor input, .editor textarea {
+  border: 1px solid $unaccent;
+  background-color: $backgroundcolor;
+  color: $unaccent;
+}
+.editor textarea, .editor input {
+  color: $text;
+}
+
+// plugin: Tag list
+.tagList {
+  color: $unaccent;
+}
+
+// Highlights
+.hl-1 { color: $red; }
+.hl-2 { color: $cyan; }
+.hl-3 { color: $yellow; }
+.hl { color: $accent; }
+.ll { color: $unaccent; }

@@ -1,0 +1,446 @@
+It's the simulation object! You can call me {.hl-1}sim{/} though.
+
+! Methods
+
+!! partNeighbours
+{{[int] sim.partNeighbours (int x, int y, int radius)
+[int] sim.partNeighbours (int x, int y, int radius, int type)}}
+Returns a table of particle indexes around the center position of (x, y) with your given radius. If you pass an element type, it also filters by type. Instead of ''Neighbours'' you can use ''Neighbors''.
+
+
+
+!! partChangeType
+
+{{nil sim.partChangeType (int index, int type)}}
+Change a particle's type to the passed type. There's probably some other magic involved, like creation temperatures, so it's better than setting the particle's .type.
+
+!! partCreate
+
+{{int sim.partCreate (int newindex, int x, int y, int type_and_var)}}
+Creates a particle into a position of {.hl}(x,y){/}.
+
+{.hl}type_and_var{/} is a compound variable which you can just set to your type if you don't want anything to do with the var part. Some elements, however, also use the var part of type_and_var. Then you can split up the {.hl}type_and_var{/} into a type and var part like this: 
+{{int type = type_and_var &amp; 0xFF;
+int var = (type_and_var >> 8) &amp; 0xFFFFFF;}}
+
+For example, var is used by [GOL elements|List of GOL types] to specify which GOL element they are, and when you're setting CRAY's ctype to GOL elements, it secretly copies over the GOL element type too to its tmp2. 
+
+Set {.hl}newindex{/} to -1 to use the first available index and create a new particle.
+Set {.hl}newindex{/} to -2 to make your particle creation seem like it was from a brush (like the mouse). This lets you, for example, emulate how users set CLNE ctypes with the brush. 
+Set {.hl}newindex{/} to -3 to create a particle without checking if there's a particle or wall or anything already there, meaning the new particle will stack over the existing particle.
+Otherwise, set {.hl}newindex{/} to any existing index to replace the particle with that index with the new particle.
+
+!!! Examples
+
+Create a particle at 100,100 with type DUST: 
+{{sim.partCreate(-1, 100, 100, elements.DEFAULT_PT_DUST)}}
+
+Create a particle at 100,100 with type LIFE(BRAN), or life type #23
+{{sim.partCreate(-1, 100, 100, bit.bor(bit.lshift(23, 8), elements.DEFAULT_PT_LIFE))}}
+
+
+
+!! partProperty
+
+{{mixed sim.partProperty(int index, string field)
+nil sim.partProperty(int index, string field, mixed value)}}
+
+Gets and sets [particle properties]. 
+
+!! partPosition
+
+{{int, int sim.partPosition (int index)}}
+Returns x, y from a particle index.
+
+!! partID
+
+{{int sim.partID (int x, int y)}}
+Returns particle index from x, y. If multiple particles are stacked, returns the index of the topmost particle.
+
+!! partKill
+
+{{nil sim.partKill (int index)
+nil sim.partKill (int x, int y)}}
+Delete and dispose of a particle. 
+
+!! pressure
+
+{{float sim.pressure (int x, int y)
+nil sim.pressure (int x, int y, float value)
+nil sim.pressure (int x, int y, int width, int height, float value)}}
+Get and set pressure at the position in wall coordinates.
+Also, set pressure at a rectangle in wall coordinates to value. 
+
+!! ambientHeat
+
+{{float sim.ambientHeat (int x, int y)
+nil sim.ambientHeat (int x, int y, float value)
+nil sim.ambientHeat (int x, int y, int width, int height, float value)}}
+Get and set ambient heat at the position in wall coordinates. 
+Also, set ambient heat at a rectangle in wall coordinates to value. 
+
+!! velocityX
+
+{{float sim.velocityX (int x, int y)
+nil sim.velocityX (int x, int y, float value)
+nil sim.velocityX (int x, int y, int width, int height, float value)}}
+Get and set velocity (of the X axis) at the position in wall coordinates. 
+Also, set velocity (of the X axis) at a rectangle in wall coordinates to value. 
+
+!! velocityY
+
+{{float sim.velocityY (int x, int y)
+nil sim.velocityY (int x, int y, float value)
+nil sim.velocityY (int x, int y, int width, int height, float value)}}
+Get and set velocity (of the Y axis) at the position in wall coordinates. 
+Also, set velocity (of the Y axis) at a rectangle in wall coordinates to value. 
+
+!! gravMap
+
+{{nil sim.gravMap (int x, int y, float value)
+nil sim.gravMap (int x, int y, int width, int height, float value)}}
+Set the gravity map value at the position in wall coordinates to value.
+Also, set velocity (of the Y axis) at a rectangle in wall coordinates to value. 
+
+!! createParts
+
+{{int sim.createParts (int centerx, int centery, int radiusx, int radiusy, element type, int brush, int flags)}}
+Create particles like a brush (the mouse) would. 
+{.hl}centerx{/}, {.hl}centery{/} define the center point of the brush, {br} {.hl}radiusx{/}, {.hl}radiusy{/} define the radiuses on the X and Y axes, {br} {.hl}type{/} is the [element|Definitions#_Element] type we're using, {br} {.hl}brush{/} is the [brush type|Brush#_Types], and {br} {.hl}flags{/} are the [brush flags|Brush#_Flags] we need to use.
+
+!!! Defaults
+
+radiusx, radiusy = 5 {br} type = current tool {br} brush = CIRCLE_BRUSH {br} flags = current flags
+
+Returns how many particles were changed in the process.
+
+!! createLine
+
+{{int sim.createLine (int x1, int y1, int x2, int y2, int rx, int ry, int type, int brush, int flags)}}
+Creates a line of particles, using createParts.
+Starting point is x1, y1, ending point is x2, y2. 
+See [createParts|Lua-simulation#createParts].
+
+!! createBox
+
+{{int sim.createBox (int x1, int y1, int x2, int y2, int type, int flags)}}
+Creates a filled box with the brushes, from top-left point x1,y1 to bottom-right point x2, y2. 
+See [createParts|Lua-simulation#createParts]. 
+
+!! floodParts
+
+{{int floodParts (int x, int y, element type, int cm, int flags)}}
+Flood-fills an area with particles, starting from the position.  
+If cm is -1, flood-deletes all particles (or walls!) starting from x,y with the type that x,y had. 
+If cm is 0, flood-creates particles starting from x, y, of type type.
+
+I'm not entirely sure on the cm part, actually. [You figure it out!|https://github.com/simtr/The-Powder-Toy/blob/8bc03dbe1c4068b416f5f7890d43bf6f6386c7dc/src/simulation/Simulation.cpp#L1439-L1461]
+
+!! createWalls
+
+{{int sim.createWalls (int x, int y, int radiusx, int radiusy, int walltype)}}
+Create walls like a brush (the mouse) would. 
+
+Returns how many walls were changed in the process.
+
+!!! Defaults
+
+x, y = -1 {br} radiusx, radiusy = 0 {br} walltype = 8 (block wall)
+
+!! createWallLine
+
+{{int sim.createWallLine (int x1, int y1, int x2, int y2, int rx, int ry, int walltype)}}
+Creates a line of particles, using createWalls.
+Starting point is x1, y1, ending point is x2, y2. 
+See [createWalls|Lua-simulation#createWalls].
+
+!!! Defaults
+
+x1, y1, x2, y2 = -1 {br} rx, ry = 0 {br} walltype = 8 (block wall) 
+
+!! createWallBox
+
+{{int sim.createWallBox (int x1, int y1, int x2, int y2, int walltype)}}
+Creates a filled box with a wall, from top-left point x1,y1 to bottom-right point x2, y2. 
+See [createWalls|Lua-simulation#createWalls]. 
+
+!!! Defaults
+
+x1, y1, x2, y2 = -1 {br} walltype = 8 (block wall) 
+
+!! floodWalls
+
+{{int sim.floodWalls (int x, int y, int walltype, int bm)}}
+Flood-fills walls, starting from a point.
+
+!!! Defaults
+x, y = -1 {br} walltype = 8 (block wall) {br} bm = -1 
+
+!! toolBrush
+
+{{int sim.toolBrush (int x, int y, int rx, int ry, int tool, int brush)
+int sim.toolBrush (int x, int y, int rx, int ry, int tool, int brush, float strength)}}
+Applies a tool to a position with a brush with horizontal and vertical radius.
+
+!! Defaults
+x, y = -1 {br} rx, ry = 5 {br} tool = 0 {br} brush = CIRCLE_BRUSH {br} strength = 1.0
+
+!! toolLine
+
+{{int sim.toolLine (int x1, int y1, int x2, int y2, int rx, int ry, int tool, int brush)
+int sim.toolLine (int x1, int y1, int x2, int y2, int rx, int ry, int tool, int brush, float strength)}}
+Applies a tool to a position with a brush with horizontal and vertical radius, with a strength.
+See [toolBrush|Lua-simulation#toolBrush]. 
+
+
+!! Defaults
+x1, x2, y1, y2 = -1 {br} rx, ry = 5 {br} tool = 0 {br} brush = CIRCLE_BRUSH {br} strength = 1.0
+
+!! toolBox
+
+{{int sim.toolBox (int x1, int x2, int y1, int y2, int tool, float strength)}}
+Applies a tool to a position with a brush with horizontal and vertical radius.
+See [toolBrush|Lua-simulation#toolBrush]. 
+
+
+!! decoBrush
+
+{{int sim.decoBrush (int x, int y, int rx, int ry, int r, int g, int b, int a, int tool, int brush)}}
+Draws decorations onto a position with center at x, y, vertical and horizontalr radius,
+separate color components and alpha component, the decoration tool type, and the [brush type|Brush#_Types].
+
+Decoration tool types are: 
+{{#define DECO_DRAW 0 // regular drawing
+#define DECO_ADD  1 // add blend
+#define DECO_SUBTRACT 2 // subtract blend
+#define DECO_MULTIPLY 3 // multiply blend (original color * new color) % 255
+#define DECO_DIVIDE 4 // divide blend 
+#define DECO_SMUDGE 5 // blur colors
+#define DECO_CLEAR  6 // remove colors}}
+
+!!! Defaults
+x, y = -1 {br} rx, ry = 5 {br} r, g, b, a = 255 {br} tool = DECO_DRAW {br} brush = CIRCLE_BRUSH
+
+!! decoLine
+
+{{int sim.decoLine (int x1, int y1, int x2, int y2, int rx, int ry, int r, int g, int b, int a, int tool, int brush)}}
+Draw a line of decorations with decoBrush.
+See [decoBrush|Lua-simulation#decoBrush]. 
+
+
+!! decoBox
+{{int sim.decoBox(int x1, int y1, int x2, int y2, int r, int g, int b, int a, int tool)}}
+Draw a box with decoBrush, using an 1x1 brush.
+See [decoBrush|Lua-simulation#decoBrush]. 
+
+!! decoColor
+{{int sim.decoColor()
+nil sim.decoColor(int r, int g, int b, int a)}}
+Set the currently selected decoration color. Doesn't apply to deco drawing methods, they use the color they're passed.
+
+!!! Defaults
+
+r, g, b, a = 255
+
+
+!! clearSim
+{{nil clearSim ()}}
+Clear the Simulation of all particles.
+
+!! resetTemp
+{{nil sim.resetTemp (boolint onlyConductors)}}
+Resets the temperature of everything to what their [element property|Element properties#__Temperature] says. Optionally, only resets conductive elements. 
+
+!!! Defaults
+onlyConductors = 0
+
+!! resetPressure
+{{nil sim.resetPressure(int x, int y, int width, int height)}}
+Resets the pressure at a given area. Defaults to the entire stage.
+
+!!! Defaults
+x, y = 0 {br} width = XRES/CELL {br} height = YRES/CELL
+
+!! saveStamp
+{{string sim.saveStamp(int x, int y, int width, int height)}}
+Saves an area of the game to a stamp, and returns its name.
+
+!!! Defaults
+x, y = 0 {br} width = XRES - 1 {br} height = YRES - 1
+
+!! loadStamp
+{{int sim.loadStamp (string stampFile, int x, int y)
+int sim.loadStamp (string fullPathToStamp, int x, int y)
+int sim.loadStamp (int stampID, int x, int y)}}
+Loads a stamp on screen. The stamp can be referred to by either its 10-character name, by its full path or by its stamp ID. 
+
+!!! Defaults
+x, y = 0
+
+!! deleteStamp
+{{int sim.deleteStamp (string stampFile)
+int sim.deleteStamp (int stampID)}}
+Delete a stamp file by its stamp ID or by its 10-character filename, or by its full path.
+
+!! loadSave
+{{int sim.loadSave (int saveID, boolint instant, int timestamp)}}
+Load a save by its save ID and ''exact'' historical timestamp.
+Set instant to 1 to load the save instantly, or something.
+
+!! getSaveID
+{{int sim.getSaveID ()}}
+Get this save's save ID, or return nil if there is none.
+
+!! reloadSave
+{{nil sim.reloadSave ()}}
+Reload the current save.
+
+!! adjustCoords
+{{int, int adjustCoords (int x, int y)}}
+Translates zoom window coordinates to absolute coordinates. If there isn't a zoom window at the coordinates, returns the same coordinates as before.
+
+
+!! prettyPowders
+{{nil prettyPowders (boolint on)
+boolint prettyPowders ()}}
+Gets or sets whether powders get slight decorative color adjustments on creation to make them look grainy. 
+!!! Defaults
+on = 0
+
+!! gravityGrid
+{{nil gravityGrid (boolint on)
+boolint gravityGrid ()}}
+Gets or sets whether there's a gravity grid showing Newtonian Gravity vectors.
+!!! Defaults
+on = 0
+
+!! edgeMode
+{{nil edgeMode (int mode)
+int edgeMode ()}}
+Gets or sets the current edge mode (either void or solid)
+
+!!! Edge modes 
+Void = 0 {br} Solid = 1 
+
+!!! Defaults
+mode = 0
+
+!! gravityMode
+{{nil gravityMode (int mode)
+int gravityMode ()}}
+Gets or sets the current gravity mode (vertical, radial, none)
+!!! Gravity modes
+Vertical = 0 {br}
+Off = 1 {br}
+Radial = 2
+
+!!! Defaults
+mode = 0
+
+!! airMode
+{{nil airMode (int mode)
+int airMode ()}}
+Gets or sets whether powders get slight decorative color adjustments on creation to make them look grainy. 
+
+!!! Air modes
+On = 0 {br}
+Pressure off = 1 {br}
+Velocity off = 2 {br}
+All off = 3 {br} 
+No update {br}
+
+!!! Defaults
+mode = 0
+
+!! waterEqualisation
+{{nil waterEqualisation (boolint on)
+boolint waterEqualisation ()}}
+Gets or sets whether liquids try to adjust their levels through walls. Kind of slow, but your computer will probably handle it!
+
+!!! Defaults
+on = 0
+
+
+!! ambientAirTemp
+{{nil ambientAirTemp (float newvalue)
+float ambientAirTemp ()}}
+Gets or sets the ambient air temperature.
+
+!!! Defaults
+newvalue = 273.15 + 20.0 = 293.15
+
+!! elementCount
+{{int sim.elementCount (element type)}}
+Returns how many particles exist of a given type. 
+
+!!! Defaults
+type = 0 (invalid type, so the elementCount also returns 0)
+
+!! canMove
+{{int sim.canMove (element from, element to)}}
+Returns a can_move value for if the from element can move into the to element. This table is generated at startup, and won't usually change during gameplay. Maybe when new elements are added.
+
+!!! Values
+
+0 = Don't move into the element, or bounce off. {br} 1 = Swap places. {br} 2 = Both particles can overlap. {br} 3 = Depends on other things, so we can't be sure.
+
+!! parts
+{{iterator&lt;int> sim.parts ()}}
+If you for..in loop over its return value, you get a valid particle index every call.
+For example, if we place four particles, #0, #1, #2, and #3, and delete #2, then the valid indices would be #0, #1 and #3, because those still contain an element. You don't have to manually loop over all indices checking if there's a particle, just use this function instead.
+
+!! pmap
+{{int sim.pmap (int x, int y)}}
+Returns the pmap value at x, y, cutting off the particle type. This 24-bit value can contain different kinds of data, generally the particle index. (?)
+
+!! neighbours
+
+{{iterator&lt;int, int, int> sim.neighbours(int x, int y, int radiusx, int radiusy)}}
+Goes over nearby particles in a given radius (the diameter would be 2 x radius + 1), returning their index as well as their x and y coordinates.
+You can use this in a for..in loop: 
+{{for index, x, y in sim.neighbours(100, 100, 4, 4) do
+    -- ...
+end}}
+
+
+! Field constants
+
+You can use field constants instead of the equivalent strings, as field constants are integers and thus compare way faster than two strings do. 
+
+!! FIELD_CTYPE 
+Equivalent with the string: "[ctype|Particle properties#_ctype]"
+
+!! FIELD_DCOLOUR 
+Equivalent with the string: "[dcolour|Particle properties#_dcolour]"
+
+!! FIELD_FLAGS 
+Equivalent with the string: "[flags|Particle properties#_flags]"
+
+!! FIELD_LIFE 
+Equivalent with the string: "[life|Particle properties#_life]"
+
+!! FIELD_TEMP 
+Equivalent with the string: "[temp|Particle properties#_temp]"
+
+!! FIELD_TMP 
+Equivalent with the string: "[tmp|Particle properties#_tmp]"
+
+!! FIELD_TMP2 
+Equivalent with the string: "[tmp2|Particle properties#_tmp2]"
+
+!! FIELD_TYPE 
+Equivalent with the string: "[type|Particle properties#_type]"
+
+!! FIELD_VX 
+Equivalent with the string: "[vx|Particle properties#_vx]"
+
+!! FIELD_VY 
+Equivalent with the string: "[vy|Particle properties#_vy]"
+
+!! FIELD_X 
+Equivalent with the string: "[x|Particle properties#_x]"
+
+!! FIELD_Y 
+Equivalent with the string: "[y|Particle properties#_y]"
+
+{tags:Simulation, fields, sim}

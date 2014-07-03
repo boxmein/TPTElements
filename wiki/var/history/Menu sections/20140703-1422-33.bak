@@ -1,0 +1,63 @@
+Menu sections are the following: 
+
+{html}&lt;img src="static/menusections.png" />{/html}
+
+!! SC_WALL
+Value: 0
+Section title: Walls
+
+!! SC_ELEC
+Value: 1
+Section title: Electronics
+
+!! SC_POWERED
+Value: 2
+Section title: Powered Materials
+
+!! SC_SENSOR
+Value: 3
+Section title: Sensors
+
+!! SC_FORCE
+Value: 4
+Section title: Force
+
+!! SC_EXPLOSIVE
+Value: 5
+Section title: Explosives
+
+!! SC_GAS
+Value: 6
+Section title: Gasses
+
+!! SC_LIQUID
+Value: 7
+Section title: Liquids
+
+!! SC_POWDERS
+Value: 8
+Section title: Powders
+
+!! SC_SOLIDS
+Value: 9
+Section title: Solids
+
+!! SC_NUCLEAR
+Value: 10
+Section title: Radioactive
+
+!! SC_SPECIAL
+Value: 11
+Section title: Special
+
+!! SC_LIFE
+Value: 12
+Section title: Game of Life
+
+!! SC_TOOL
+Value: 13
+Section title: Tools
+
+!! SC_DECO
+Value: 14
+Section title: Decoration tools

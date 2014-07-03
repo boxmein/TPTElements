@@ -1,0 +1,22 @@
+Here I'll formally define some of the words I'll be using throughout the wiki.
+
+!! Particle
+
+A particle is one of those pixel things you see on screen. For example, you can have 5 particles of the [element] dust on the screen, or two particles of photon on screen. It has its own [properties|Particle properties] which are unique to each particle, for example its x and y coordinates, life, type, ...
+
+!! Element
+
+An element is a certain type of [particle]. For example, water or dust or oil or coal. It has its own [properties|Element properties] (for example, starting temperature), which also include the update and graphics functions that get run once for each particle of this element type.
+
+As an argument type, element could either mean: 
+# An integer representing the [element ID|Element IDs]
+# A string representing the element [Name|Element properties#__Name]
+# A string representing the element [Identifier|Element properties#__Identifier]
+Some functions take one of those types, some take more than one, some take only the element ID. If you don't know which to use, use the element ID, or convert the other two types into the element ID using [tpt.element|tpt#_element]
+
+!! Field
+
+A field is the name of a particle or element property, represented either as a string, or an integer in some cases. 
+
+For example, the [sim] object contains constants akin to FIELD_X. 
+

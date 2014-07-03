@@ -1,0 +1,122 @@
+''This is the page about the Lua ''elements'' table.''
+
+The elements table contains functions and properties you can use while modifying, adding and removing elements, plus a few interesting constants. You can alternatively refer to it as {.hl-1}elem{/}. 
+
+See {html}&lt;a href="../lua-reference.html#elements">the Lua reference&lt;/a>{/html} for a quick overview of the table.
+
+! Particle movement
+
+!! TYPE_PART
+Value: 0x00001
+Moves like a particle.
+
+!! TYPE_LIQUID
+Value: 0x00002
+Moves like a liquid.
+
+!! TYPE_SOLID
+Value: 0x00004
+Moves like a solid. (not at all!)
+
+!! TYPE_GAS
+Value: 0x00008
+Moves like a gas.
+
+!! TYPE_ENERGY
+Value: 0x00010
+Moves like an energy particle. (varies)
+
+! Particle properties
+
+( see [Properties] )
+
+! .flags values
+
+!! FLAG_STAGNANT
+Value: 1 
+Update a bit less than usually
+
+!! FLAG_SKIPMOVE
+Value: 2 
+Don't do movement checks
+
+!! FLAG_MOVABLE
+Value: 8 
+
+! [State|Element properties#__State] values
+
+!! ST_NONE
+Value: 0
+No defined state
+
+!! ST_SOLID
+Value: 1
+It's a solid!
+
+!! ST_LIQUID
+Value: 2
+It's a liquid!
+
+!! ST_GAS
+Value: 3
+It's a gas!
+
+! Menu sections
+
+( see [Menu sections] )
+
+! Element IDs
+
+When you create an element, its ID gets added here for later access, when you don't have it stored to a variable. Element IDs have a name and namespace, which together form the [Identifier|Element properties#__Identifier]. 
+All default elements are in the aptly-named namespace "DEFAULT", and their identifiers are DEFAULT_PT_&lt;element name>. 
+For example, DUST is DEFAULT_PT_DUST. 
+If you make your own element, it's wise to use your own username or something unique as the namespace, so if I made an element called ELEM, its Identifier would be BOXMEIN_PT_ELEM. 
+
+! allocate
+
+{{int elem.allocate (string namespace, string name);}}
+
+Sets up a space for a new element. Returns the newly minted element ID. Creates a new entry under elements with the Identifier &lt;namespace>_PT_&lt;name>.
+You can then operate on this element ID later, and create your own element without modifying other peoples' elements.
+
+! free
+
+{{nil elem.free (int elementID)}}
+
+Deletes an element. You don't have to manually do this aside from when you want to remove an element. 
+
+! loadDefault
+
+{{table elem.loadDefault ()
+table elem.loadDefault(int elementID}}
+
+Deletes/resets the element with the ID you specified.
+When you don't pass any element ID, it restores all default elements to their unmodified state, and deletes all custom elements. Returns a table with (to be written).
+
+! element
+
+{{table elem.element (int elementID)
+nil elem.element (int elementID, table values)}}
+
+Gets a table of every [element property|Element properties], with the key being the property and the value being the property's value. 
+Sets an element's every property to the values in the given table, where the key is the property and the value is the property's value.
+You can use it with itself to "duplicate" every property of an element and re-assign it to another element in one line. For example, this code sets every property of the element with ID elementID into water's equivalent properties.
+
+{{elem.element(elementID, elem.element(elem.DEFAULT_PT_WATR))}}
+
+You can also modify the table before assigning, meaning you don't have to use as many [elem.property|Lua-elements#_property] calls.
+
+{{local t = elem.element(elem.DEFAULT_PT_WATR))
+t["Colour"] = 0xFF252525
+t["Weight"] = 25
+elem.element(myElementID, t)}}
+
+! property
+
+{{mixed elem.property (int elementID, string property)
+nil elem.property (int elementID, string property, mixed value)}}
+Depending on whether you pass a third argument, gets or sets an [element property|Element properties]. ˇ
+
+As an example, this turns water green:
+
+{{elem.property(elements.DEFAULT_PT_WATR, "Colour", 0xFF00FF00)}}

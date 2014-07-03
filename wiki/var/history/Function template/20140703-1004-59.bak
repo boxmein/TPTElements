@@ -1,0 +1,19 @@
+Here's a template for when you want to add functions to the list.
+
+{{return-type function-name(arg1-type arg1, arg2-type arg2, ...);}}
+
+Does this and that.
+
+!! Description
+
+!! Default values
+
+'''x''' is by default 5.
+
+!! Examples
+
+{{function-name(1, 2, 3)}}
+
+Eats everything
+
+...
