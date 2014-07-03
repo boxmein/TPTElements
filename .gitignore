@@ -2,3 +2,4 @@
 *.tmp
 backup
 tools/node_modules
+wiki/config.php
