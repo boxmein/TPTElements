@@ -1,0 +1,220 @@
+=====================
+Properties (detailed)
+=====================
+
+
+This is kind of a detailed listing for absolutely _everything_ a sim->elements 
+reference contains. Check it out! (This used to be the property-reference page. 
+Merged it here. Take that, bandwidth.)
+
+### string Identifier
+
+Element's name on the Lua API. You usually set it to &lt;NAMESPACE&gt;_PT_&lt;ELEMENTNAME&gt;,
+in order to tell the executable what your element ID variable will be called
+inside Lua.
+
+An example value could be: 
+
+    Identifier = "DEFAULT_PT_BCOL"; 
+
+In Lua scripting, you can set it with: 
+
+    local element_id = elements.allocate("DEFAULT", "BCOL")
+
+### string(4) Name
+
+This is the element's name outside the Lua API. It's what will be drawn on top 
+of the element's button and what one will use to refer to the element in the 
+exclamation-point command interface.
+
+An example value could be: 
+
+    Name = "BCOL";
+
+*In Lua, this and the following properties will be set via elements.property().*
+
+### int Colour
+
+This will be the particle's colour in [RENDER_BASC][renderbasc] mode as well as 
+the element button's. It has a format similar to CSS colours: `0xRRGGBB` where 
+every letter specifies which colour the byte specifies, so 0xFF0000 would have 
+exactly 255/255 tones red, and 0 tones both green and blue.
+
+You can set it in C++ by using the PIXPACK preprocessor macro: 
+
+    Colour = PIXPACK(0x333333);
+
+...and in Lua by using elements.property with the same hexadecimal value.
+
+[renderbasc]: lua-reference.html#ren.RENDER_BASC
+
+### boolint MenuVisible
+
+Sets or gets whether this element gets placed into a menu. You can still access
+the element without it being in the menu via alt-click sampling. A value of 1
+means that the item will have a button placed into some menu.
+
+### boolint MenuSection
+
+Which menu section it's under. Menu section constants can be found under [SC_*][sc]
+in the reference tree.
+
+[sc]: lua-reference.html#elem.SC_WALLS
+
+### boolint Enabled
+
+If the element is enabled to be used in-game at all, use a value of 1. You can 
+use a value of 0 to disable elements softly while still breaking every save in 
+existence. In general, keep it as 1.
+
+### float Advection
+
+How much the particle is pushed by moving air. Normally 0 for solids, and up to
+1 for other elements. It can be negative, ANAR and DEST do this so it goes 
+towards pressure.
+
+### float AirDrag
+
+How much air the particle "drags" along with itself when moving. CFDS is a 
+magical constant that makes airdrag properly work with different pressure 
+grid sizes. Thus the definition should always be multiplied by that.
+
+    AirDrag = 0.04f * CFDS;
+
+### float AirLoss
+
+// How much it reduces velocity. 1 for no effect, 0 for full effect.
+// Note: TTAN is not powered by this, nor will your other elements work with this.
+// Also note that very fast-moving pressure can jump over grid spaces.
+AirLoss = 0.94f; 
+
+// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.
+Loss = 0.95f; 
+
+// When this particle hits something, this value is used to determine new velocity.
+Collision = -0.1f; 
+
+// How fast the particle falls. Negative means it floats. 
+Gravity = 0.3f; 
+
+// How much the particle wiggles like GAS.
+Diffusion = 0.00f; 
+
+//How much the particle increases the pressure by. 
+// Another property only for gasses, but VENT/VACU have theirs at (-)0.010f. 
+// An extremely small number, sometimes as small as 0.000001f
+// ICE has this as a negative value - it slightly reduces pressure when sitting still.
+HotAir = 0.000f  * CFDS; 
+
+// Sets what kind of default moving code this particle will use.
+// 0 = Solid (use this as well when you don't want any default moving code)
+// 1 = Powder
+// 2 = Liquid
+Falldown = 1; 
+
+// How well this particle catches on fire.
+// Affects the rate of FIRE absorbing it and producing more fire.
+// 0 is unflammable, and onward from there it burns even better.
+Flammable = 0; 
+
+// Sets default behaviour on if and how this element explodes.
+// Explosion, in this case, is just turning into fire very quickly and making pressure.
+// 0 = no default explosion behavior.
+// 1 = Explodes with fire.
+// 2 = Explodes with >2.5 pressure as well as fire.
+// You can always use 0 and implement your own explosive behavior.
+Explosive = 0; 
+
+// Does it melt into LAVA?
+Meltable = 5; 
+
+// How well acid affects this particle.
+// 0 = not at all.
+// >0 = increasingly more.
+Hardness = 2; 
+
+// Particle weight. Replaces the ages-old "which sinks below which" table. 
+// Elements with larger values sink below elements with smaller values.
+// Use any integer value really. Below is an estimate to which range TPT's 
+// default elements' weights belong.
+//     1 = gasses.
+//     2 = very light powders. DUST?
+//  0-49 = liquids.
+// 50-99 = default powders.
+//   100 = solids.
+//    -1 = energy particles (PHOT/NEUT/ELEC/PROT).
+Weight = 90; 
+
+// How hot does it spawn with? 
+// (In Kelvin)
+// (except, in C++, you have the magic of addition)
+// #define R_TEMP 22.0f
+Temperature = R_TEMP + 0.0f + 273.15f; 
+
+// How well the particle transfers heat.
+// From 0 to 255 inclusive.
+// INSL and FRME have this as 0. 
+// INSL/INST/HSWC and a few more have 251 which is awesomely good.
+HeatConduct = 150; 
+
+// The element's description.
+// It's displayed as text in the bottom right when you point the mouse at an
+// element button.
+Description = "Broken Coal. Heavy particles. See COAL";
+
+// Which state the element is in. 
+// The only place that seems to use it is STKM, and it detects solids to spark.
+// Just a convention thing it seems...?
+// ST_NONE = Special types 
+// ST_SOLID = Solid
+// ST_LIQUID = Liquid 
+// ST_GAS = Gas 
+State = ST_SOLID; 
+
+// All sorts of element properties
+// See the property listing.
+// Most of the properties there SHOULD make sense.
+// See this forum post on how to apply these with the Lua API.
+// Here, just pick any bunch of properties you want and use the binary OR operator
+// "|" on them. So TYPE_PART | PROP_NEUTPENETRATE is completely valid.
+Properties = TYPE_PART;
+
+
+
+/*
+  So this next part is about transitions. 
+  How this works is, you have to tell TPT about your upper and lower threshold
+  and the elements it'll change to when the threshold is met.
+  There's also a few predefined elements for when you don't want transitions: 
+  unreachable levels of pressure and temperature which will never trigger a 
+  transition as well as an element for No Type.
+
+  IPL = Impossibly Low Pressure (That Never Will Be Reached)
+  IPH = Impossibly High Pressure
+  NT = No Type Whatsoever
+  ITL = Impossibly Low Temperature
+  ITH = Impossibly High Temperature
+*/
+
+// if pressure is lower than this then change to LowPressureTransition
+LowPressure = IPL;
+LowPressureTransition = NT;
+
+// if pressure is higher than this then change to HighPressureTransition
+HighPressure = IPH; 
+HighPressureTransition = NT;
+
+// if temperature is higher than this then change to HighTemperatureTransition
+LowTemperature = ITL;
+LowTemperatureTransition = NT;
+
+// if temperature is lower than this then change to LowTemperatureTransition
+HighTemperature = ITH;
+HighTemperatureTransition = NT;
+
+// address of the update function, 99% of the time it's Element_YOURELEMENT::update
+Update = &Element_BCOL::update;
+
+// address of the graphics function. 50% of the time you won't need it, 
+// and 50% of the time all the time you will have it as Element_YOURELEMENT::graphics
+Graphics = &Element_BCOL::graphics; 

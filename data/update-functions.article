@@ -1,0 +1,111 @@
+================
+Update functions <a name="top"></a>
+================
+
+Update functions are a brilliant thing - they're in short everything your 
+element does aside fancy looks. This includes reactions, moving in a 
+not-predefined way and everything else you can think of. In fact, they're fairly
+simple to write, too.
+
+In C++, the function signature for an update function is 
+
+    int update(Simulation* sim, int index, int x, int y, int surround_space, 
+               int nt, Particle *parts, int pmap[YRES][XRES]);
+
+...and in Lua the pseudo-signature (not valid Lua) of the function is 
+
+    int update(int index, int x, int y, int surround_space, int nt)
+
+You can implement the function yourself and then assign it to your element's 
+[Update][update] property. Inside the function pretty much anything can be
+written, however the prime purpose of the update function is to update the 
+particle the game's currently over.
+
+[update]: lua-reference.html#elements.property.Update
+
+Now to the passed arguments.
+
+### *sim / sim <a name="sim"></a>
+
+is a reference to the Simulation object - your gateway to doing stuff inside the
+simulation but outside the actual particle data - placing rectangles, creating
+particles, reloading saves, everything really. Custom properties that you want
+to save will be attached to the simulation too. Portals keep their inner guts in
+this. See <a href="#simulation">#sim</a> for what you get to do inside a
+simulation object. This pointer is irrelevant in Lua since the script always has
+access to the simulation anyway.
+
+### index <a name="index"></a>
+
+...is the particle's (the one the update function should update that turn) index. 
+Particles in TPT are stored in an array and as such are assigned an ID relating 
+to their position in the array. This index has  nothing to do with the actual 
+position or any other property of the  particle, but is an easy and reliable way
+to refer directly to a single particle in other function calls.
+
+
+### x, y <a name="xy"></a>
+
+are the X and Y coordinates of the particle. Super simple stuff.
+
+### surround_space <a name="surround_space"></a>
+
+is an integer which tells us how many empty squares are directly around this 
+particle. The 'directly around' can also be called the Moore neighbourhood.
+
+### nt <a name="nt"></a>
+
+is another magic integer which tells you how many locations in your Moore
+neighborhood of this particle are of a different type. Thus, if you have two of 
+the same particles, four empty spaces and two random particles in
+your Moore neighbourhood you will have an 'nt' value of 2.
+
+### *parts / sim.parts(i) <a name="parts"></a>
+
+A reference to the giant array of all particles that currently exist on the
+screen. Every object in there is of the type `struct Particle` which you can 
+read about <a href="#particles">here.</a> You can access it in Lua via 
+<a href="#sim.parts">sim.parts</a>.
+
+### *pmap / sim.pmap(x, y) <a name="pmap"></a>
+is a reference to the two-dimensional array of a kind of integer that at the
+same time contains both the type and the index of the particle on a given **y, x**
+position. It's useful for looping around the Moore neighbourhood of a particle 
+and finding out types and indexes of the particles.
+
+Its magic resides in that it has two variables packed into one integer: the 
+<span class="color y">index</span> and the <span class="color r">type</span>. 
+Its bits look something like this:  
+
+    <span class="color y">00000000 00001001 10100101</span> <span class="color r">00010010</span>
+
+so getting the type out is as simple as cutting off the <span class="color y">index</span> and leaving the <span class="color r">type</span>. 
+
+In C++ you can do that with <span class="editable">pmap[y][x] &amp; 0xFF</span>, which ANDs the bits together, 
+leaving only the <span class="color r">type</span> byte.
+
+In Lua you can do that with <span class="editable">bit.band(sim.pmap(x, y), 0xFF)</span>.
+
+You can get the index the other way around - moving the index back into position
+where it should be if it was a normal integer, starting from where the type
+starts, not halfway across the value! 
+In C++ you can shift it back right with <span class="editable">pmap[y][x] >> 8</span> and
+in Lua you do that with <span class="editable">bit.rshift(sim.pmap(x, y), 8)</span>.
+
+So if you wanted to get the type of the particle at the coordinates (150, 300)
+you could access pmap[300][150] in order to get the compound variable, then
+cutting out only the first 8 bytes via bitwise AND to leave only the type. This
+process produces the code pmap[300][150] &amp; 0xFF.
+
+## Returning <a name="returning"></a>
+
+The update function also can return an integer value which can tell the
+Simulation's update code to delete the particle right afterward. (Actually,
+there should always be a return, but the C++ language is pretty relaxed on the
+subject and assumes we returned a 0 if we actually didn't return anything)
+
+If you return a 1 from the code, this means that the particle did something
+during the update that now means the particle is going to be deleted, and then
+the actual update-function-calling-function will delete your particle for you.
+
+The same thing also applies for Lua.

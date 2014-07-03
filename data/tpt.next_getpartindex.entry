@@ -1,0 +1,10 @@
+NAME bool tpt.next_getPartIndex ()
+DESCRIPTION Returns true if there's a particle ID to be returned by getPartIndex
+DETAILS
+After calling `tpt.start_getPartIndex()` this function will start keeping track
+of the last particle index that you asked for, and then tells you if there's any 
+particle indexes after that last one. It's useful in while loops.
+
+See the [getPartIndex article][article] for details on how to do just that.
+
+[article]: article.html#getPartIndex

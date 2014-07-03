@@ -1,0 +1,5 @@
+NAME nil/int sim.edgeMode (int mode)
+DESCRIPTION Gets/Sets the edge mode. 0 = Void. 1 = Solid.
+LINK 
+DETAILS
+undefined

@@ -1,0 +1,71 @@
+@import "globals";
+
+$bright_bg: #EFEFEF;
+$bright_fg: black;
+$bright_highlight: #000077;
+
+* {
+  @include border-box();
+}
+
+body {
+  background: $backgroundColor; 
+  font-size: 12px;
+  font-family: $bodyFont;
+  color: $textColor;
+  margin-left: 5%;
+  line-height: 1.7em;
+  letter-spacing: 0.03em;
+  max-width: 600px;
+  margin: 0 auto;
+
+  // bright mode
+  &.bright {
+    div.brightonly {
+      display: block;
+    }
+    span.brightonly {
+      display: inline;
+    }
+    .editable, .comment {
+      color: $bright_highlight;
+    }
+  }
+}
+
+a {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: underline;
+}
+
+h1 {
+  font-family: $bodyFont;
+  font-size: 2em;
+  font-weight: normal;
+  text-align: center;
+}
+
+h2 {
+  font-weight: normal;
+  font-size: 1.4em;
+}
+
+#box {
+  background-color: darken($backgroundColor, 10%);
+  padding: 5px; 
+}
+
+p {
+  margin: 1px;
+}
+
+pre > code {
+  display: block;
+  padding: 5px;
+}
+
+
+#foot {
+  color: lighten($backgroundColor, 7.5%);
+}

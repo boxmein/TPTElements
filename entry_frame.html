@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View entry</title>
+  <link rel="stylesheet" href="styles/entry.css">
+  <style>
+  body, #box {
+    background: #122631;
+  }
+  </style>
+</head>
+<body>
+  <div id="box"></div>
+  <script>
+    // I'll have the GET parameters tyvm
+    var querystring;
+    (window.onpopstate = function () {
+      var match,
+        pl     = /\+/g,  // Regex for replacing addition symbol with a space
+        search = /([^&=]+)=?([^&]*)/g,
+        decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+        query  = window.location.search.substring(1);
+
+      querystring = {};
+      while (match = search.exec(query))
+        querystring[decode(match[1])] = decode(match[2]);
+    })();
+
+    window.onload = function() {
+      if (!querystring.entry) {
+        document.getElementById('box').innerHTML = "No ?entry=... value."; 
+        return;
+      }
+      var hash = querystring.entry.toLowerCase().replace('.', '_');
+      console.log('hash:', hash);
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', 'html/' + hash + '.html');
+      xhr.onload = function() {
+
+        // wow, we actually got a response!
+        if (xhr.status == 200) {
+          document.getElementById('box').innerHTML = xhr.responseText;
+        }
+
+        else if (xhr.status == 404) {
+          console.log('404', xhr);
+          document.getElementById('box').innerText = "HTTP/1.1 404 for " + hash; 
+        }
+      };
+
+      xhr.send();
+    };
+  </script>

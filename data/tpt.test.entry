@@ -1,0 +1,12 @@
+# Format: 
+# NAME <function signature>
+# DESCRIPTION <short overview of function's behavior>
+# LINK <link to lua-reference.html or something else>
+# DETAILS \n <Markdown details until end of file...>
+
+NAME nil tpt.test ()
+DESCRIPTION A test function. Doesn't really do anything.
+LINK #tpt.test
+DETAILS
+It appears to have originally been implemented as the first lua function *ever*,
+to test the waters or something.

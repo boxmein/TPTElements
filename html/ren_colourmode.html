@@ -1,0 +1,19 @@
+<h2>nil/int ren.colourMode (int colourMode)</h2>
+
+<p>A colour mode is basically a description of how particles are drawn. The other 
+details which are considered when particles are drawn are fire mode, pixel mode
+and effect mode (rare cases like portals).</p>
+
+<p><code>ren.COLOUR_BASC</code>, for example, draws every particle with its usual color 
+(which I will here define as the Colour property of the element). 
+It also disregards little details like the heat-glow of LAVA and metals.<br/><code>ren.COLOUR_HEAT</code> disregards its usual color entirely and uses the heat map only.<br/><code>ren.COLOUR_GRAD</code> kind of uses the usual colour of the element, except the 
+ colour is gradually turned brighter and then back to normal to create a 
+ gradient or stripy effect.<br/><code>ren.COLOUR_LIFE</code> is the colour mode that gets applied when you use the &#39;Life 
+ display&#39; render mode - it gets brighter the larger the life property of the 
+ particle is.<br/><code>ren.COLOUR_DEFAULT</code> is the colour mode that occurs usually: in it things like 
+ lava and metal get an &#39;usual colour&#39; that gets brighter when the element 
+ heats up.  </p>
+
+<p>This function takes one optional integer and sets which colour modes the 
+currently appIying render mode uses. If the function is called with no 
+arguments, it returns the current colour mode as an integer as well.</p>

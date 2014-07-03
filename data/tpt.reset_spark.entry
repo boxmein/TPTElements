@@ -1,0 +1,7 @@
+NAME nil tpt.reset_spark () 
+DESCRIPTION Turns sparks into their original material.
+LINK #tpt.reset_spark
+DETAILS
+Removes all sparks from the screen, turning them back into which material is 
+specified in their ctype and then resetting their life values accordingly. 
+The function is useful to clear up spark-y messes. 

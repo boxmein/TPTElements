@@ -1,0 +1,8 @@
+NAME int tpt.getPartIndex ()
+DESCRIPTION Returns the next used particle index.
+DETAILS
+You can simply loop over all of the particles in the save with this!
+
+See the [getPartIndex article][article] for details on how to do just that.
+
+[article]: article.html#getPartIndex

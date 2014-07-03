@@ -1,0 +1,55 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+body {
+  background: #081015;
+  font-size: 12px;
+  font-family: "Consolas", "Courier New", monospace;
+  color: #efefef;
+  margin-left: 5%;
+  line-height: 1.7em;
+  letter-spacing: 0.03em;
+  max-width: 600px;
+  margin: 0 auto; }
+  body.bright div.brightonly {
+    display: block; }
+  body.bright span.brightonly {
+    display: inline; }
+  body.bright .editable, body.bright .comment {
+    color: #000077; }
+
+a {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: underline; }
+
+h1 {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 2em;
+  font-weight: normal;
+  text-align: center; }
+
+h2 {
+  font-weight: normal;
+  font-size: 1.4em; }
+
+#box {
+  background-color: black;
+  padding: 5px; }
+
+p {
+  margin: 1px; }
+
+pre > code {
+  display: block;
+  padding: 5px; }
+
+#foot {
+  color: #122631; }
+
+.potential_iframe iframe {
+  border: none;
+  width: 100%;
+  overflow: scroll; }

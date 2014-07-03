@@ -1,0 +1,147 @@
+<span class="comment">
+/*
+  Note: 
+  this template's comments expect the user to know how to mod for C++ The Powder Toy and 
+  as such most of the explanations are done as analogs to C++ modding.  
+  That being said, let's get to the templates!
+*/
+
+// in src/elements/yourelement.c:</span>
+
+#include &lt;element.h&gt;
+
+<span class="comment">// Like TPT++ update functions, except functions aren't nested under sim or whatnot.</span>
+int update_<span class="editable" contentEditable="true">BCOL</span>(UPDATE_FUNC_ARGS) {
+  <span class="editable codebox" contentEditable="true">
+  int r, rx, ry, trade, temp;
+  if (parts[i].life&lt;=0) {
+    create_part(i, x, y, PT_FIRE);
+    return 1;
+  } else if (parts[i].life &lt; 100) {
+    parts[i].life--;
+    create_part(-1, x+rand()%3-1, y+rand()%3-1, PT_FIRE);
+  }
+
+  for (rx=-2; rx&lt;3; rx++) {
+    for (ry=-2; ry&lt;3; ry++) {
+      if (x+rx&gt;=0 &amp;&amp; y+ry&gt;0 &amp;&amp; x+rx&amp;lt;XRES &amp;&amp; y+ry&lt;YRES &amp;&amp; (rx || ry))
+      {
+        r = pmap[y+ry][x+rx];
+        if (!r)
+          continue;
+        if (((r&amp;0xFF)==PT_FIRE || (r&amp;0xFF)==PT_PLSM) &amp;&amp; 1&gt;(rand()%500))
+        {
+          if (parts[i].life&gt;100) {
+            parts[i].life = 99;
+          }
+        }
+        if ((r&amp;0xFF)==PT_LAVA &amp;&amp; 1&gt;(rand()%500))
+        {
+          if (parts[r&gt;&gt;8].ctype == PT_IRON) {
+            parts[r&gt;&gt;8].ctype = PT_METL;
+            kill_part(i);
+            return 1;
+          }
+        }
+      }
+    }
+  }</span>
+}
+
+<span class="comment">// Exactly the same as TPT++ graphics functions.</span>
+int graphics_<span class="editable" contentEditable="true">BCOL</span>(GRAPHICS_FUNC_ARGS) {}
+
+<span class="comment">// in src/elementdata.c:
+
+// ...</span>
+
+part_type ptypes[PT_NUM] = 
+{
+  <span class="comment">
+  // MAKE SURE THAT THE ELEMENT ORDERING STAYS EXACTLY THE SAME
+  // also make sure that the array index matches your your element index
+  // (easy way using <a href="https://github.com/simtr/The-Powder-Toy/commit/e27047947d55881d25c1b884e72afdc399ce62ad#diff-2d29443bd2ff38b570931446b6c21877">latest elementdata commit</a>: subtract 30 from line number)
+  // { ... },</span>
+  
+  {
+    <span class="editable" contentEditable="true">"BCLN"</span>, <span class="comment">// Name</span>
+    <span class="editable" contentEditable="true">PIXPACK(0xFFD040)</span>, <span class="comment">// Colour</span>
+    <span class="editable" contentEditable="true">0.0f</span>, <span class="comment">// Advection</span>
+    <span class="editable" contentEditable="true">0.00f * CFDS</span>, <span class="comment">// Airdrag</span>
+    <span class="editable" contentEditable="true">0.97f</span>, <span class="comment">// Airloss</span>
+    <span class="editable" contentEditable="true">0.50f</span>, <span class="comment">// Loss</span>
+    <span class="editable" contentEditable="true">0.0f</span>, <span class="comment">// Collision</span>
+    <span class="editable" contentEditable="true">0.0f</span>, <span class="comment">// Gravity</span>
+    <span class="editable" contentEditable="true">0.00f</span>, <span class="comment">// Diffusion</span>
+    <span class="editable" contentEditable="true">0.000f * CFDS</span>, <span class="comment">// Hotair</span>
+    <span class="editable" contentEditable="true">0</span>, <span class="comment">// Falldown</span>
+    <span class="editable" contentEditable="true">0</span>, <span class="comment">// Flammable</span>
+    <span class="editable" contentEditable="true">0</span>, <span class="comment">// Explosive</span>
+    <span class="editable" contentEditable="true">0</span>, <span class="comment">// Meltable</span>
+    <span class="editable" contentEditable="true">12</span>, <span class="comment">// Hardness</span>
+    <span class="editable" contentEditable="true">1</span>, <span class="comment">// MenuVisible</span>
+    <span class="editable" contentEditable="true">1</span>, <span class="comment">// Enabled</span>
+    <span class="editable" contentEditable="true">100</span>, <span class="comment">// Weight</span>
+    <span class="editable" contentEditable="true">SC_SPECIAL</span>, <span class="comment">// Section</span>
+    <span class="editable" contentEditable="true">R_TEMP+0.0f +273.15f</span>, <span class="comment">// Heat</span>
+    <span class="editable" contentEditable="true">251</span>, <span class="comment">// HeatConduct</span>
+    <span class="editable" contentEditable="true">"Breakable Clone."</span>, <span class="comment">// Description</span>
+    <span class="editable" contentEditable="true">ST_NONE</span>, <span class="comment">// State</span>
+    <span class="editable" contentEditable="true">TYPE_SOLID | PROP_LIFE_DEC | PROP_LIFE_KILL_DEC</span>, <span class="comment">// Properties</span>
+    <span class="editable" contentEditable="true">&amp;update_BCLN</span>, <span class="comment">// Update function pointer</span>
+    <span class="editable" contentEditable="true">NULL</span> <span class="comment">// Graphics function pointer</span>
+   }
+}
+
+<span class="comment">// ...</span>
+
+part_transition ptransitions[PT_NUM] = 
+{
+  <span class="comment">// Note: also here must one keep track of element IDs and 
+  // make sure that the array index matches the element ID. 
+  // Simply adding one row to each of the arrays will suffice as making sure.
+  // IPL/IPH/ITL/ITH and NT mean the same thing as in C++ transition properties.
+  // ..., </span>
+
+  /* <span class="editable" contentEditable="true">BCOL</span> */
+  {
+    <span class="editable" contentEditable="true">IPL</span>, <span class="editable" contentEditable="true">NT</span>, <span class="comment">LowPressure &amp; LowPressureTransition</span>
+    <span class="editable" contentEditable="true">IPH</span>, <span class="editable" contentEditable="true">NT</span>, <span class="comment">HighPressure &amp; HighPressureTransition</span>
+    <span class="editable" contentEditable="true">ITL</span>, <span class="editable" contentEditable="true">NT</span>, <span class="comment">LowTemperature &amp; LowTemperatureTransition</span>
+    <span class="editable" contentEditable="true">ITH</span>, <span class="editable" contentEditable="true">NT</span>  <span class="comment">HighTemperature &amp; HighTemperatureTransition</span>
+  }
+}
+
+<span class="comment">// ...</span>
+
+unsigned int platent[PT_NUM] =
+{
+  <span class="comment">// this array seems mostly unused except for water types.
+  // something to do with enthalpy. please read source.
+  // ...,</span>
+
+  /* <span class="editable" contentEditable="true">BCOL</span> */ <span class="editable" contentEditable="true">0</span>
+}
+
+
+<span class="comment">// in includes/powder.h:
+
+// near other #define PT_...'s:</span>
+#define PT_<span class="editable" contentEditable="true">BCOL</span> <span class="editable" contentEditable="true">73</span>
+
+<span class="comment">// near other int update_...'s:</span>
+int update_<span class="editable" contentEditable="true">BCOL</span>(UPDATE_FUNC_ARGS);
+
+<span class="comment">// IF YOU MADE A GRAPHICS FUNCTION then near other int graphics_...'s: </span>
+int graphics_<span class="editable" contentEditable="true">BCOL</span>(GRAPHICS_FUNC_ARGS);
+
+
+
+
+
+
+
+
+
+
+

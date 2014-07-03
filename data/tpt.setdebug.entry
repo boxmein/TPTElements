@@ -1,0 +1,5 @@
+NAME nil tpt.setdebug (int level)
+DESCRIPTION Set debug mode.
+LINK 
+DETAILS
+1 is what pressing D produces, higher levels used to do something but no longer don't.

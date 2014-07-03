@@ -1,0 +1,10 @@
+NAME int bit.bxor (int... input)
+DESCRIPTION Performs bitwise XOR (input^input) over all arguments.
+LINK #bit.bxor
+DETAILS
+Bitwise XOR can most simply be explained by it setting the end value's given bit 
+to 1 if the input values' bits in the same location are different. 
+
+      1100 1010
+    ^ 1001 0111
+    = 0101 1101

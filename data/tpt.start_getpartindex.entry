@@ -1,0 +1,10 @@
+NAME nil tpt.start_getPartIndex ()
+DESCRIPTION Warm up getPartIndex to start using it in a while loop.
+DETAILS
+As particle indexes aren't guaranteed to follow each other perfectly, this
+function is way better at fetching the particle IDs than just for-looping over
+tons of empty space.
+
+See the [getPartIndex article][article] for details on how to do just that.
+
+[article]: article.html#getPartIndex

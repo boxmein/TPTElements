@@ -1,0 +1,17 @@
+<h2>nil tpt.set_shortcuts (boolint state)</h2>
+
+<p>Set whether one can use keyboard shortcuts such as making a stamp or opening the
+console or changing view modes. </p>
+
+<p>The number argument can be either 0 or 1, where 1 means keys will be enabled, 
+and 0 will disable key shortcuts. If you don&#39;t pass in any arguments, the 
+command will return an integer, either 0 or 1, about whether key shortcuts are
+enabled right now.</p>
+
+<p>When you want to make a key command which uses some other key, don&#39;t use this, 
+rather disable default behavior for that one key only by returning <code>false</code> from 
+inside your callback.</p>
+
+<h3>Examples</h3>
+
+<p>Disable keyboard shortcuts: <code>tpt.set_shortcuts(0)</code><br/>Get if keyboard shortcuts are currently disabled: <code>tpt.set_shortcuts(-1) == 1</code></p>

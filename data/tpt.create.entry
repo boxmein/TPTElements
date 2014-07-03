@@ -1,0 +1,8 @@
+NAME int tpt.create (int x, int y, int type)
+DESCRIPTION Creates a new particle at (x, y)
+LINK #tpt.drawtext
+DETAILS
+Creates a new particle at (x, y).
+This is a way better method to use than just setting the type variable of a given
+grid location via tpt.set_property. Use this for creating any particle you wanna
+create.

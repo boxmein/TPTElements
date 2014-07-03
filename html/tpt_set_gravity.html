@@ -1,0 +1,11 @@
+<h2>nil tpt.set_gravity (int x, int y, int width, int height, int value)</h2>
+
+<p>Sets Newtonian Gravity at a position or area to some value. </p>
+
+<h3>Default values</h3>
+
+<p><strong>x</strong> = 0<br/><strong>y</strong> = 0<br/><strong>width</strong> = XRES/CELL = 612 / 4 = 153<br/><strong>height</strong> = YRES/CELL = 384 / 4 = 96<br/><strong>value</strong> = 0</p>
+
+<h3>Examples</h3>
+
+<p>Reset gravity at point (150, 150): <code>tpt.set_gravity(150, 150)</code><br/>Reset gravity from (100,100) to (300,300): <code>tpt.set_gravity(100, 100, 200, 200)</code><br/>Set the entire stage&#39;s gravity to 1000: <code>tpt.set_gravity(nil, nil, nil, nil, 1000)</code></p>

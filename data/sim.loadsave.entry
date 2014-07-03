@@ -1,0 +1,5 @@
+NAME nil sim.loadSave (int saveID, int timehistory)
+DESCRIPTION Loads a save or its previous variant at the time (in exact seconds!) it was saved.
+LINK 
+DETAILS
+undefined

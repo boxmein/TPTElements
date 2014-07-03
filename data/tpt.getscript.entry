@@ -1,0 +1,5 @@
+NAME nil tpt.getscript (string author, string id)
+DESCRIPTION Fetch a script from the TPT Script Index.
+LINK 
+DETAILS
+Note: The index has no known entries as of February 19, 2014.

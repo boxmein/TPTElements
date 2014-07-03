@@ -1,0 +1,16 @@
+<h2>nil tpt.reset<em>gravity</em>field(int x, int y, int width, int height)</h2>
+
+<p>Thoroughly resets Newtonian gravity on a given point. </p>
+
+<p>Instead of tpt.set_gravity which only modifies <code>sim-&gt;gravmap</code>, this code also 
+modifies <code>sim-&gt;gravp</code>,<code>sim-&gt;gravx</code> and <code>sim-&gt;gravy</code>. Mmm, gravy.</p>
+
+<h3>Default values</h3>
+
+<p><strong>x</strong> = 0<br/><strong>y</strong> = 0<br/><strong>width</strong> = XRES/CELL = 612 / 4 = 153<br/><strong>height</strong> = YRES/CELL = 384 / 4 = 96</p>
+
+<h3>Examples</h3>
+
+<p>Thoroughly reset gravity at point (150, 150): <code>tpt.reset_gravity_field(150, 150)</code></p>
+
+<p>Reset gravity from (100,100) to (300,300): <code>tpt.reset_gravity_field(100, 100, 200, 200)</code></p>

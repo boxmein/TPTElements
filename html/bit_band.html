@@ -1,0 +1,16 @@
+<h2>int bit.band (int... input)</h2>
+
+<p>If you have two bit strings (integers really, but bit strings tells us more 
+about what these integers are used for), you actually have a bunch of bits that 
+you can use to store values in. The and function is useful for filtering a 
+single value out of a context bit string, and for checking if a bit is set. </p>
+
+<p>For example, in a given <code>pmap</code> entry there reside <em>two</em> values instead of one: 
+the rightmost byte stores the type and the other three bytes store the index of 
+the particle. We can then use AND and bit shifting to separate the type and 
+the particle index. The below operation shows how a pmap entry (line 1) and a 
+<em>bit mask</em> (line 2) are used to get a value containing only the type.</p>
+
+<pre><code>  00000000 00000000 00010111 11101110
+&amp; 00000000 00000000 00000000 11111111
+= 00000000 00000000 00000000 11101110</code></pre>

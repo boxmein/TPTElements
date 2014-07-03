@@ -1,0 +1,14 @@
+NAME nil/int tpt.active_menu (int menuID)
+DESCRIPTION Set active menu section.
+LINK 
+DETAILS
+Changes activated menu. If you don't pass in any arguments, the command will 
+return the currently active menu.
+
+The menu IDs are detailed in the tree [here][scwall], 
+but otherwise range from 0 ([SC_WALL][scwall]) to 14 ([SC_DECO][scdeco]) from 
+the top downward, so the walls menu will be 0 and the decorations menu will be 
+14.
+
+[scwall]: ./lua-reference.html#elem.SC_WALL
+[scdeco]: ./lua-reference.html#elem.SC_DECO

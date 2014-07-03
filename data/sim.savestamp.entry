@@ -1,0 +1,5 @@
+NAME string sim.saveStamp (int x, int y, int width, int height)
+DESCRIPTION Saves a stamp and returns its generated filename (without .stm)
+LINK 
+DETAILS
+undefined

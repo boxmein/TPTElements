@@ -1,0 +1,5 @@
+NAME nil/int ren.debugHUD (int level)
+DESCRIPTION Get/set whether or not debug HUD is visible. Replacement for tpt.setdebug
+LINK 
+DETAILS
+undefined

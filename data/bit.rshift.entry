@@ -1,0 +1,5 @@
+NAME int bit.rshift (int input, int count)
+DESCRIPTION Performs a rightwards bit shift (input &gt;&gt; count).
+LINK 
+DETAILS
+undefined

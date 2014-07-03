@@ -1,0 +1,5 @@
+NAME nil/int sim.gravityMode (int mode)
+DESCRIPTION Gets/Sets gravity mode. Vertical, Radial, Off, in some order.
+LINK 
+DETAILS
+undefined

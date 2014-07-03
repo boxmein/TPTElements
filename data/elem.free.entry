@@ -1,0 +1,5 @@
+NAME nil elem.free (int elementID)
+DESCRIPTION Deletes a given Lua element from existence.
+LINK 
+DETAILS
+undefined

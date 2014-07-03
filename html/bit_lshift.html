@@ -1,0 +1,12 @@
+<h2>int bit.lshift (int input, int count)</h2>
+
+<p>Left shifting just moves every bit once to the left, cutting out every bit that
+runs out of the space on the left. (You always have 4 bytes of room, remember!)</p>
+
+<p>In a way it&#39;s a really fast multiplication by two. Watch out though, since if a 
+1 bit runs into the left-most bit, it&#39;ll turn the entire value into a negative
+value with odd results. </p>
+
+<pre><code>  1000 0010 
+&lt;&lt; 2
+= 0000 1000</code></pre>

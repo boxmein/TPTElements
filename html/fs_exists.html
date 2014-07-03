@@ -1,0 +1,29 @@
+<h2>bool fs.exists (string path)</h2>
+
+<p>Returns a boolean value checking if a file with this path exists. The path is 
+resolved to an absolute path automatically, you also can use . and .. independent
+of which platform you&#39;re on. On Windows, absolute paths can use / to separate 
+directory names instead of the usual backslash &quot;\\&quot;.</p>
+
+<p>Given a folder structure like this: </p>
+
+<pre><code>TPT
+│
+├ directory_1/
+│ ├ file1.txt
+│ └ file2.txt
+├ directory_2/ 
+├ file.txt
+├ powder</code></pre>
+
+<p>you can then see some examples:</p>
+
+<pre><code>fs.exists(&quot;file.txt&quot;) --&gt; true
+fs.exists(&quot;directory_2&quot;) --&gt; true
+fs.exists(&quot;directory_1/file1.txt&quot;) --&gt; true
+fs.exists(&quot;../TPT/directory_1/file2.txt&quot;) --&gt; true
+fs.exists(&quot;~&quot;) --&gt; always false
+
+fs.exists(&quot;/home/username/TPT/directory_1/file1.txt&quot;) --&gt; true
+fs.exists(&quot;C:/Users/username/TPT/directory_1/file1.txt&quot;) --&gt; true
+fs.exists(&quot;C:\\Users\\usernam\\TPT\\directory_1\\file1.txt&quot;) --&gt; true</code></pre>

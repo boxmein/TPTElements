@@ -1,0 +1,5 @@
+NAME iter sim.neighbours (int x, int y, int rx, int ry)
+DESCRIPTION Returns an object which you can for..in over, returning neighbor particles.
+LINK 
+DETAILS
+undefined

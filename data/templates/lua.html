@@ -1,0 +1,25 @@
+<span class="comment">-- Allocates space for a new element. Use four letters for name, and anything unique for a namespace.</span>
+local el = elements.allocate("<span class="editable" contentEditable="true">namespace</span>", "<span class="editable" contentEditable="true">elem</span>")
+
+<span id="cloneToggle">
+<span class="comment">-- If you want to, you can take all properties off another element by this
+-- and then modify the ones you want.</span>
+elements.element(el, elements.element(elements.<span class="editable" contentEditable="true">DEFAULT</span>_PT_<span class="editable" contentEditable="true">DMND</span>))</span>
+
+<ul id="propertyList"></ul>
+
+<span id="graphicsFunc" style="display: none">function el_Graphics(index, colr, colg, colb)
+		<span class="comment">-- return cache, pixel_mode, cola, colr, colg, colb, firea, firer, fireg, fireb
+    -- (see <a href="../reference.html#graphics">reference</a>)</span>
+    return <span class="editable" contentEditable="true">1, 0x0000001, 255, colr, colg-10, colb, 0, 0, 0, 0</span>
+end
+elements.property(el, "Graphics", el_Update)</span>
+
+<span id="updateFunc" style="display: none">function el_Update(index, partx, party, surround_space, nt)
+    <span class="editable" contentEditable="true">if surround_space==0 and nt==0 then
+        return 1 <span class="comment">-- This kills the pixel.</span>
+    else 
+        return 0 <span class="comment">-- This keeps it alive.</span>
+    end</span>
+end
+elements.property(el, "Update", el_Update)</span>

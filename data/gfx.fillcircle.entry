@@ -1,0 +1,8 @@
+NAME nil gfx.fillCircle (int cx, int cy, int rx, int ry, int ry, int r, int g, int b, int a) 
+DESCRIPTION Draws a filled ellipse with two radiuses and a center point
+DETAILS
+Any ellipse can be defined by a center point and the width and height of a
+rectangle that surrounds the ellipse. 
+
+You can leave out colour values to use opaque white in its place.
+

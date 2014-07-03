@@ -1,0 +1,5 @@
+NAME nil sim.partCreate (int x, int y, int type)
+DESCRIPTION Create a particle.
+LINK 
+DETAILS
+undefined

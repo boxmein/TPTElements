@@ -1,0 +1,6 @@
+NAME nil tpt.log (string text)
+DESCRIPTION Logs to the console's output box or the window's invisible log.
+DETAILS
+There's two different log types in TPT: there's the little box on the right side
+of the command you've given, or when the console is closed, you have a sort of 
+invisible fadey log that overlaps the entire gaming area. 

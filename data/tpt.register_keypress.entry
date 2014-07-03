@@ -1,0 +1,5 @@
+NAME nil tpt.register_keypress (function onKey)
+DESCRIPTION Add a function to run on keypress.
+LINK 
+DETAILS
+<p>The function must accept the arguments <tt>(char keychar, int keycode, int modifiers, int event)</tt>, the return value can be anything really.</p>

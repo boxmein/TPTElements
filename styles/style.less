@@ -1,0 +1,122 @@
+// Body background colour
+@backgroundColor: darken(#162D3A, 10%);
+// Woo generic fonts
+@bodyFont: monospace;
+// Text colour for the body.
+@textColor: #EFEFEF;
+// Applies to <i></i> tags
+@commentColor: desaturate(lighten(@backgroundColor, 40%), 20%);
+// Editable <b> boxes
+@editableColor: desaturate(lighten(@backgroundColor, 60%), 20%);
+
+
+// -----------------------------------------------------------------------------
+// Basics
+
+body {
+	background: @backgroundColor;
+	font-family: @bodyFont;
+	font-size: 12px;
+	color: @textColor;
+	white-space: pre;
+	margin-left: 5%;
+}
+
+a, .liveurls {
+	cursor: pointer;
+	color: inherit;
+	text-decoration: underline;
+}
+h1 {
+	font-family: @bodyFont;
+	font-size: 2em;
+	font-weight: normal;
+	margin-bottom: -10px;
+}
+// Reset
+ol, ul {
+  margin: 0;	
+  padding: 0;
+}
+
+.editable {
+	color: @editableColor;
+	font-weight: normal;
+}
+.comment {
+	color: @commentColor;
+	font-style: normal;
+}
+
+
+// -----------------------------------------------------------------------------
+// Aside-bar
+
+.aside p {
+	margin: 0;
+}
+
+.aside {
+	
+	position: fixed;
+	top: 50px; 
+	right: 100px; 
+	min-width: 200px;
+
+	text-align: left;
+	padding: 5px;
+	white-space: normal;
+
+	background: @backgroundColor;
+	border: 1px solid lighten(@backgroundColor, 5%);
+	
+}
+.aside ul {
+
+	padding: -5px;
+	margin: 0;
+
+	list-style: none;
+	white-space: normal;
+}
+.aside li {
+	list-style-type: none;
+	cursor: pointer;
+}
+
+// Cheap "- " prefixes for list items
+.aside li:before {
+	content: "- ";
+}
+
+// -----------------------------------------------------------------------------
+// When stuff gets resized to be too tight
+
+
+@media (max-width: 700px) {
+	.aside {
+		// Set the aside box into the flow.
+		position: static; 
+		margin: 5px 0;
+	}
+}
+
+
+
+// -----------------------------------------------------------------------------
+// Lua related stuff
+
+#propertyList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.propline .close {
+  cursor: default;
+  position: relative; 
+  color: @backgroundColor;
+}
+.propline:hover .close {
+  color: @editableColor;
+}
