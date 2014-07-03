@@ -32,38 +32,36 @@ p {
 
 code {
   background-color: black;
-  color: #efefef;
+  font-family: "Consolas", "Courier New", monospace;
+  color: #efefff;
   display: inline;
   margin: 0;
   padding: 1px; }
+  code em, code i, code b {
+    font-style: normal;
+    font-weight: normal; }
+  code em {
+    color: #6dd9ef; }
+  code i {
+    color: #fd2068; }
+  code b {
+    color: #ffff33; }
 
 pre > code {
   display: block;
   padding: 5px; }
-
-code em {
-  font-style: normal;
-  color: #6dd9ef; }
-
-code i {
-  font-style: normal;
-  color: #fd2068; }
-
-code b {
-  color: #ffff33;
-  font-weight: normal; }
 
 .entry {
   width: 100%;
   padding: 10px;
   margin: 5px 0;
   background: #122631; }
-
-.entry .name {
-  color: #6dd9ef; }
-
-.entry .description {
-  color: #a3a3a3; }
+  .entry .name {
+    color: #6dd9ef; }
+  .entry .description {
+    color: #a3a3a3; }
+  .entry:hover {
+    background: #142934; }
 
 #searchextra, #foot {
   color: #0f1f28; }
@@ -75,13 +73,12 @@ code b {
 #searchextra a.on {
   color: #fd2068; }
 
-#container > div > p {
-  margin: 20px; }
-
 #container {
   margin: 5% auto;
   padding: 0;
   max-width: 600px; }
+  #container > div > p {
+    margin: 20px; }
 
 #input {
   background-color: #0f1f28;
@@ -95,3 +92,17 @@ code b {
 #loading {
   text-align: center;
   margin: 5%; }
+
+::-webkit-scrollbar {
+  background-color: #021621;
+  width: 1px; }
+
+::-webkit-scrollbar-thumb {
+  color: white; }
+
+.potential_iframe iframe {
+  border: none;
+  width: 100%;
+  overflow: scroll;
+  height: auto;
+  min-height: 200px; }

@@ -30,22 +30,23 @@
     <ul id="results">
       <div id="loading">Preparing....</div>
     </ul>
-    <div id="foot">by boxmein 2014 <a href="http://cristgaming.com/pirate.swf">license</a></div>
+    <div id="foot">by boxmein 2014 <a href="http://cristgaming.com/pirate.swf">license</a> <a href="https://github.com/boxmein/TPTElements/tree/backbone">github</a></div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 
   <script type="text/template" id="result_template">
-    <li class="entry" onclick="var d=this.getElementsByClassName('details')[0]; d.style.display=d.style.display=='none'?'block':'none';" onhover="var d=this.getElementsByClassName('details')[0];">
+    <li class="entry" onclick="details($(this).data('shortname'), $(this).children('.potential_iframe'));" data-shortname="<%= shortname %>">
       <div class="name"><%= name %></div>
       <span class="description"><%= description %></span>
+      <div class="potential_iframe"></div>
     </li>
   </script>
 
   <script>
   var extras = {};
-
+  function capitalize(str) { return str.charAt(0).toUpperCase()+str.slice(1).toLowerCase(); }
   // https://gist.github.com/revolunet/843889 
   // Decompress an LZW-encoded string
   function lzw_decode(s) {
@@ -119,17 +120,19 @@
     var searchUpdate = function (str, detailed) {
       if (detailed || extras.alwaysintense) {
         // extra searches!
-        redisplay(_.filter(alldata, function(el) {
+        redisplay(_.union(
+          _.filter(alldata, function(el) {
+            return el.name.indexOf(capitalize(str)) !== -1;
+          }),
+          _.filter(alldata, function(el) {
           if (!extras.regex)
-            return el.name.indexOf(str) !== -1 ||
-                   el.description.indexOf(str) !== -1 ||
-                   el.details.indexOf(str) !== -1; 
+            return el.name.toLowerCase().indexOf(str) !== -1 ||
+                   el.description.toLowerCase().indexOf(str) !== -1;
           else {
             try {
               var rx = new RegExp(str, 'i');
               return rx.test(el.name) || 
-                     rx.test(el.description) || 
-                     rx.test(el.details);
+                     rx.test(el.description);
             }
             catch (err) {
               console.error(err); 
@@ -140,13 +143,17 @@
               $('#regex').click();
             }
           }
-        }));
+        })));
       }
       else {
         // basic plain quick searching
-        redisplay(_.filter(alldata, function(el) {
+        redisplay(_.union(
+          _.filter(alldata, function(el) {
+            return el.name.indexOf(capitalize(str)) !== -1;
+          }),
+          _.filter(alldata, function(el) {
           if (!extras.regex)
-          return el.name.indexOf(str) !== -1; 
+            return el.name.indexOf(str) !== -1; 
           else {
             try {
               var rx = new RegExp(str, 'i');
@@ -157,7 +164,7 @@
               // if we turned off regex here it'd be utterly annoying
             }
           }
-        }));
+        })));
       }
     };
 
@@ -195,6 +202,12 @@
         localStorage.tptelements_font !== '') {
       document.body.style.fontFamily = localStorage.tptelements_font;
     } 
+
+    window.details = function(shortname, $el) {
+      if ($el.html() == '')
+        $el.html('<iframe seamless width="100%" height="auto" src="entry_frame.html?entry=' + shortname + '">I use iframes for this. Visit <a href="entry.html#' + shortname + '">here</a> to not use an iframe.</iframe>');
+      else $el.html('');
+    };
   };</script>
 </body>
 </html>

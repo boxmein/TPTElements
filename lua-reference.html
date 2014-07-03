@@ -56,19 +56,7 @@ The light! It burns us!
 * The tree below is pretty packed with information. The doc has long lines so it
   is suggested that you disable word wrap.
 * <span class="editable" id="boolint">boolint</span> = integer that acts as a boolean (0 or 1)
-* <span class="editable">number</span> = Lua's natural number type, = "real"
 * <span class="editable">mixed</span> type means "whatever suits it there"
-* <span class="editable">element</span> type is any valid element ID, either returned by tpt.element or just
-  inbetween 0 and PT_NUM.
-
-* I'll insert default values or other notes right next to the argument inside 
-  brackets <span class="editable">[]</span>. 
-* <span class="editable">d.</span> is short for default. 
-* <span class="editable">1||2</span> in tpt.setwindowsize means that the correct
-  value is either 1 or 2, <em>NOTHING</em> else.
-* <span class="editable">0:255</span> means a value between 0 and 255.
-* <span class="editable">NYI:</span> Not Yet Implemented
-
 * If not explicitly noted, all color values have limits of <span class="editable">0 to 255</span> 
   (incl. firer/g/b, colr/g/b) and default to white.
 * Extension to the above: all alpha values (firea/cola) have a limit of 100 as 
@@ -288,6 +276,21 @@ The light! It burns us!
 │  
 ├ <span class="editable">simulation (sim)</span>
 │ │
+│ │  <span class="comment">Usable in property getter/setter functions instead of property names - </span>
+│ │  <span class="comment">makes comparisons faster. </span>
+│ ├─ FIELD_CTYPE
+│ ├─ FIELD_DCOLOUR
+│ ├─ FIELD_FLAGS
+│ ├─ FIELD_LIFE
+│ ├─ FIELD_TEMP
+│ ├─ FIELD_TMP
+│ ├─ FIELD_TMP2
+│ ├─ FIELD_TYPE
+│ ├─ FIELD_VX
+│ ├─ FIELD_VY
+│ ├─ FIELD_X
+│ ├─ FIELD_Y
+│ │
 │ ├─ <span id="sim.partNeighbours">table partNeighbours</span>      (int x, int y, int radius) <span class="comment">Find list of particles around a center location, in a given radius.</span>
 │ │        partNeighbors       (int x, int y, int radius, int type) <span class="comment">Filter for an element with a certain type too.</span>
 │ ├─ <span id="sim.partChangeType">nil partChangeType</span>        (int index, int type) <span class="comment">Change particle type. Better than setting .type - </span>
@@ -363,8 +366,8 @@ The light! It burns us!
 │ │              └─ = waterEqualization (boolint state) 
 │ ├─ <span id="sim.ambientAirTemp">nil/int ambientAirTemp</span>    () <span class="comment">Gets/Sets Ambient Heat mode's air temperature. Default: 293.15</span>
 │ │          └─                (int temp)
-│ │ 
-│ ├─ <span id="sim.canMove">nil/int canMove</span>           (int src, int dst) <span class="comment">Gets/Sets what happens when element with ID (src) and element with ID (dst) try and move through each other</span>
+│ │  <span id="sim.canMove"></span>
+│ ├─ <span id="sim.can_move">nil/int can_move</span>           (int src, int dst) <span class="comment">Gets/Sets what happens when element with ID (src) and element with ID (dst) try and move through each other</span>
 │ │          └─                (int src, int dst, int new_value) <span class="comment">Similar to C++ can_move[src][dst] - check out <a href="https://github.com/simtr/The-Powder-Toy/blob/master/src/simulation/Simulation.cpp#L1932">Simulation.cpp</a></span>
 │ │                                                              <span class="comment">0 = no move / bounce back, eg AMTR trying to move onto DMND</span>
 │ │                                                              <span class="comment">1 = swap particle locations, eg BHOL swaps elements into itself and then eats them </span>
@@ -727,198 +730,254 @@ Elements
 
 
 
-<span id="properties">Properties (detailed)</span>
+
+
+
+
+<span id="properties">Properties</span>
 ----------
 
-This is kind of a detailed listing for absolutely _everything_ a sim->elements reference 
-contains. Check it out! (This used to be the property-reference page. Merged it here. Take 
-that, bandwidth.)
+<span id="properties.Identifier">string Identifier</span>
 
-<span class="comment nodash">// Element's name on the new Lua API
-// You'll set this manually anyways with Lua when allocating an element.
-// ( elements.allocate("DEFAULT", "BCOL") )</span>
-<span id="properties.Identifier">Identifier</span> = "<span class="editable">DEFAULT_PT_BCOL</span>"; 
+Element's name on the Lua API. You usually set it to &lt;NAMESPACE&gt;_PT_&lt;ELEMENTNAME&gt;,
+in order to tell the executable what your element ID variable will be called
+inside Lua.
 
-<span class="comment nodash">// Your element's actual name. Unrelated to the Identifier.
-// This will be used in the !... command interface as well.</span>
-<span id="properties.Name">Name</span> = "<span class="editable">BCOL</span>";
+An example value could be: 
 
-<span class="comment nodash">
-// This will be your menu colour as well as the particle's default color in Nothing View.
-// Format: 0x<span style="color: red">RR</span><span style="color: green">GG</span><span style="color: blue">BB</span>
-// Note: the Lua API has a quirk: 
-// pass 0xAA<span style="color: red">RR</span><span style="color: green">GG</span><span style="color: blue">BB</span> for elements.property (AA is "alpha" or opacity), 
-// but it is used as 0x<span style="color: red">RR</span><span style="color: green">GG</span><span style="color: blue">BB</span>AA as the element menu icon
-// and 0xRRGGBBAA as the particle's colour.</span>
-<span id="properties.Colour">Colour</span> = PIXPACK(0x<span class="editable">333333</span>); 
+    Identifier = "DEFAULT_PT_BCOL"; 
 
-<span class="comment nodash">// Whether or not it's in a menu.
-// If you're making an element you want unattainable unless by reactions or console magic, then set
-// this to 0.
-// Note, doesn't disable setting the brush with middle-clicking this particle.</span>
-<span id="properties.MenuVisible">MenuVisible</span> = <span class="editable">1</span>;
+In Lua scripting, you can set it with: 
 
-<span class="comment nodash">// Which menu section (see <a href="#elem.SC_WALL">the list of menus</a>) it's under. 
-// Lua folks have SC_* under elements.*</span>
-<span id="properties.MenuSection">MenuSection</span> = SC_<span class="editable">POWDERS</span>; 
+    local element_id = elements.allocate("DEFAULT", "BCOL")
 
-<span class="comment nodash">// This toggles the entire element on and off. 
-// Probably used to have removed elements still occupy some space for compatibility's sake.
-// Literally disables the element from being used if 0.</span>
-<span id="properties.Enabled">Enabled</span> = <span class="editable">1</span>;
+<span id="properties.Name">string(4) Name</span>
 
-<span class="comment nodash">// How much the particle is pushed by moving air. 
-// Normally 0 for solids, and up to 1 for other elements. 
-// It can be negative, ANAR and DEST do this so it goes towards pressure</span>
-<span id="properties.Advection">Advection</span> = <span class="editable">0.4f</span>; 
+This is the element's name outside the Lua API. It's what will be drawn on top 
+of the element's button and what one will use to refer to the element in the 
+exclamation-point command interface.
 
-<span class="comment nodash">// How much air the particle "drags" along with itself when moving.
-// CFDS is some magic to make it work with different pressure grid sizes.
-// #define CFDS  (4.0f/CELL)</span>
-<span id="properties.AirDrag">AirDrag</span> = <span class="editable">0.04f</span> * CFDS; 
+An example value could be: 
 
-<span class="comment nodash">// How much it reduces velocity. 1 for no effect, 0 for full effect.
-// Note: TTAN is not powered by this, nor will your other elements work with this.
-// Also note that very fast-moving pressure can jump over grid spaces.</span>
-<span id="properties.Identifier">AirLoss</span> = <span class="editable">0.94f</span>; 
+    Name = "BCOL";
 
-<span class="comment nodash">// How much speed the particle loses every frame. 1 = no loss. 0.5 = half loss.</span>
-<span id="properties.Loss">Loss</span> = <span class="editable">0.95f</span>; 
+*In Lua, this and the following properties will be set via elements.property().*
 
-<span class="comment nodash">// When this particle hits something, this value is used to determine new velocity.</span>
-<span id="properties.Collision">Collision</span> = <span class="editable">-0.1f</span>; 
+<span id="properties.Colour">int Colour</span>
 
-<span class="comment nodash">// How fast the particle falls. Negative means it floats. </span>
-<span id="properties.Gravity">Gravity</span> = <span class="editable">0.3f</span>; 
+This will be the particle's colour in [RENDER_BASC][renderbasc] mode as well as 
+the element button's. It has a format similar to CSS colours: `0xRRGGBB` where 
+every letter specifies which colour the byte specifies, so 0xFF0000 would have 
+exactly 255/255 tones red, and 0 tones both green and blue.
 
-<span class="comment nodash">// How much the particle wiggles like GAS.</span>
-<span id="properties.Diffusion">Diffusion</span> = <span class="editable">0.00f</span>; 
+You can set it in C++ by using the PIXPACK preprocessor macro: 
 
-<span class="comment nodash">//How much the particle increases the pressure by. 
-// Another property only for gasses, but VENT/VACU have theirs at (-)0.010f. 
-// An extremely small number, sometimes as small as 0.000001f
-// ICE has this as a negative value - it slightly reduces pressure when sitting still.</span>
-<span id="properties.HotAir">HotAir</span> = <span class="editable">0.000f</span>  * CFDS; 
+    Colour = PIXPACK(0x333333);
 
-<span class="comment nodash">// Sets what kind of default moving code this particle will use.
-// 0 = Solid (use this as well when you don't want any default moving code)
-// 1 = Powder
-// 2 = Liquid</span>
-<span id="properties.Falldown">Falldown</span> = <span class="editable">1</span>; 
+...and in Lua by using elements.property with the same hexadecimal value.
 
-<span class="comment nodash">// How well this particle catches on fire.
-// Affects the rate of FIRE absorbing it and producing more fire.
-// 0 is unflammable, and onward from there it burns even better.</span>
-<span id="properties.Flammable">Flammable</span> = <span class="editable">0</span>; 
+[renderbasc]: lua-reference.html#ren.RENDER_BASC
 
-<span class="comment nodash">// Sets default behaviour on if and how this element explodes.
-// Explosion, in this case, is just turning into fire very quickly and making pressure.
-// 0 = no default explosion behavior.
-// 1 = Explodes with fire.
-// 2 = Explodes with &gt;2.5 pressure as well as fire.
-// You can always use 0 and implement your own explosive behavior.</span>
-<span id="properties.Identifier">Explosive</span> = <span class="editable">0</span>; 
+<span id="properties.MenuVisible">boolint MenuVisible</span>
 
-<span class="comment nodash">// Does it melt into LAVA?</span>
-<span id="properties.Meltable">Meltable</span> = <span class="editable">5</span>; 
+Sets or gets whether this element gets placed into a menu. You can still access
+the element without it being in the menu via alt-click sampling. A value of 1
+means that the item will have a button placed into some menu.
 
-<span class="comment nodash">// How well acid affects this particle.
-// 0 = not at all.
-// &gt;0 = increasingly more.</span>
-<span id="properties.Hardness">Hardness</span> = <span class="editable">2</span>; 
+<span id="properties.MenuSection">boolint MenuSection</span>
 
-<span class="comment nodash">// Particle weight. Replaces the ages-old "which sinks below which" table. 
-// Elements with larger values sink below elements with smaller values.
-// Use any integer value really. Below is an estimate to which range TPT's 
-// default elements' weights belong.
-//     1 = gasses.
-//     2 = very light powders. DUST?
-//  0-49 = liquids.
-// 50-99 = default powders.
-//   100 = solids.
-//    -1 = energy particles (PHOT/NEUT/ELEC/PROT).</span>
-<span id="properties.Weight">Weight</span> = <span class="editable">90</span>; 
+Which menu section it's under. Menu section constants can be found under <a href="#elem.SC_WALLS">SC_*</a>
+in the reference tree.
 
-<span class="comment nodash">// How hot does it spawn with? 
-// (In Kelvin)
-// (except, in C++, you have the magic of addition)
-// #define R_TEMP 22.0f</span>
-<span id="properties.Temperature">Temperature</span> = <span class="editable">R_TEMP + 0.0f + 273.15f</span>; 
+[SC_*]: #elem.SC_WALLS
 
-<span class="comment nodash">// How well the particle transfers heat.
-// From 0 to 255 inclusive.
-// INSL and FRME have this as 0. 
-// INSL/INST/HSWC and a few more have 251 which is awesomely good.</span>
-<span id="properties.HeatConduct">HeatConduct</span> = <span class="editable">150</span>; 
+<span id="properties.Enabled">boolint Enabled</span>
 
-<span class="comment nodash">// The element's description.
-// It's displayed as text in the bottom right when you point the mouse at an
-// element button.</span>
-<span id="properties.Description">Description</span> = "<span class="editable">Broken Coal. Heavy particles. See COAL</span>";
+If the element is enabled to be used in-game at all, use a value of 1. You can 
+use a value of 0 to disable elements softly while still breaking every save in 
+existence. In general, keep it as 1.
 
-<span class="comment nodash">// Which state the element is in. 
-// The only place that seems to use it is STKM, and it detects solids to spark.
-// Just a convention thing it seems...?
-// ST_NONE = Special types 
-// ST_SOLID = Solid
-// ST_LIQUID = Liquid 
-// ST_GAS = Gas</span> 
-<span id="properties.State">State</span> = ST_<span class="editable">SOLID</span>; 
+<span id="properties.Advection">float Advection</span>
 
-<span class="comment nodash">// All sorts of element properties
-// See <a href="#elem.PROP_CONDUCTS">the property listing.</a>
-// Most of the properties there SHOULD make sense.
-// See <a href="http://tpt.io/.213774">this forum post</a> on how to apply these with the Lua API.
-// Here, just pick any bunch of properties you want and use the binary OR operator
-// "|" on them. So TYPE_PART | PROP_NEUTPENETRATE is completely valid.</span>
-<span id="properties.Properties">Properties</span> = <span class="editable">TYPE_PART</span>;
+How much the particle is pushed by moving air. Normally 0 for solids, and up to
+1 for other elements. It can be negative, ANAR and DEST do this so it goes 
+towards pressure.
+
+<span id="properties.AirDrag">float AirDrag</span>
+
+How much air the particle "drags" along with itself when moving. CFDS is a 
+magical constant that makes airdrag properly work with different pressure 
+grid sizes. Thus the definition should always be multiplied by that.
+
+For example,
+AirDrag = 0.004f * CFDS;
+
+<span id="properties.AirLoss">float AirLoss</span>
+
+How much it reduces velocity. 1 for no effect, 0 for full effect.
+
+Note: TTAN is not powered by this and this means you can't make TTAN simply by
+setting this value to zero. Pressure can jump around a bit, too!
+
+<span id="properties.Loss">float Loss</span>
+
+How much speed the particle loses every frame. 1 means that no velocity is 
+removed and anything less means that more velocity will be removed.
+
+<span id="properties.Collision">float Collision</span>
+
+When this particle hits something, this value is used to determine new velocity.
+ 
+<span id="properties.Gravity">float Gravity</span>
+
+This determines how strongly gravity affects this particle. ANAR has this set as 
+negative for example!
+
+<span class="comment nodash">// No effect</span>
+Gravity = 0f; 
+<span class="comment nodash">// Floats upwards at normal gravity's speed</span>
+Gravity = -1f; 
+<span class="comment nodash">// Floats downwards almost at normal gravity's speed</span>
+Gravity = 0.999f; 
+
+<span id="properties.Diffusion">float Diffusion</span>
 
 
-<span class="comment nodash" id="transitions">
-/*
-  So this next part is about transitions. 
-  How this works is, you have to tell TPT about your upper and lower threshold
-  and the elements it'll change to when the threshold is met.
-  There's also a few predefined elements for when you don't want transitions: 
-  unreachable levels of pressure and temperature which will never trigger a 
-  transition as well as an element for No Type.
+<span id="properties.HotAir">float HotAir</span>
 
-  IPL = Impossibly Low Pressure (That Never Will Be Reached)
-  IPH = Impossibly High Pressure
-  NT = No Type Whatsoever
-  ITL = Impossibly Low Temperature
-  ITH = Impossibly High Temperature
-*/</span>
+How much the particle increases the pressure around itself by, in order to 
+simulate heating air around (this was made way before ambient heat). Another 
+property that's mostly only used for gasses, but VENT/VACU have theirs at (-)0.010f. 
+An extremely small number, sometimes as small as 0.000001f
 
-<span class="comment nodash">// if pressure is lower than this then change to LowPressureTransition</span>
-<span id="properties.LowPressure">LowPressure</span> = <span class="editable" contentEditable="true">IPL</span>;
-<span id="properties.LowPressureTransition">LowPressureTransition</span> = <span class="editable" contentEditable="true">NT</span>;
+Note: ICE has this as a negative value - it slightly reduces pressure!
 
-<span class="comment nodash">// if pressure is higher than this then change to HighPressureTransition</span>
-<span id="properties.HighPressure">HighPressure</span> = <span class="editable" contentEditable="true">IPH</span>; 
-<span id="properties.HighPressureTransition">HighPressureTransition</span> = <span class="editable" contentEditable="true">NT</span>;
+<span id="properties.Falldown">int Falldown</span>
 
-<span class="comment nodash">// if temperature is higher than this then change to HighTemperatureTransition</span>
-<span id="properties.LowTemperature">LowTemperature</span> = <span class="editable" contentEditable="true">ITL</span>;
-<span id="properties.LowTemperatureTransition">LowTemperatureTransition</span> = <span class="editable" contentEditable="true">NT</span>;
+Sets what kind of default moving code this particle will use.
+0 = Solid  (or rather, no 'regular' movement!)
+1 = Powder 
+2 = Liquid 
 
-<span class="comment nodash">// if temperature is lower than this then change to LowTemperatureTransition</span>
-<span id="properties.HighTemperature">HighTemperature</span> = <span class="editable" contentEditable="true">ITH</span>;
-<span id="properties.HighTemperatureTransition">HighTemperatureTransition</span> = <span class="editable" contentEditable="true">NT</span>;
+<span id="properties.Flammable">int Flammable</span>
 
-<span class="comment nodash">// address of the update function, 99% of the time it's Element_YOURELEMENT::update</span>
-<span id="properties.Update">Update</span> = &amp;Element_<span class="editable" contentEditable="true">BCOL</span>::update;
+How well this particle catches on fire. FIRE has a basic reaction in  which it
+checks how flammable nearby particles are and uses that as a number to say how
+quickly and how likely this particle will turn into fire. Particles are
+entirely nonflammable at 0 and from there on become increasingly more
+flammable.
 
-<span class="comment nodash">// address of the graphics function. 50% of the time you won't need it, 
-// and 50% of the time all the time you will have it as Element_YOURELEMENT::graphics</span>
-<span id="properties.Graphics">Graphics</span> = &amp;Element_<span class="editable" contentEditable="true">BCOL</span>::graphics; 
+<span id="properties.Explosive">int Explosive</span>
+
+Sets default behaviour on if and how this element explodes. It works kind of
+like C4 does: like burning except it spreads around very quickly, often in a
+single tick, creating more pressure than normal. You can obviously do this in
+your update code though...
+
+0 = no default explosion behavior.
+1 = Explodes with fire.
+2 = Explodes with >2.5 pressure as well as fire.
+
+<span id="properties.Meltable">int Meltable</span>
+
+Does this particle melt into LAVA? (I'm not sure about the threshold just yet.)
+
+<span id="properties.Hardness">int Hardness</span>
+
+How well acid affects this particle. The bigger this value is, the better acid
+is at eating through it. 
+
+<span id="properties.Weight">int Weight</span>
+
+Particle weight. A looong time ago there used to be a table that kept track
+of what element sank under which and which it stayed on top of.
+
+Below is an estimate to which range TPT's default elements' weights belong:
+
+    1 = gasses.
+    2 = very light powders. DUST?
+ 0-49 = liquids.
+50-99 = default powders.
+  100 = solids.
+   -1 = energy particles (PHOT/NEUT/ELEC/PROT).
+
+<span id="properties.Temperature">float Temperature</span>
+
+The spawning temperature of this element. If you draw or create it in a standard
+way then this is the heat the element will have once it's created. The value's 
+in Kelvin though, so you'll have to convert if you don't like it. You could also
+just do addition if you're in C++ or even Lua, it gets optimized out. 
+
+<span style="comment nodash">// #define R_TEMP 22.0f</span>
+Temperature = R_TEMP + 273.15f + 0.00f; 
+
+<span id="properties.HeatConduct">int HeatConduct</span>
+
+Shows how well this particle transfers heat. In tpt.el.*, it's called hconduct
+instead of heatconduct. You can use a value from 0 (none at all) to 255 
+(really good). 
+
+INSL and FRME have this as 0. 
+INSL/INST/HSWC and a few more have 251.
+
+<span id="properties.Description">const char* (or string) Description</span>
+
+It's the text that the element shows when you put your mouse over its selection
+button! Meant to be an element's description semantically speaking, however. So
+use it as that :)
+
+Description = "Broken Coal. Heavy particles. See COAL";
 
 
+<span id="properties.State">int State</span>
 
-<span id="properties.graphics_func">Element graphics function reference</span>
------------------------------------
+It's just a flag to tell which state the element's in right now, or even if it 
+doesn't have a state. The only place I've seen it used so far is STKM figuring
+out which particles it can spark...? 
 
-(wow, what a long and clunky name!)
+(elements.)ST_SOLID = Solid
+(elements.)ST_LIQUID = Liquid 
+(elements.)ST_GAS = Gas 
+(elements.)ST_NONE = None of the above. 
+
+State = ST_SOLID; 
+
+
+<span id="properties.Properties">int Properties</span>
+
+Every kind of element property other than the ones above. It's just a bunch of 
+special flags that enable or disable things relating to this element. Some of
+the things include whether you can 'paint' ctypes onto this element, whether it
+can be 'painted' as a ctype onto other elements, stuff to do with neutron 
+movements, etc. 
+
+If you want to use multiple at the same time, apply binary OR to them! Easy 
+enough, right? 
+
+Properties = TYPE_PART | PROP_NEUTPENETRATE;
+
+<span id="properties.Update">int (*Update) (UPDATE_FUNC_ARGS)</span>
+
+This is a function that will be called for every particle once per tick. You can
+do various things here with the simulation and particles around you, and so this
+is an useful function for all sorts of updating purposes. 
+
+You can see the various objects you can access from the function (and others 
+through them):
+
+(in C++):
+#define UPDATE_FUNC_ARGS Simulation* sim, int index, int x, int y, 
+                         int surround_space, int no_type, Particle *parts, 
+                         int pmap[YRES][XRES]
+
+(in Lua): number index, number x, number y, number surround_space, number nt
+
+Once you define your function, the assignment to this property is very simple: 
+
+Update = &amp;Element_BCOL::update;
+
+<span id="properties.graphics_func"></span>
+<span id="properties.Graphics">int (*Graphics) (GRAPHICS_FUNC_ARGS)</span>
 
 For how this works in Lua, you are passed four variables and expected to 
 return a dozen more.
@@ -999,107 +1058,76 @@ pixel_mode
   ├─ EFFECT_GRAVIN  <span class="editable">0x01000000</span>
   └─ EFFECT_GRAVOUT <span class="editable">0x02000000</span>
 
-<span id="properties.update_func">Update functions</span>
-================
 
-Update functions are a brilliant thing - they're in short <strong>everything
-your element does aside fancy looks</strong>. This includes reactions, moving
-(in a non-powder and non-liquid way) and everything else you can think of!
-They're fairly simple to implement, too.
+<span id="properties.transitions">Transitions</span>
+-----------
 
-In C++, the function signature for an update function is 
-<span class="editable">int update(Simulation* sim, int index, int x, int y, int surround_space, 
-           int nt, Particle *parts, int pmap[YRES][XRES]);</span> 
+Transitions are really easy. Imagine you've got a line that you carefully split
+into three sections: a middle where your element lives happily, and a lower edge
+and a higher edge too, after which your element decides it doesn't stand the
+heat or pressure anymore and transforms into another element.
 
-...and in Lua the pseudo-signature (not valid Lua) of the function is 
-<span class="editable">int update(int index, int x, int y, int surround_space, int nt)</span> 
+Before we go on with the line theory, there's a few types of special definitions
+in the C++ version you can use instead if you never want to transition to
+another element at one point.
 
-You can implement the function yourself and then assign it to your element's <a href="#elements.property.Update">Update</a> 
-property. Inside the function you can do pretty much everything, but most users 
-actually use the function to do stuff relating to our element :)
+<span class="editable">IPL</span> = Impossibly Low Pressure (That Never Will Be Reached)
+<span class="editable">IPH</span> = Impossibly High Pressure
+<span class="editable">ITL</span> = Impossibly Low Temperature
+<span class="editable">ITH</span> = Impossibly High Temperature
+<span class="editable">NT</span> = No Type
 
-Now to the passed arguments.
+Then there's the properties you need to change. There's two aforementioned "lines"
+and a total of 2 x 2 x 2 = 8 properties we need to change. 
 
-<span class="editable" id="properties.update_func.sim">*sim</span>
-is a reference to the Simulation object - your gateway to doing stuff inside the
-simulation but outside the actual particle data - placing rectangles, creating
-particles, reloading saves, everything really. Custom properties that you want
-to save will be attached to the simulation too. Portals keep their inner guts in
-this. See <a href="#simulation">#sim</a> for what you get to do inside a
-simulation object. This pointer is irrelevant in Lua since the script always has
-access to the simulation anyway.
 
-<span class="editable" id="properties.update_func.index">index</span>
-is the particle's (the one which we are currently doing  the update thing for)
-index. Particles in TPT are stored in an array and as such are assigned an ID
-relating to their position in the array. This index has  nothing to do with the
-actual x/y coordinates or any other property of the  particle, but is an easy
-and reliable way to refer directly to a single particle in other function calls.
+LowPressure keeps track of a lower limit of pressure: if the pressure around
+this particle drops below LowPressure, turn this particle into
+LowPressureTransition.
 
-<span class="editable" id="properties.update_func.xy">x, y</span>
-are the X and Y coordinates of the particle. Super simple stuff.
+<span class="editable" id="properties.LowPressure">LowPressure</span> = IPL;
+<span class="editable" id="properties.LowPressureTransition">LowPressureTransition</span> = NT;
 
-<span class="editable" id="properties.update_func.surround_space">surround_space</span>
-is a magic integer which tells us how many  empty squares are directly around
-this particle. The 'directly around' can also be  called the Moore
-neighbourhood.
+HighPressure keeps track of an upper limit of pressure: if the pressure around
+this particle drops below HighPressure, turn this particle into
+HighPressureTransition.
 
-<span class="editable" id="properties.update_func.nt">nt</span>
-is another magic integer which tells you how  many squares 'directly around'
-this particle are of a different type. So if you  have two of the same
-particles, four empty spaces and two random particles in  your 'directly around'
-you will have an 'nt' of 2.
+<span class="editable" id="properties.HighPressure">HighPressure</span> = IPH; 
+<span class="editable" id="properties.HighPressureTransition">HighPressureTransition</span> = NT;
 
-<span class="editable" id="properties.update_func.parts">*parts</span>
-reference to the giant array of all particles that currently exist on the
-screen. Every object in there is of the type span class="editable">struct
-Particle/span> which you can read about <a href="#particles">here.</a> You can
-access it in Lua via <a href="#sim.parts">sim.parts</a>.
+LowTemperature keeps track of a lower limit of temperature: if the temperature
+around this particle drops below LowTemperature, turn this particle into
+LowTemperatureTransition.
 
-<span class="editable" id="properties.update_func.pmap">*pmap</span>
-is a reference to the two-dimensional array of a kind of integer that at the
-same time contains both the type and the index of the particle on a given y, x
-position. It's useful for looping around the 'directly around' of a particle and
-finding out types and indexes of the particles. You can access this variable via
-Lua in <a href="#sim.pmap">sim.pmap.</a>
+<span class="editable" id="properties.LowTemperature">LowTemperature</span> = ITL;
+<span class="editable" id="properties.LowTemperatureTransition">LowTemperatureTransition</span> = NT;
 
-Its magic resides in that it has two variables inside: the <span class="color y">index</span> and the <span class="color r">type</span>. 
-Its bits look something like this:  
+HighTemperature keeps track of an upper limit of temperature: if the temperature
+around this particle drops below HighTemperature, turn this particle into
+HighTemperatureTransition.
 
-<span class="color y">00000000 00001001 10100101</span> <span class="color r">00010010</span>
+<span class="editable" id="properties.HighTemperature">HighTemperature</span> = ITH;
+<span class="editable" id="properties.HighTemperatureTransition">HighTemperatureTransition</span> = NT;
 
-so getting the type out is as simple as cutting off the <span class="color y">index</span> and leaving the <span class="color r">type</span>. 
+For example, 
 
-In C++ you can do that with <span class="editable">pmap[y][x] &amp; 0xFF</span>, which ANDs the bits together, 
-leaving only the <span class="color r">type</span> byte.
+<span class="editable">LowPressure = -15.0f; 
+LowPressureTransition = PT_DUST;</span>
 
-In Lua you can do that with <span class="editable">bit.band(sim.pmap(x, y), 0xFF)</span>.
+means that an element will turn into dust at -15 pressure.
 
-You can get the index the other way around - moving the index back into position
-where it should be if it was a normal integer, starting from where the type
-starts, not halfway across the value! 
-In C++ you can shift it back right with <span class="editable">pmap[y][x] >> 8</span> and
-in Lua you do that with <span class="editable">bit.rshift(sim.pmap(x, y), 8)</span>.
+<span class="editable">HighTemperature = ITH; 
+HighTemperatureTransition = NT;</span>
 
-So if you wanted to get the type of the particle at the coordinates (150, 300)
-you could access pmap[300][150] in order to get the compound variable, then
-cutting out only the first 8 bytes via bitwise AND to leave only the type. This
-process produces the code pmap[300][150] &amp; 0xFF.
+means that an element will not have an upper threshold. No temperature can be
+bigger than ITH!
 
-<span id="properties.update_func.returns">Returning</span>
----------
 
-The update function also can return an integer value which can tell the
-Simulation's update code to delete the particle right afterward. (Actually,
-there should always be a return, but the C++ language is pretty relaxed on the
-subject and assumes we returned a 0 if we actually didn't return anything)
 
-If you return a 1 from the code, this means that the particle did something
-during the update that now means the particle is going to be deleted, and then
-the actual update-function-calling-function will delete your particle for you.
+-- 
 
-The same thing also applies for Lua.
-
+Good luck coding! Hope this will come in handy.
+~boxmein 
 </code></pre>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>

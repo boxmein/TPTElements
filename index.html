@@ -100,7 +100,7 @@
 		var CodeScreen = Backbone.Model.extend({
 			defaults: {
 				html: '',
-				whereis: 'inc/c++.html'
+				whereis: 'data/templates/c++.html'
 			},
 			initialize: function() {
 				var that = this;
@@ -157,7 +157,7 @@
 				$("#resetcodes").click(function(){
 					$(".codebox").html("// edit me");
 				});
-				var page = new CodeScreen({whereis: 'inc/c++.html'});
+				var page = new CodeScreen({whereis: 'data/templates/c++.html'});
 				codev = new CodeView({model: page});
 				// turn <b> elements into textboxes
 				$('b').attr('contentEditable', 'true');
@@ -167,14 +167,14 @@
 					asides.pop();
 				hasstuff = false;
 
-				var page = new CodeScreen({whereis: 'inc/c.html'});
+				var page = new CodeScreen({whereis: 'data/templates/c.html'});
 				codev = new CodeView({model: page});
 				// turn <b> elements into textboxes
 				$('b').attr('contentEditable', 'true');
 			},
 
 			lua: function() {
-				var page = new CodeScreen({whereis: 'inc/lua.html'});
+				var page = new CodeScreen({whereis: 'data/templates/lua.html'});
 
 				if (hasstuff) 
 					asides.pop();

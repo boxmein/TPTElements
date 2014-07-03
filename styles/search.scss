@@ -37,7 +37,8 @@ p {
 
 code {
   background-color: darken($backgroundColor, 10%);
-  color: $textColor;
+  font-family: $bodyFont;
+  color: #000033 + $textColor;
   display: inline;
   margin: 0;
   padding: 1px;
@@ -79,6 +80,10 @@ pre > code {
   .description {
     color: darken($textColor, 30%);
   }
+  
+  &:hover {
+    background: lighten($backgroundColor, 8.5%);
+  }
 }
 
 #searchextra, #foot {
@@ -117,4 +122,21 @@ pre > code {
 #loading {
   text-align: center;
   margin: 5%;
+}
+
+::-webkit-scrollbar {
+  background-color: #021621;
+  width: 1px;
+}
+::-webkit-scrollbar-thumb {
+  color: white;
+}
+
+
+.potential_iframe iframe {
+  border: none;
+  width: 100%; 
+  overflow: scroll;
+  height: auto;
+  min-height: 200px;
 }
