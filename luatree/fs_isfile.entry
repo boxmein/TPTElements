@@ -1,5 +1,0 @@
-NAME bool fs.isFile (string path)
-DESCRIPTION Checks if the directory entry is a file (not a directory!)
-LINK 
-DETAILS
-undefined

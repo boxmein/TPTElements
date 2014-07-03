@@ -1,5 +1,0 @@
-NAME string bit.tohex (int input, int length)
-DESCRIPTION Generate a hex string from the input.
-LINK 
-DETAILS
-undefined

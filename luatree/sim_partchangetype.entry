@@ -1,5 +1,0 @@
-NAME nil sim.partChangeType (int index, int type)
-DESCRIPTION Change particle type.
-LINK 
-DETAILS
-Better than setting .type - some elements need special properties to work and this will set them

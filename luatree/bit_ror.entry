@@ -1,5 +1,0 @@
-NAME int bit.ror (int input, int count)
-DESCRIPTION Rotates a bit right by count bits.
-LINK 
-DETAILS
-undefined

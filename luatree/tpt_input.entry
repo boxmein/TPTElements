@@ -1,5 +1,0 @@
-NAME string tpt.input (string title, string message)
-DESCRIPTION Prompt the user for input and return the data as string.
-LINK 
-DETAILS
-undefined

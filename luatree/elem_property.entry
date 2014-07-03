@@ -1,5 +1,0 @@
-NAME nil/mixed elem.property (int elementID, string property, mixed value)
-DESCRIPTION Gets or sets an element's property.
-LINK 
-DETAILS
-Check out <a href="http://boxmein.x10.mx/tptelements/lua-reference.html#properties">the reference</a> for more on element properties.

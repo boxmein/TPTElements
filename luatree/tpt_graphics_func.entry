@@ -1,5 +1,0 @@
-NAME nil tpt.graphics_func (element id, function onDraw)
-DESCRIPTION Make an element look fancy.
-LINK 
-DETAILS
-<p>The graphics function will then take over everything that the element must look like. See <a href="lua-reference.html#properties.graphics_func">lua-reference</a> for a guide.

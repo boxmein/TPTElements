@@ -1,5 +1,0 @@
-NAME nil/int sim.airMode (int mode)
-DESCRIPTION Gets/Sets the air mode. On, No Velocity, No Pressure, No Update, Off in some order.
-LINK 
-DETAILS
-undefined

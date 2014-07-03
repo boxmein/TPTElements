@@ -1,5 +1,0 @@
-NAME int tpt.get_wallmap (int x, int y)
-DESCRIPTION  Get the wall at wall-position x,y
-LINK 
-DETAILS
-undefined

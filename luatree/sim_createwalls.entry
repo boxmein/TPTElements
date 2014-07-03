@@ -1,5 +1,0 @@
-NAME int sim.createWalls (int cx, int cy, int rx, int ry, int type)
-DESCRIPTION Create walls. 
-LINK 
-DETAILS
-Wall types go from right to left where the first wall from the right has the ID 1. Returns how many wall blocks were changed.

@@ -1,5 +1,0 @@
-NAME int sim.floodParts (int x, int y, int type, int cm, int flags)
-DESCRIPTION Flood fill particles starting from point. 
-LINK 
-DETAILS
-Type defaults to what's currently selected with left-clicking and cm/flags default to reasonable values.

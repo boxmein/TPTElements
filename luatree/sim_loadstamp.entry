@@ -1,5 +1,0 @@
-NAME nil/int sim.loadStamp (mixed id, int x, int y)
-DESCRIPTION Loads a stamp by its cryptic name and places it at x, y. The ID can either be char[10] or integer. 1 if not OK, nil otherwise.
-LINK 
-DETAILS
-undefined

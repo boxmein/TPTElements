@@ -1,5 +1,0 @@
-NAME nil tpt.register_mouseclick (function onClick)
-DESCRIPTION  Add a function to run on mouse click.
-LINK 
-DETAILS
-<p>The function must accept the arguments <tt>(int mousex, int mousey, int button, int event)</tt>, the return value can be anything really.</p>

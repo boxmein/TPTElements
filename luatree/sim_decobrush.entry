@@ -1,5 +1,0 @@
-NAME nil sim.decoBrush (int x, int y, int rx, int ry, int r, int g, int b, int a, int tool, int brush)
-DESCRIPTION Draw decorations as a brush.
-LINK 
-DETAILS
-undefined

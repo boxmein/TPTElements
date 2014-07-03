@@ -1,5 +1,0 @@
-NAME bool fs.copy (string path, string newPath)
-DESCRIPTION Copies a file from path to newPath. Returns true on success.
-LINK 
-DETAILS
-undefined

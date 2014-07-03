@@ -1,5 +1,0 @@
-NAME int bit.tobit (int input)
-DESCRIPTION Normalize for binary operations. bit.* functions do this already.
-LINK 
-DETAILS
-undefined

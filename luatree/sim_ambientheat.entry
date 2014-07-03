@@ -1,5 +1,0 @@
-NAME nil/int sim.ambientHeat (int x, int y, int width, int height, int value)
-DESCRIPTION Get/set ambient heat at x,y
-LINK 
-DETAILS
-undefined

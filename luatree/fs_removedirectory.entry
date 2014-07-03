@@ -1,5 +1,0 @@
-NAME bool fs.removeDirectory (string path)
-DESCRIPTION Returns true on success.
-LINK 
-DETAILS
-undefined

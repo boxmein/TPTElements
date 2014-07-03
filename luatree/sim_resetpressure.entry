@@ -1,5 +1,0 @@
-NAME nil sim.resetPressure (int x1, int y1, int width, int height)
-DESCRIPTION Resets pressure everywhere, or at (x, y), or as a box
-LINK 
-DETAILS
-undefined

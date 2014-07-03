@@ -1,5 +1,0 @@
-NAME nil tpt.register_step (function onTick)
-DESCRIPTION Add a function to be run every tick.
-LINK 
-DETAILS
-<p>You can have 6 of these.</p>

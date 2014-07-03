@@ -1,5 +1,0 @@
-NAME bool fs.move (string path, string newPath)
-DESCRIPTION Moves a file from path to newPath. Returns true on success.
-LINK 
-DETAILS
-undefined

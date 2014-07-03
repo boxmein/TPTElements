@@ -1,5 +1,0 @@
-NAME nil/int sim.velocityY (int x, int y, int width, int height, int value)
-DESCRIPTION Get/set velocity (y) at x,y
-LINK 
-DETAILS
-undefined

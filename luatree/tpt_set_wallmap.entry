@@ -1,5 +1,0 @@
-NAME nil tpt.set_wallmap (int x, int y, int value)
-DESCRIPTION Place or change a wall at (x, y) to (value)
-LINK 
-DETAILS
-undefined

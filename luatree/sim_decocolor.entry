@@ -1,4 +1,0 @@
-NAME nil/int sim.decoColor (int? colour)
-DESCRIPTION Get/Set currently selected deco colour (0xAARRGGBB)
-LINK #sim.decoColor
-DETAILS

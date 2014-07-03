@@ -1,5 +1,0 @@
-NAME nil tpt.element_func (element id, function onElement)
-DESCRIPTION Make a particle update function. 
-LINK 
-DETAILS
-<p>The function must accept the arguments <tt>(index, x, y, surround_space, nt)</tt>. A better way would be to use elements.property(element_id, 'Update', ...)</p>

@@ -1,7 +1,0 @@
-NAME nil tpt.drawrect (int x, int y, int width, int height, int r, int g, int b, int a)
-DESCRIPTION Draws a rectangle's outlines.
-DETAILS
-Draws an outline of a rectangle onto the screen. You can use this to draw 
-graphics that don't affect the save in any way. 
-
-You can leave out colour attributes to have them default to opaque white.

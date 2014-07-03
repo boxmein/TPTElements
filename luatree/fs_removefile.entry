@@ -1,5 +1,0 @@
-NAME bool fs.removeFile (string path)
-DESCRIPTION Returns true on success.
-LINK 
-DETAILS
-undefined

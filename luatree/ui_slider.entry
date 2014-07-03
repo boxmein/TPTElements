@@ -1,5 +1,0 @@
-NAME Slider ui.Slider (int x, int y, int width, int height)
-DESCRIPTION Creates a new instance. Specify the event listener and handler later on.
-LINK 
-DETAILS
-undefined
