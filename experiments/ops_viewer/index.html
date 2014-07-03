@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OPS Save Viewer</title>
+  <link rel="stylesheet" href="styles/ops_viewer.css">
+</head>
+<body>
+  <div id="container">
+    <h1 id="message" class="center">Drag and drop a .cps file here.</h1>
+    <div class="hide-later center">
+      <p>(Alternatively, add a file to this input control.)</p>
+      <input type="file" id="alt-file" />
+    </div>
+
+    <noscript>Nah, this won't work without lots of Javascript.</noscript>
+
+    <div id="noFile" style="display: none">
+      Also, you might need to update your browser. We're using high-tech File 
+      objects here. It's 100% client-side.
+    </div>
+
+    <div id="view" style="display: none">
+      <h3>Metadata</h3>
+      <ul id="metadata"></ul>
+
+      <h3>BSON converted into JSON</h3>
+      <div id="code"></div>
+    </div>
+  </div>
+
+  <script src="bson.js"></script>
+  <script src="bzip2.js"></script>
+  <!-- <script src="ace/ace.js"></script> -->
+
+  <script>
+  window.onload = function() {
+    'use strict';
+    
+    function syntaxHighlight(json) {
+      if (typeof json != 'string') {
+         json = JSON.stringify(json, undefined, 2);
+      }
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'key';
+          } else {
+            cls = 'string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'boolean';
+        } else if (/null/.test(match)) {
+          cls = 'null';
+        }
+        if (cls == 'boolean' || cls == 'string' || cls == 'number')
+          return '<span class="' + cls + '">' + match + '</span>';
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+    }
+
+    var currsave = {};
+
+    // yes
+    var assert = function(cond, err, alert_as_well) {
+      if (!cond && alert_as_well)
+        alert('Fatal error: ' + err);
+      if (!cond) 
+        throw err;
+    };
+
+    // 1 argument, a binary string with bzip2 valid data inside.
+      , decode_bz2 = ArchUtils.bz2.decode
+      , encode_bz2 = ArchUtils.bz2.encode
+
+    // 2 arguments, a Buffer containing BSON and an options object
+      , deserialize_bson = bson().BSON.deserialize
+
+    // DOM elements
+      , d = document.getElementById('container')
+      , meta = document.getElementById('metadata')
+      , hoverEffect = false;
+
+    // the required APIs aren't supported! 
+    if (!(window.File && window.FileReader && window.FileList && window.Blob))
+      document.getElementById('noFile').style.display = 'block';
+    
+    // add a new line of metadata
+    var metaline = function(data, editable, id) {
+      var el = document.createElement('li');
+      el.innerHTML = data + (editable&&id?' <span contenteditable id="' + id + '">'+editable+'</span>':'');
+      meta.appendChild(el);
+    };
+
+    var onDragOver = function(evt) {
+      evt.stopPropagation();
+      evt.preventDefault();
+      evt.dataTransfer.dropEffect = 'copy';
+      if (!hoverEffect) { 
+        document.body.className += ' hovering';
+        hoverEffect = true;
+      }
+    };
+
+    var onDragLeave = function(evt) {
+      evt.preventDefault(); 
+      evt.stopPropagation();
+      if (hoverEffect) {
+        document.body.className = 
+          document.body.className.replace(' hovering', '');
+        hoverEffect = false;
+      }
+    };
+
+    var onFileDrop = function(evt) {
+
+      // we caught the event. no you can't do default things.
+      evt.stopPropagation();
+      evt.preventDefault();
+
+      // disable dragging
+      d.removeEventListener('dragover', onDragOver, false);
+      d.removeEventListener('dragleave', onDragLeave, false);
+      d.removeEventListener('drop', onFileDrop, false);
+
+      // show the viewer page
+      d.getElementsByClassName('hide-later')[0].style.display='none';
+      document.getElementById('message').innerText = 'OPS (v1) Viewer v0.5';
+      document.body.className.replace(' hovering', '');
+      document.body.className += ' dropped';
+      meta.parentNode.style.display='block';
+
+      // the first file is the only one we care about
+      var f = evt.dataTransfer.files[0]
+        , fr = new FileReader();
+
+      // async callback to when the file has fully loaded
+      fr.onloadend = function() {
+        var ff = fr.result;
+        var magic_string = ff[0] + ff[1] + ff[2] + ff[3];
+        metaline(magic_string);
+
+        // OPS1 = every save ever
+        // OPJ1 = jacob1's mod
+        assert(magic_string == 'OPS1' || magic_string == 'OPJ1', "The file's magic string didn't equal OPS1", true);
+
+        var version = ff.charCodeAt(4); 
+        metaline('version', version, 'version');
+
+        var cell = ff.charCodeAt(5);
+        metaline('CELL', cell, 'cell');
+
+        var wallw = ff.charCodeAt(6);
+        metaline('wall width', wallw, 'wallw');
+
+        var wallh = ff.charCodeAt(7);
+        metaline('wall height', wallh, 'wallh');
+
+        var size = ff.charCodeAt(8) | 
+                   ff.charCodeAt(9) << 8 | 
+                   ff.charCodeAt(10) << 16 | 
+                   ff.charCodeAt(11) << 24;
+        metaline('data size ' + size);
+
+        var bsondata = decode_bz2(ff.slice(12));
+        var bsonsize = bsondata.charCodeAt(0) | 
+                       bsondata.charCodeAt(1) << 8 | 
+                       bsondata.charCodeAt(2) << 16 | 
+                       bsondata.charCodeAt(3) << 24;
+
+        assert(bsonsize == size && bsonsize == bsondata.length, 
+          "Fatal error: the three sizes don't match: \n"+
+          "OPS-marked size: " + size +
+          "BSON-marked size: " + bsonsize + 
+          "Actual BSON datastructure size: " + bsondata.length, true);
+
+        var bson = deserialize_bson(new Uint8Array(
+          bsondata.split('').map(function(each) {
+            return each.charCodeAt(0);
+          })));
+
+        currsave.start = ff.slice(0, 12); 
+        currsave.data = bson;
+        var code = document.getElementById('code');
+        code.innerHTML = syntaxHighlight(bson);
+      };
+
+      fr.readAsBinaryString(f);
+    };
+
+    // uh, let's construct a fake Event for onFileDrop
+    document.getElementById('alt-file').addEventListener('change', function(e) {
+      onFileDrop({
+        stopPropagation: function(){}, 
+        preventDefault: function(){},
+        dataTransfer: { files: document.getElementById('alt-file').files }
+      });
+    });
+
+    // and let's register the trio
+    d.addEventListener('dragover', onDragOver, false);
+    d.addEventListener('dragleave', onDragLeave, false);
+    d.addEventListener('drop', onFileDrop, false);
+  };
+  </script>
+</body>
+</html>
