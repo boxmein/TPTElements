@@ -5,6 +5,9 @@ var toggleComments = function () {
   $("i:hidden").show("fast");
     
 };
+
+var toggleUnoComments=function(){$("i").each(function(c,a){$(a).hasClass("uno")?$(a).removeClass("uno"):$(a).addClass("uno")})}
+
 var getCode = function () {
 	// get what has been written, also convert it to base64
   // also the only place I use jquery in <3
