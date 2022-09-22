@@ -1,12 +1,13 @@
 ## TPTElements v. 1.1
 
+See it live on GitHub Pages: https://boxmein.github.io/TPTElements/
+
 ## 2022 update
 
 [Archived]: https://web.archive.org/web/20201023090302/https://www.boxmein.net/tpt/tptelements/reference/lua-reference.html#tree
 
 I have not updated this reference since 2013, but it may be of use to someone, so:
 
-* Use the reference via this repo, or the Docker image (ghcr.io/boxmein/tptelements), or the [Web Archive][Archived]
 * Contribute to this reference by:
   * Updating the content 
   * Modernizing the Javascript 
@@ -22,10 +23,17 @@ I have not updated this reference since 2013, but it may be of use to someone, s
 
 ### Usage 
 
-* Use the web archive: [Archived][Archived]
-* Use the source directly by navigating in this repo
-* Host the dev server locally by cloning the repo and running `yarn install; yarn run vite`
-* Host the live server locally by running `docker run -it -p 8123:80 ghcr.io/boxmein/tptelements`
+* Use the GitHub Pages live environment: https://boxmein.github.io/TPTElements/
+
+### Development
+
+Prerequisites: Node.js at least version 16, Yarn package manager at least version 1.22.0, command line access, Git CLI
+
+* Clone the repo
+* `yarn`
+* `yarn start`
+
+Modify the pages or LESS files and vite should handle it :) 
 
 ## Original intro from 2013 
 
