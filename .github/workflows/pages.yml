@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir dist
           yarn
-          yarn run vite build
+          yarn run vite build --base=/TPTElements/
           cp -r js/ dist/js/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
